@@ -1,0 +1,390 @@
+/**
+ * Armulaud 08.03.2026 – Slaidide andmestik
+ * Projector types: "none" | "section" | "bible" | "image" | "keytext"
+ */
+var SLIDES = [
+
+  // ══════════════════════════════════════════
+  // 1. SISSEJUHATUS
+  // ══════════════════════════════════════════
+  {
+    id: 0, type: "section-header", section: "1. Sissejuhatus",
+    estonian: "1. Sissejuhatus",
+    russian: "1. Введение",
+    projector: "section",
+    projectorContent: { sectionEst: "1. Sissejuhatus", sectionRus: "1. Введение" }
+  },
+  {
+    id: 1, type: "text", section: "1. Sissejuhatus",
+    estonian: "Tere kõigile. Ma olen 53-aastane.",
+    russian: "Всем привет. Мне 53 года.",
+    projector: "none"
+  },
+  {
+    id: 2, type: "text", section: "1. Sissejuhatus",
+    estonian: "Ma ei ole siin teie ees kui täiuslik edulugu või inimene, kes kunagi ei eksi.",
+    russian: "Я не стою перед вами как пример идеального успеха или человек, который никогда не ошибается.",
+    projector: "none"
+  },
+  {
+    id: 3, type: "text", section: "1. Sissejuhatus",
+    estonian: "Ma ei ole inimene, kellel on kõik vastused olemas.",
+    russian: "Я не тот, у кого есть все ответы.",
+    projector: "none"
+  },
+  {
+    id: 4, type: "text", section: "1. Sissejuhatus",
+    estonian: "Pigem olen ma „väga raskesti õppiv inimene".",
+    russian: "Скорее, я человек, который «очень трудно учится».",
+    projector: "none"
+  },
+  {
+    id: 5, type: "text", section: "1. Sissejuhatus",
+    estonian: "See, mida ma täna teiega jagan, ei ole midagi, mille ma olen juba selgeks saanud.",
+    russian: "То, чем я делюсь сегодня, — это не то, что я когда-то раз и навсегда усвоил.",
+    projector: "none"
+  },
+  {
+    id: 6, type: "text", section: "1. Sissejuhatus",
+    estonian: "Ma jagan teiega seda, mida ma alles täna ja jätkuvalt edasi õpin.",
+    russian: "Я делюсь тем, чему я только сегодня и постоянно продолжаю учиться.",
+    projector: "none"
+  },
+  {
+    id: 7, type: "text", section: "1. Sissejuhatus",
+    estonian: "See on midagi, mida ma pean iga päev uuesti harjutama.",
+    russian: "Это то, что мне нужно практиковать заново каждый день.",
+    projector: "none"
+  },
+  {
+    id: 8, type: "text", section: "1. Sissejuhatus",
+    estonian: "Nagu trenn – kui sa lõpetad, siis sa kaotad vormi.",
+    russian: "Как тренировка — если перестаешь, теряешь форму.",
+    projector: "image",
+    projectorContent: {
+      imageUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1920&q=80",
+      imageFallback: "linear-gradient(135deg, #1a2a1a 0%, #2d4a2d 60%, #1a3020 100%)",
+      captionEst: "Nagu trenn – kui sa lõpetad, siis sa kaotad vormi.",
+      captionRus: "Как тренировка — если перестаешь, теряешь форму."
+    }
+  },
+
+  // ══════════════════════════════════════════
+  // 2. MURDUMINE JA LOOTUS
+  // ══════════════════════════════════════════
+  {
+    id: 9, type: "section-header", section: "2. Murdumine ja lootus",
+    estonian: "2. Murdumine ja lootus",
+    russian: "2. Сокрушение и надежда",
+    projector: "section",
+    projectorContent: { sectionEst: "2. Murdumine ja lootus", sectionRus: "2. Сокрушение и надежда" }
+  },
+  {
+    id: 10, type: "text", section: "2. Murdumine ja lootus",
+    estonian: "Ma olen oma elus kogenud mitmeid läbipõlemisi ja ebaõnnestumisi.",
+    russian: "Я пережил в своей жизни несколько выгораний и неудач.",
+    projector: "none"
+  },
+  {
+    id: 11, type: "text", section: "2. Murdumine ja lootus",
+    estonian: "Depressioon ja selle kõige sügavamad hetked ei ole minu jaoks võõrad.",
+    russian: "Депрессия и её самые глубокие моменты мне знакомы.",
+    projector: "none"
+  },
+  {
+    id: 12, type: "text", section: "2. Murdumine ja lootus",
+    estonian: "Olen olnud väsinud nagu prohvet Eelija ja kogenud sama, mida kuningas Nebukadnessar, kes pidi kaotama kõik, et ennast uuesti leida.",
+    russian: "Я бывал истощен, как пророк Илия, и переживал то же, что и царь Навуходоносор, которому пришлось потерять всё, чтобы снова найти себя.",
+    projector: "none"
+  },
+  {
+    id: 13, type: "text", section: "2. Murdumine ja lootus",
+    estonian: "Ma tean, et olen täiuslikkusest väga kaugel.",
+    russian: "Я знаю, что очень далек от совершенства.",
+    projector: "none"
+  },
+  {
+    id: 14, type: "text", section: "2. Murdumine ja lootus",
+    estonian: "Kuid ma õpin elama teisiti. Ma olen Jeesuse jünger.",
+    russian: "Но я учусь жить иначе. Я — ученик Иисуса.",
+    projector: "none"
+  },
+  {
+    id: 15, type: "text", section: "2. Murdumine ja lootus",
+    estonian: "Ma õpin iga päev usaldama Jumala lubadusi ja olen südamest tänulik Jeesuse ohvri eest, mille Ta tõi minu, koguduse ja igaühe eest.",
+    russian: "Я каждый день учусь доверять обещаниям Бога и от всего сердца благодарен за жертву Иисуса, которую Он принес за меня, за церковь и за каждого человека.",
+    projector: "none"
+  },
+
+  // ══════════════════════════════════════════
+  // 3. IDENTITEET
+  // ══════════════════════════════════════════
+  {
+    id: 16, type: "section-header", section: "3. Identiteet",
+    estonian: "3. Identiteet",
+    russian: "3. Идентичность",
+    projector: "section",
+    projectorContent: { sectionEst: "3. Identiteet", sectionRus: "3. Идентичность" }
+  },
+  {
+    id: 17, type: "text", section: "3. Identiteet",
+    estonian: "Ma pean endale pidevalt meelde tuletama: Sa ei ole sinu töökoht.",
+    russian: "Мне нужно постоянно напоминать себе: ты — это не твоя работа.",
+    projector: "none"
+  },
+  {
+    id: 18, type: "text", section: "3. Identiteet",
+    estonian: "Sa ei ole sinu ebaõnnestumine. Sa ei ole sinu väsimus või depressioon.",
+    russian: "Ты — это не твои неудачи. Ты — это не твоя усталость или депрессия.",
+    projector: "none"
+  },
+  {
+    id: 19, type: "text", section: "3. Identiteet",
+    estonian: "Sa ei ole sinu haigus või eripära.",
+    russian: "Ты — это не твоя болезнь или особенность.",
+    projector: "none"
+  },
+  {
+    id: 20, type: "text", section: "3. Identiteet",
+    estonian: "Läbi elu kippusin ma ennast defineerima oma vigade kaudu.",
+    russian: "Всю жизнь я был склонен определять себя через свои ошибки.",
+    projector: "none"
+  },
+  {
+    id: 21, type: "bible", section: "3. Identiteet",
+    estonian: "„Sulle piisab minu armust, sest vägi saab täielikuks nõrkuses."",
+    russian: "«Довольно для тебя благодати Моей, ибо сила Моя совершается в немощи».",
+    projector: "bible",
+    projectorContent: {
+      reference:    "2. Korintlastele 12:9",
+      referenceRus: "2-е Коринфянам 12:9",
+      referenceEng: "2 Corinthians 12:9",
+      textEst: "„Sulle piisab minu armust, sest vägi saab täielikuks nõrkuses."",
+      textRus: "«Довольно для тебя благодати Моей, ибо сила Моя совершается в немощи».",
+      textEng: "\"My grace is sufficient for you, for my power is made perfect in weakness.\""
+    }
+  },
+  {
+    id: 22, type: "text", section: "3. Identiteet",
+    estonian: "Sa ei pea olema tugev. Sinu nõrkuses ongi koht, kus Jumal saab sind aidata.",
+    russian: "Тебе не нужно быть сильным. Именно в твоей слабости Бог может тебе помочь.",
+    projector: "keytext",
+    projectorContent: {
+      textEst: "Sa ei pea olema tugev.",
+      textRus: "Тебе не нужно быть сильным."
+    }
+  },
+
+  // ══════════════════════════════════════════
+  // 4. MIKRO-VÕIDUD
+  // ══════════════════════════════════════════
+  {
+    id: 23, type: "section-header", section: "4. Mikro-võidud",
+    estonian: "4. Mikro-võidud",
+    russian: "4. Микро-победы",
+    projector: "section",
+    projectorContent: { sectionEst: "4. Mikro-võidud", sectionRus: "4. Микро-победы" }
+  },
+  {
+    id: 24, type: "text", section: "4. Mikro-võidud",
+    estonian: "Koguja raamat õpetas mulle „mikro-võite".",
+    russian: "Книга Екклесиаста научила меня «микро-победам».",
+    projector: "none"
+  },
+  {
+    id: 25, type: "text", section: "4. Mikro-võidud",
+    estonian: "Kui oled augus, ei pea tegema suuri asju. Piisab väikestest sammudest.",
+    russian: "Когда ты в яме, не нужно делать великих дел. Достаточно маленьких шагов.",
+    projector: "none"
+  },
+  {
+    id: 26, type: "text", section: "4. Mikro-võidud",
+    estonian: "Minu õpitud oskus on nautida seda tööd, mida ma pean tegema täna, ja tunda rõõmu väikestest asjadest.",
+    russian: "Мой навык, которому я научился, — это наслаждаться тем трудом, который я должен делать сегодня, и радоваться мелочам.",
+    projector: "none"
+  },
+  {
+    id: 27, type: "text", section: "4. Mikro-võidud",
+    estonian: "See on teadlik otsus leppida sellega, et ma ei kontrolli kõike.",
+    russian: "Это осознанное решение примириться с тем, что я не всё контролирую.",
+    projector: "none"
+  },
+
+  // ══════════════════════════════════════════
+  // 5. MASKID JA OTSUS
+  // ══════════════════════════════════════════
+  {
+    id: 28, type: "section-header", section: "5. Maskid ja otsus",
+    estonian: "5. Maskid ja otsus",
+    russian: "5. Маски и решение",
+    projector: "section",
+    projectorContent: { sectionEst: "5. Maskid ja otsus", sectionRus: "5. Маски и решение" }
+  },
+  {
+    id: 29, type: "text", section: "5. Maskid ja otsus",
+    estonian: "Kui eluisu kaob, hakkame me energiat säästma.",
+    russian: "Когда пропадает вкус к жизни, мы начинаем экономить энергию.",
+    projector: "none"
+  },
+  {
+    id: 30, type: "text", section: "5. Maskid ja otsus",
+    estonian: "Me paneme ette kaitsemaski ja soomused, et end maailma eest peita.",
+    russian: "Мы надеваем защитную маску и броню, чтобы спрятаться от мира.",
+    projector: "none"
+  },
+  {
+    id: 31, type: "text", section: "5. Maskid ja otsus",
+    estonian: "Me naeratame, aga sees on tühjus.",
+    russian: "Мы улыбаемся, но внутри — пустота.",
+    projector: "none"
+  },
+  {
+    id: 32, type: "text", section: "5. Maskid ja otsus",
+    estonian: "Kuid lähedased näevad seda kaitsekihti. Nad näevad, et me ei ole päriselt kohal.",
+    russian: "Но близкие видят этот защитный слой. Они видят, что нас на самом деле нет рядом.",
+    projector: "none"
+  },
+  {
+    id: 33, type: "text", section: "5. Maskid ja otsus",
+    estonian: "See on koht, kus me peame taas tegema otsuse.",
+    russian: "Это тот момент, когда нам снова нужно принять решение.",
+    projector: "none"
+  },
+  {
+    id: 34, type: "text", section: "5. Maskid ja otsus",
+    estonian: "Murdma oma kaitsekihi ja avama end Sellele, kes meid armastab.",
+    russian: "Разрушить свой защитный слой и открыться Тому, Кто любит нас.",
+    projector: "none"
+  },
+  {
+    id: 35, type: "text", section: "5. Maskid ja otsus",
+    estonian: "Ainuke õige aeg selleks on TÄNA. Meile on antud ainult see hetk.",
+    russian: "Единственное верное время для этого — СЕГОДНЯ. Нам дан только этот миг.",
+    projector: "keytext",
+    projectorContent: {
+      textEst: "TÄNA",
+      textRus: "СЕГОДНЯ",
+      subEst: "Meile on antud ainult see hetk.",
+      subRus: "Нам дан только этот миг."
+    }
+  },
+
+  // ══════════════════════════════════════════
+  // 6. ARMULAUD
+  // ══════════════════════════════════════════
+  {
+    id: 36, type: "section-header", section: "6. Armulaud",
+    estonian: "6. Armulaud",
+    russian: "6. Причастие",
+    projector: "section",
+    projectorContent: { sectionEst: "6. Armulaud", sectionRus: "6. Причастие" }
+  },
+  {
+    id: 37, type: "text", section: "6. Armulaud",
+    estonian: "Siin on leib ja mahl – tavalised asjad.",
+    russian: "Здесь хлеб и сок — обычные вещи.",
+    projector: "none"
+  },
+  {
+    id: 38, type: "text", section: "6. Armulaud",
+    estonian: "Aga täna on neil igavikuline tähendus.",
+    russian: "Но сегодня у них вечное значение.",
+    projector: "none"
+  },
+  {
+    id: 39, type: "text", section: "6. Armulaud",
+    estonian: "Murtud leib ütleb: sa ei pea olema „terve tükk", et siia kuuluda.",
+    russian: "Преломленный хлеб говорит: тебе не нужно быть «целым куском», чтобы быть здесь.",
+    projector: "image",
+    projectorContent: {
+      imageUrl: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=80",
+      imageFallback: "linear-gradient(135deg, #2a1800 0%, #5a3800 60%, #3a2500 100%)",
+      captionEst: "Sa ei pea olema „terve tükk", et siia kuuluda.",
+      captionRus: "Тебе не нужно быть «целым куском», чтобы быть здесь."
+    }
+  },
+  {
+    id: 40, type: "text", section: "6. Armulaud",
+    estonian: "Me võimegi olla murtud oma nõrkuses.",
+    russian: "Мы можем быть сокрушенными в своей слабости.",
+    projector: "none"
+  },
+  {
+    id: 41, type: "text", section: "6. Armulaud",
+    estonian: "Kogudus ei ole täiuslike inimeste näitus, vaid koht neile, kes vajavad abi.",
+    russian: "Церковь — это не выставка идеальных людей, а место для тех, кто нуждается в помощи.",
+    projector: "none"
+  },
+  {
+    id: 42, type: "text", section: "6. Armulaud",
+    estonian: "Jeesus laskis end meie eest murda.",
+    russian: "Иисус позволил сокрушить Себя за нас.",
+    projector: "none"
+  },
+  {
+    id: 43, type: "text", section: "6. Armulaud",
+    estonian: "Ta läks sinna, kus on kõige valusam ja oli ristil täiesti üksi.",
+    russian: "Он пошел туда, где больнее всего, и на кресте остался совершенно один.",
+    projector: "none"
+  },
+  {
+    id: 44, type: "text", section: "6. Armulaud",
+    estonian: "Ta tegi seda, et meie ei peaks oma mures kunagi üksi olema.",
+    russian: "Он сделал это для того, чтобы мы никогда не были одиноки в своей беде.",
+    projector: "none"
+  },
+  {
+    id: 45, type: "text", section: "6. Armulaud",
+    estonian: "Me saame öelda: „Issand, ma ei jaksa enam seda kaitsekihti hoida. Ma lasen Su armastusel end murda, et saaksin uuesti terveks."",
+    russian: "Мы можем сказать: «Господи, я больше не в силах удерживать эту броню. Я позволяю Твоей любви сокрушить меня, чтобы я мог снова стать исцеленным».",
+    projector: "none"
+  },
+
+  // ══════════════════════════════════════════
+  // 7. PALVE
+  // ══════════════════════════════════════════
+  {
+    id: 46, type: "section-header", section: "7. Palve",
+    estonian: "7. Palve",
+    russian: "7. Молитва",
+    projector: "section",
+    projectorContent: { sectionEst: "7. Palve", sectionRus: "7. Молитва" }
+  },
+  {
+    id: 47, type: "text", section: "7. Palve",
+    estonian: "Issand, me oleme Sinu ees. Sa näed meie väsimust ja maske.",
+    russian: "Господь, мы перед Тобой. Ты видишь нашу усталость и наши маски.",
+    projector: "none"
+  },
+  {
+    id: 48, type: "text", section: "7. Palve",
+    estonian: "Me toome Sinu ette oma ebaõnnestumised.",
+    russian: "Мы приносим Тебе свои неудачи.",
+    projector: "none"
+  },
+  {
+    id: 49, type: "text", section: "7. Palve",
+    estonian: "Aitäh, et me võime olla Sinu ees murtud ja haavatavad.",
+    russian: "Спасибо, что мы можем быть перед Тобой сокрушенными и уязвимыми.",
+    projector: "none"
+  },
+  {
+    id: 50, type: "text", section: "7. Palve",
+    estonian: "Me otsustame täna Sind usaldada.",
+    russian: "Сегодня мы решаем доверять Тебе.",
+    projector: "none"
+  },
+  {
+    id: 51, type: "text", section: "7. Palve",
+    estonian: "Aita meil vastu võtta Sinu lõpmatu armastus ja leida rõõmu väikestest asjadest. Aamen.",
+    russian: "Помоги нам принять Твою бесконечную любовь и находить радость в мелочах. Аминь.",
+    projector: "image",
+    projectorContent: {
+      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80",
+      imageFallback: "linear-gradient(160deg, #060a14 0%, #0d2040 50%, #1a3a60 100%)",
+      captionEst: "Aita meil vastu võtta Sinu lõpmatu armastus.",
+      captionRus: "Помоги нам принять Твою бесконечную любовь."
+    }
+  }
+
+]; // END SLIDES

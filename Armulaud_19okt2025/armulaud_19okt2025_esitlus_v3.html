@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armulaud 19.10.2025 - Tõde teeb vabaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Timer */
+        .timer {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.8em;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            font-variant-numeric: tabular-nums;
+            color: #ffffff;
+        }
+
+        /* Timer controls */
+        .timer-controls {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .timer-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+
+        .timer-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 60vh;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to bottom, #ffd700, #ffed4e);
+            transition: height 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            position: fixed;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Theme navigation - top right */
+        .theme-nav {
+            position: fixed;
+            top: 90px;
+            right: 40px;
+            text-align: right;
+            z-index: 999;
+            max-width: 350px;
+        }
+
+        .theme-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .theme-subtitle {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* Carousel Container */
+        .carousel-container {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 60px 80px 60px 120px;
+            overflow-y: visible;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow-y: visible;
+            overflow-x: hidden;
+        }
+
+        .carousel-track {
+            position: absolute;
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 100px 40px 40px 40px;
+            text-align: center;
+        }
+
+        /* Current slide - full opacity */
+        .slide.current {
+            opacity: 1;
+        }
+
+        /* Next slide - visible below, grayed out, text pushed up */
+        .slide.next {
+            opacity: 0.5;
+            padding-top: 10px;
+        }
+
+        /* Previous/other slides - hidden */
+        .slide.other {
+            opacity: 0.1;
+        }
+
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .title-slide h1 {
+            font-size: 4.5em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+
+        .title-slide h2 {
+            font-size: 2.5em;
+            font-weight: 300;
+            color: #a8c0ff;
+        }
+
+        .title-slide p {
+            color: #a8c0ff;
+        }
+
+        .estonian-text {
+            font-size: 3.2em;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            font-weight: 400;
+            text-align: left;
+            color: #ffffff;
+        }
+
+        .russian-text {
+            font-size: 2.2em;
+            line-height: 1.4;
+            color: #b8c5d6;
+            font-weight: 300;
+            text-align: left;
+            font-style: italic;
+        }
+
+        .bible-verse {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+
+        .bible-reference {
+            font-size: 2em;
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .bible-text {
+            font-size: 2.4em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .emphasis {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .question {
+            font-size: 2.8em;
+            color: #ffd700;
+            margin: 30px 0;
+            font-weight: 500;
+        }
+
+        .prayer-slide {
+            font-size: 2.2em;
+            line-height: 1.6;
+        }
+
+        .prayer-slide .estonian-text {
+            font-size: 2.4em;
+        }
+
+        .prayer-slide .russian-text {
+            font-size: 1.8em;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+        }
+
+        @media (max-width: 1200px) {
+            .estonian-text { font-size: 2.2em; }
+            .russian-text { font-size: 1.6em; }
+            .title-slide h1 { font-size: 3em; }
+            .title-slide h2 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Timer -->
+    <div class="timer" id="timer">00:00</div>
+    
+    <!-- Timer Controls -->
+    <div class="timer-controls">
+        <button class="timer-btn" id="timerToggle">⏸ Paus</button>
+        <button class="timer-btn" id="timerReset">↻ Reset</button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">SLIDE 1/35</div>
+
+    <!-- Theme Navigation -->
+    <div class="theme-nav" id="themeNav">
+        <div class="theme-title" id="themeTitle">Pealkiri</div>
+        <div class="theme-subtitle" id="themeSubtitle"></div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel-container">
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+                
+                <!-- Slide 1: Title -->
+                <div class="slide current title-slide" data-theme="Pealkiri" data-subtitle="">
+                    <div class="slide-content">
+                        <h1>Tõde teeb vabaks</h1>
+                        <h2>Armsamatest valedest Jumala juurde</h2>
+                        <p style="margin-top: 60px; font-size: 1.5em;">Armulaud • 19. oktoober 2025</p>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="slide next" data-theme="Tervitus" data-subtitle="">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Head sõbrad, tere päevast!
+                        </div>
+                        <div class="russian-text">
+                            Добрый день, дорогие друзья!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="slide other" data-theme="Tunnistus" data-subtitle="Särgid kapis">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ma tahan teile tunnistada midagi oma riidekapi kohta. Mu kapis on särke... mida ma mitte kunagi ei kanna. Neid on päris palju.
+                        </div>
+                        <div class="russian-text">
+                            Я хочу признаться вам в чем-то о моем гардеробе. В моем шкафу есть рубашки... которые я никогда не ношу. Их довольно много.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="slide other" data-theme="Uued särgid" data-subtitle="'Vot see on täpselt see!'">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Aga see ei takista mind uusi ostmast. Te ju teate seda tunnet poes: "Vot see on täpselt see, mida mul vaja on!" Ja kolm kuud hiljem... ripub see särk seal samas reas, teiste unustatutega.
+                        </div>
+                        <div class="russian-text">
+                            Но это не мешает мне покупать новые. Вы ведь знаете это чувство в магазине: "Вот это именно то, что мне нужно!" А через три месяца... эта рубашка висит там же, в ряду с другими забытыми.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="slide other" data-theme="Kummalisus" data-subtitle="Ei taha mõelda">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Aga teate, mis on kõige kummalisem? Ma ei taha nende särkide peale isegi mõelda. Ja ma kohe kindlasti ei taha neid ära anda.
+                        </div>
+                        <div class="russian-text">
+                            А знаете, что самое странное? Я не хочу даже думать об этих рубашках. И уж точно не хочу их отдавать.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6 -->
+                <div class="slide other" data-theme="Miks?" data-subtitle="">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            <span class="emphasis">Miks?</span>
+                        </div>
+                        <div class="russian-text">
+                            Почему?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 7 -->
+                <div class="slide other" data-theme="Häbi" data-subtitle="Vale valik, raha raiskamine">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Sest siis peaksin endale tunnistama, et MA tegin VALE valiku. Raiskasin raha. Petsin iseennast. See on ebameeldiv.
+                        </div>
+                        <div class="russian-text">
+                            Потому что тогда мне пришлось бы признать себе, что Я сделал НЕПРАВИЛЬНЫЙ выбор. Потратил деньги зря. Обманул себя. Это неприятно.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 8 -->
+                <div class="slide other" data-theme="Lootus" data-subtitle="'Küll ma kunagi...'">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Aga nii kaua, kui ma neid kapis hoian, on mul alles killuke LOOTUST. "Ah, küll ma kunagi hakkan kandma."
+                        </div>
+                        <div class="russian-text">
+                            Но пока я храню их в шкафу, у меня остается крупица НАДЕЖДЫ. "Ах, когда-нибудь я начну носить."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 9 -->
+                <div class="slide other" data-theme="Turvaline" data-subtitle="Lootus, aga mitte muutust">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            See annab mulle lootust... aga see ei too mitte mingit muutust. Ja mis kõige olulisem – see on kuidagi… turvaline. Valus, aga turvaline... sest see on minu kontrolli all.
+                        </div>
+                        <div class="russian-text">
+                            Это дает мне надежду... но не приносит никаких изменений. И что самое важное – это как-то... безопасно. Болезненно, но безопасно... потому что это под моим контролем.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 10 -->
+                <div class="slide other" data-theme="Kontroll" data-subtitle="Ei pea tõele vaadata">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ma ei pea tõele näkku vaatama.
+                        </div>
+                        <div class="russian-text">
+                            Мне не нужно смотреть правде в глаза.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 11 -->
+                <div class="slide other" data-theme="Küsimus" data-subtitle="Mis on sinu 'särgid'?">
+                    <div class="slide-content">
+                        <div class="question">
+                            Ma küsin sinult: mis on sinu elus need "särgid"?
+                        </div>
+                        <div class="estonian-text" style="font-size: 2.6em;">
+                            Mis on see "kunagi"... mis annab sulle lootust, aga mille peale sa tegelikult mõelda ei taha?
+                        </div>
+                        <div class="russian-text">
+                            Я спрашиваю тебя: что в твоей жизни эти "рубашки"? Что это за "когда-нибудь"... которое дает тебе надежду, но о котором ты на самом деле не хочешь думать?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 12 -->
+                <div class="slide other" data-theme="Muster" data-subtitle="Kõikjal sama">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ja siis ma sain aru, et see muster ei piirdu ainult särkidega. See kordub igal pool – mu töös, suhetes, minu vaimses elus.
+                        </div>
+                        <div class="russian-text">
+                            И потом я понял, что этот паттерн не ограничивается только рубашками. Он повторяется везде – в моей работе, отношениях, в моей духовной жизни.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 13 -->
+                <div class="slide other" data-theme="Tõe vältimine" data-subtitle="Kontrollist kinni">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Igal pool, kus ma ei taha tunnistada tõde ja kontrollist lahti lasta.
+                        </div>
+                        <div class="russian-text">
+                            Везде, где я не хочу признать правду и отпустить контроль.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 14 -->
+                <div class="slide other" data-theme="Piibli lugu" data-subtitle="Kadunud poeg">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Piiblis on üks lugu, mis räägib täpselt sellest. See on lugu kadunud pojast.
+                        </div>
+                        <div class="russian-text">
+                            В Библии есть одна история, которая говорит именно об этом. Это история о блудном сыне.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 15 -->
+                <div class="slide other" data-theme="Kadunud poeg" data-subtitle="Põhjas, ei tahtnud mõelda">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ta oli põhjas, sigade juures, ega tahtnud oma olukorrale mõelda. Miks? Sest see oli tema oma valik ja tema tee. Ise tegi... ise otsustas. Tal polnud kellegi abi vaja.
+                        </div>
+                        <div class="russian-text">
+                            Он был на дне, среди свиней, и не хотел думать о своей ситуации. Почему? Потому что это был его собственный выбор и его путь. Сам делал... сам решал. Ему не нужна была чья-то помощь.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 16 -->
+                <div class="slide other" data-theme="Turvaline põrgu" data-subtitle="Enesepettus">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            See oli valus, aga see oli tema enda loodud <span class="emphasis">"turvaline" põrgu</span>. Ta oli ennast veennud vales: "Ma ei olegi armastust väärt. Ma pean ise hakkama saama."
+                        </div>
+                        <div class="russian-text">
+                            Это было больно, но это был его собственный созданный "безопасный" ад. Он убедил себя во лжи: "Я и не достоин любви. Я должен справиться сам."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 17 -->
+                <div class="slide other" data-theme="Pöördepunkt" data-subtitle="'Tuli mõistusele'">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Aga siis ütleb Piibel, et <span class="emphasis">"ta tuli mõistusele."</span>
+                        </div>
+                        <div class="russian-text">
+                            Но потом Библия говорит, что "он пришел в себя."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 18 -->
+                <div class="slide other" data-theme="Mõtted" data-subtitle="Isa sulastel on leiba">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ta mõtles endamisi: "Mu isa sulastel on leiba küllalt, aga mina suren siin nälga!" Ta otsustas: "Ma tõusen ja lähen oma isa juurde."
+                        </div>
+                        <div class="russian-text">
+                            Он подумал про себя: "У слуг моего отца хлеба достаточно, а я здесь умираю с голоду!" Он решил: "Встану и пойду к моему отцу."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 19 -->
+                <div class="slide other" data-theme="Tunnistus" data-subtitle="Olen eksinud">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            "Ja ma tunnistan talle: Isa, ma olen eksinud sinu ja taeva vastu." "Ma ei ole enam väärt, et mind su pojaks hüütaks."
+                        </div>
+                        <div class="russian-text">
+                            "И я признаюсь ему: Отец, я согрешил перед тобой и перед небом." "Я больше не достоин называться твоим сыном."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 20 -->
+                <div class="slide other" data-theme="Kaks tõde" data-subtitle="Ebameeldiv ja hirmutav">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            See oli hetk, kui ta julges tunnistada endale <span class="emphasis">kahte tõde</span>.
+                        </div>
+                        <div class="russian-text">
+                            Это был момент, когда он осмелился признать себе две истины.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 21 -->
+                <div class="slide other" data-theme="Esimene tõde" data-subtitle="Ebameeldiv">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            <span class="emphasis">Esimene tõde oli ebameeldiv:</span> "Ma olen eksinud. Ma olen kõik ära rikkunud. Ma ei saa ise hakkama."
+                        </div>
+                        <div class="russian-text">
+                            Первая истина была неприятной: "Я ошибся. Я все испортил. Я не могу справиться сам."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 22 -->
+                <div class="slide other" data-theme="Teine tõde" data-subtitle="Hirmutav!">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Aga teine tõde... oli laasu <span class="emphasis">HIRMUTAV</span>. "Mu isa... võib-olla ta ikkagi ARMASTAB mind." "Võib-olla on mul tagasitee."
+                        </div>
+                        <div class="russian-text">
+                            Но вторая истина... была просто ПУГАЮЩЕЙ. "Мой отец... может быть, он все-таки ЛЮБИТ меня." "Может быть, у меня есть путь назад."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 23 -->
+                <div class="slide other" data-theme="Miks hirmutav?" data-subtitle="Kontrollist loobumine">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            <span class="emphasis">Miks on see hirmutav?</span> Sest see tähendab KONTROLLIST loobumist. See tähendab USALDAMIST. See tähendab, et sa ei saagi enam "ise hakkama". See on haavatav.
+                        </div>
+                        <div class="russian-text">
+                            Почему это пугающе? Потому что это означает отказ от КОНТРОЛЯ. Это означает ДОВЕРИЕ. Это означает, что ты больше не можешь "справиться сам". Это уязвимо.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 24 -->
+                <div class="slide other" data-theme="Jeesuse sõnad" data-subtitle="Tõde teeb vabaks">
+                    <div class="slide-content">
+                        <div class="bible-verse">
+                            <div class="bible-reference">Johannese 8:32</div>
+                            <div class="bible-text">
+                                "Te tunnetate tõe... ja tõde teeb teid vabaks."
+                            </div>
+                            <div class="russian-text" style="text-align: center; margin-top: 20px;">
+                                "Познаете истину... и истина сделает вас свободными."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 25 -->
+                <div class="slide other" data-theme="Vabaks" data-subtitle="Häbist ja uhkusest">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Vabaks nii häbist kui ka uhkusest.
+                        </div>
+                        <div class="russian-text">
+                            Свободными и от стыда, и от гордости.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 26 -->
+                <div class="slide other" data-theme="Isiklik lugu" data-subtitle="Kõik kuhjus kokku">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ma jagan teiega üht isiklikku hetke. Mõni aeg tagasi kuhjus mu elus kõik kokku – rahamured, pooleliolevad projektid, pinged.
+                        </div>
+                        <div class="russian-text">
+                            Я поделюсь с вами одним личным моментом. Некоторое время назад в моей жизни все навалилось разом – финансовые заботы, незавершенные проекты, напряжение.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 27 -->
+                <div class="slide other" data-theme="Palvetasin" data-subtitle="Võitlesin üksi">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ja ma palvetasin põlvili kogu oma jõust. Ma võitlesin. Aga ma võitlesin kuidagi... Jumalast eraldi. Oma jõuga ja oma kontrolli all.
+                        </div>
+                        <div class="russian-text">
+                            И я молился на коленях изо всех сил. Я боролся. Но я боролся как-то... отдельно от Бога. Своими силами и под своим контролем.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 28 -->
+                <div class="slide other" data-theme="Tajusin" data-subtitle="Jumal oli mu taga">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ja siis ma tajusin nii selgelt: Jumal oli kogu aeg mu selja taga. Ta tahtis aidata, aga mina rabelesin ikka üksi edasi.
+                        </div>
+                        <div class="russian-text">
+                            И потом я почувствовал так ясно: Бог все время был за моей спиной. Он хотел помочь, но я все продолжал барахтаться один.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 29 -->
+                <div class="slide other" data-theme="Samm tagasi" data-subtitle="Üks lihtne asi">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Siis ma tegin palves ühe lihtsa asja. Olles põlvili, astusin ma mõttes ühe <span class="emphasis">SAMMU TAGASI</span>. Mitte edasi, et rohkem võidelda... vaid tagasi – Tema sisse. Tema embusesse.
+                        </div>
+                        <div class="russian-text">
+                            Тогда в молитве я сделал одну простую вещь. Стоя на коленях, я сделал в мыслях один ШАГ НАЗАД. Не вперед, чтобы больше бороться... а назад – в Него. В Его объятия.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 30 -->
+                <div class="slide other" data-theme="Mõistsin" data-subtitle="Võidelda Temas">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Ja ma mõistsin: ma ei taha võidelda üksi Tema ees... ma tahan <span class="emphasis">võidelda koos Temaga, Tema sees</span>. See oli nii soe, mõnus ja vabastav tunne.
+                        </div>
+                        <div class="russian-text">
+                            И я понял: я не хочу бороться один перед Ним... я хочу бороться вместе с Ним, в Нем. Это было такое теплое, приятное и освобождающее чувство.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 31: Bible Luuka 15:20 -->
+                <div class="slide other" data-theme="Piibel" data-subtitle="Luuka 15:20">
+                    <div class="slide-content">
+                        <div class="bible-verse">
+                            <div class="bible-reference">Luuka 15:20</div>
+                            <div class="bible-text">
+                                Ja ta tõusis ja asus teele oma isa juurde. Aga kui ta alles kaugel oli, nägi isa teda ja tal hakkas hale ning ta jooksis ja langes poja kaela ja andis talle suud.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 32 -->
+                <div class="slide other" data-theme="Kolm küsimust" data-subtitle="Armulauaks">
+                    <div class="slide-content">
+                        <div class="estonian-text" style="font-size: 2.6em;">
+                            Täna, armulauale tulles, kutsun sind mõtlema kolmele asjale.
+                        </div>
+                        <div class="russian-text">
+                            Сегодня, приходя к причастию, я призываю тебя подумать о трех вещах.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 33 -->
+                <div class="slide other" data-theme="Küsimused" data-subtitle="1, 2 ja 3">
+                    <div class="slide-content">
+                        <div class="estonian-text" style="font-size: 2.4em;">
+                            <span class="emphasis">Esiteks:</span> Mis on need "särgid" sinu kapis? Mida sa ei taha ENDALE TUNNISTADA?
+                        </div>
+                        <div class="estonian-text" style="font-size: 2.4em; margin-top: 30px;">
+                            <span class="emphasis">Teiseks:</span> Mida sa ei taha Jumalale näidata? Seda tunnet, et OLED EKSINUD?
+                        </div>
+                        <div class="russian-text" style="margin-top: 30px;">
+                            Во-первых: Что это за "рубашки" в твоем шкафу? Что ты не хочешь ПРИЗНАТЬ СЕБЕ? Во-вторых: Что ты не хочешь показать Богу? То чувство, что ТЫ ОШИБСЯ?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 34 -->
+                <div class="slide other" data-theme="Kõige olulisem" data-subtitle="Mida kardad vastu võtta?">
+                    <div class="slide-content">
+                        <div class="estonian-text" style="font-size: 2.4em;">
+                            Ja <span class="emphasis">kõige olulisem:</span> Mida sa KARDAD Jumalalt vastu võtta? Äkki sa kardad uskuda, et Ta armastab sind... just praegu? Et Jeesus suri sinu eest – täpselt sellisena, nagu sa oled? Et sa ei peagi ise hakkama saama?
+                        </div>
+                        <div class="russian-text">
+                            И самое важное: Что ты БОИШЬСЯ принять от Бога? Может быть, ты боишься поверить, что Он любит тебя... прямо сейчас? Что Иисус умер за тебя – именно таким, какой ты есть? Что тебе и не нужно справляться самому?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 35 -->
+                <div class="slide other" data-theme="Üleskutse" data-subtitle="Üks samm">
+                    <div class="slide-content">
+                        <div class="estonian-text" style="font-size: 3.6em; color: #ffd700;">
+                            Astu see üks samm tagasi – Tema sisse.
+                        </div>
+                        <div class="estonian-text" style="font-size: 3.6em; color: #ffd700; margin-top: 30px;">
+                            Ütle Talle see üks tõde.
+                        </div>
+                        <div class="russian-text" style="font-size: 2.4em; margin-top: 50px;">
+                            Сделай этот один шаг назад – в Него. Скажи Ему эту одну правду.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 36 -->
+                <div class="slide other" data-theme="Armulaud" data-subtitle="Tunnistus">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Armulaud ongi selle tõe tunnistus. See on Jumala armastuse märk SINU jaoks. See leib ja see vein ei ole mõeldud mingile SINU TULEVIKU PAREMALE VERSIOONILE. Need on mõeldud SULLE – siin ja praegu.
+                        </div>
+                        <div class="russian-text">
+                            Причастие и есть свидетельство этой истины. Это знак любви Бога ДЛЯ ТЕБЯ. Этот хлеб и это вино не предназначены для какой-то ЛУЧШЕЙ ВЕРСИИ ТЕБЯ В БУДУЩЕМ. Они предназначены ДЛЯ ТЕБЯ – здесь и сейчас.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 37 -->
+                <div class="slide other" data-theme="Vabaks" data-subtitle="">
+                    <div class="slide-content">
+                        <div class="estonian-text">
+                            Tõde teeb sind vabaks.
+                        </div>
+                        <div class="russian-text">
+                            Истина делает тебя свободным.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 38 -->
+                <div class="slide other" data-theme="Palve" data-subtitle="Palvetagem koos">
+                    <div class="slide-content prayer-slide">
+                        <div class="estonian-text">
+                            Issand Jumal, me täname Sind, et Sa oled meie pelgupaik. Anna meile julgust tunnistada tõde. Aita meil näha neid "särke" meie elus – neid armsaid valesid, mis ei too muutust.
+                        </div>
+                        <div class="russian-text">
+                            Господь Бог, мы благодарим Тебя, что Ты наше прибежище. Дай нам смелость признать правду. Помоги нам увидеть эти "рубашки" в нашей жизни – эту любимую ложь, которая не приносит изменений.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 39 -->
+                <div class="slide other" data-theme="Palve" data-subtitle="Samm Sinu embusesse">
+                    <div class="slide-content prayer-slide">
+                        <div class="estonian-text">
+                            Aita meil astuda see samm tagasi Sinu embusesse. Et me võiksime võidelda koos Sinuga, mitte üksi. Aita meil mõista, et me ei pea ise hakkama saama. Me tohime Sind usaldada.
+                        </div>
+                        <div class="russian-text">
+                            Помоги нам сделать этот шаг назад в Твои объятия. Чтобы мы могли бороться вместе с Тобой, а не одни. Помоги нам понять, что нам не нужно справляться самим. Мы можем доверять Тебе.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 40 -->
+                <div class="slide other" data-theme="Palve" data-subtitle="Täname">
+                    <div class="slide-content prayer-slide">
+                        <div class="estonian-text">
+                            Täname Sind, et Sa armastasid meid nii palju, et andsid Jeesuse meie eest. Aita meil see armastus vastu võtta – just täna, just sellisena, nagu me oleme. Õnnista seda armulauda, et see tuletaks meile meelde Sinu lõputut armastust ja tõde, mis teeb vabaks.
+                        </div>
+                        <div class="russian-text">
+                            Благодарим Тебя, что Ты возлюбил нас так сильно, что отдал Иисуса за нас. Помоги нам принять эту любовь – именно сегодня, именно такими, какие мы есть. Благослови это причастие, чтобы оно напоминало нам о Твоей бесконечной любви и истине, которая делает свободными.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 41: Amen -->
+                <div class="slide other" data-theme="Aamen" data-subtitle="">
+                    <div class="slide-content">
+                        <div class="estonian-text" style="font-size: 4.5em; color: #ffd700;">
+                            Jeesuse nimel,
+                        </div>
+                        <div class="estonian-text" style="font-size: 5.5em; color: #ffd700; margin-top: 40px;">
+                            Aamen
+                        </div>
+                        <div class="russian-text" style="font-size: 2.8em; margin-top: 60px;">
+                            Во имя Иисуса, Аминь
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button" id="prevBtn">← Eelmine</button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">41</span></span>
+        <button class="nav-button" id="nextBtn">Järgmine →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const track = document.getElementById('carouselTrack');
+        
+        // Timer
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let timerRunning = true;
+
+        function updateTimer() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('timer').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(() => {
+                    if (timerRunning) {
+                        timerSeconds++;
+                        updateTimer();
+                    }
+                }, 1000);
+            }
+            timerRunning = true;
+            document.getElementById('timerToggle').textContent = '⏸ Paus';
+        }
+
+        function pauseTimer() {
+            timerRunning = false;
+            document.getElementById('timerToggle').textContent = '▶ Jätka';
+        }
+
+        function resetTimer() {
+            timerSeconds = 0;
+            updateTimer();
+            if (!timerRunning) startTimer();
+        }
+
+        document.getElementById('timerToggle').addEventListener('click', () => {
+            if (timerRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        });
+
+        document.getElementById('timerReset').addEventListener('click', resetTimer);
+        startTimer();
+
+        // Progress bar
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.height = progress + '%';
+            document.getElementById('progressText').textContent = `SLIDE ${currentSlide + 1}/${totalSlides}`;
+        }
+
+        // Theme navigation
+        function updateThemeNav() {
+            const currentSlideEl = slides[currentSlide];
+            const theme = currentSlideEl.getAttribute('data-theme');
+            const subtitle = currentSlideEl.getAttribute('data-subtitle');
+            
+            document.getElementById('themeTitle').textContent = theme || '';
+            document.getElementById('themeSubtitle').textContent = subtitle || '';
+        }
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function updateSlideClasses() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('current', 'next', 'other');
+                
+                if (index === currentSlide) {
+                    slide.classList.add('current');
+                } else if (index === currentSlide + 1) {
+                    slide.classList.add('next');
+                } else {
+                    slide.classList.add('other');
+                }
+            });
+        }
+
+        function showSlide(n) {
+            if (n < 0 || n >= totalSlides) return;
+            
+            currentSlide = n;
+            
+            // Move the track - 60vh per slide
+            const offset = -currentSlide * 60;
+            track.style.transform = `translateY(${offset}vh)`;
+            
+            // Update classes for opacity
+            updateSlideClasses();
+            
+            // Update UI
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            updateProgress();
+            updateThemeNav();
+
+            // Update buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        // Initialize
+        updateSlideClasses();
+        updateProgress();
+        updateThemeNav();
+
+        document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentSlide - 1));
+        document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentSlide + 1));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                e.preventDefault();
+                showSlide(currentSlide - 1);
+            }
+            if ((e.key === 'ArrowRight' || e.key === ' ') && currentSlide < totalSlides - 1) {
+                e.preventDefault();
+                showSlide(currentSlide + 1);
+            }
+            if (e.key === 'Home') showSlide(0);
+            if (e.key === 'End') showSlide(totalSlides - 1);
+        });
+
+        // Touch support
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            if (touchStartY - touchEndY > 50 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+            if (touchEndY - touchStartY > 50 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        });
+    </script>
+</body>
+</html>

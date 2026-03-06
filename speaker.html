@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armulaud – Kõneleja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0b0f1a;
+  --surface:  rgba(255,255,255,0.04);
+  --border:   rgba(201,165,50,0.18);
+  --text:     #f0e8d2;
+  --dim:      rgba(240,232,210,0.42);
+  --gold:     #c9a532;
+  --gold-dim: rgba(201,165,50,0.35);
+  --blue:     #4a8fdf;
+  --green:    #3dd68c;
+  --red:      #e05555;
+  --section:  #5a9fd4;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+}
+
+body {
+  display: grid;
+  grid-template-rows: 52px 3px 1fr 64px;
+  height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(30,55,100,0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(20,35,70,0.5) 0%, transparent 60%),
+    #0b0f1a;
+}
+
+/* --- HEADER --- */
+header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  background: rgba(0,0,0,0.35);
+  border-bottom: 1px solid var(--border);
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 10px 3px 7px;
+  flex-shrink: 0;
+}
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  transition: all 0.5s;
+}
+.status-dot.firebase  { background: var(--blue);  box-shadow: 0 0 6px var(--blue);  }
+.status-dot.offline   { background: var(--red);   box-shadow: 0 0 6px var(--red);   }
+.status-label { font-size: 0.7rem; color: var(--dim); letter-spacing: 0.05em; }
+
+.section-badge {
+  font-size: 0.72rem;
+  color: var(--section);
+  background: rgba(90,159,212,0.12);
+  border: 1px solid rgba(90,159,212,0.3);
+  border-radius: 20px;
+  padding: 3px 12px;
+  max-width: 260px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.spacer { flex: 1; }
+
+.timer-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timer-display {
+  font-family: 'Lato', monospace;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  min-width: 72px;
+  text-align: right;
+}
+.timer-display.warning { color: var(--red); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+.btn-sm {
+  background: rgba(201,165,50,0.12);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+.btn-sm:hover { background: rgba(201,165,50,0.25); }
+
+/* --- PROGRESS --- */
+.progress-track {
+  background: rgba(255,255,255,0.08);
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(201,165,50,0.3) 0%, var(--gold) 100%);
+  transition: width 0.35s ease;
+  position: relative;
+}
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* --- MAIN --- */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 56px;
+  gap: 0;
+  overflow: hidden;
+}
+
+.slide-wrapper { flex: 1; display: flex; align-items: center; }
+
+.slide-current {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text);
+  transition: opacity 0.2s ease;
+  width: 100%;
+}
+.slide-current.is-section {
+  font-size: clamp(1.6rem, 2.8vw, 3rem);
+  font-weight: 600;
+  color: var(--gold);
+  text-align: center;
+}
+.slide-current.is-bible {
+  font-style: italic;
+  color: #ddd0a8;
+}
+
+.divider {
+  height: 1px;
+  margin: 18px 0 14px;
+  background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  position: relative;
+  flex-shrink: 0;
+}
+.divider-label {
+  position: absolute;
+  left: 50%; top: -9px;
+  transform: translateX(-50%);
+  background: #0b0f1a;
+  color: var(--gold-dim);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0 10px;
+}
+
+.preview-wrapper { flex-shrink: 0; }
+.slide-preview {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 1.8vw, 2rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--dim);
+  transition: opacity 0.2s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.slide-preview.is-section {
+  color: rgba(201,165,50,0.38);
+  font-style: normal;
+}
+.slide-preview.is-bible { font-style: italic; }
+
+.projector-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.65rem;
+  color: var(--section);
+  background: rgba(74,143,223,0.12);
+  border: 1px solid rgba(74,143,223,0.3);
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin-top: 6px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.projector-hint.visible { opacity: 1; }
+
+/* --- FOOTER --- */
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 24px;
+  background: rgba(0,0,0,0.35);
+  border-top: 1px solid var(--border);
+}
+
+.btn-nav {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--dim);
+  padding: 0 28px;
+  height: 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  min-width: 140px;
+}
+.btn-nav:hover:not(:disabled) {
+  background: rgba(201,165,50,0.15);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+.btn-nav:disabled { opacity: 0.25; cursor: not-allowed; }
+
+.slide-counter {
+  font-size: 0.95rem;
+  color: var(--gold);
+  min-width: 80px;
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+
+.fullscreen-hint {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.1em;
+}
+
+.fade { opacity: 0 !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="status-pill">
+    <div class="status-dot" id="statusDot"></div>
+    <span class="status-label" id="statusLabel">Lokaalne</span>
+  </div>
+  <div class="section-badge" id="sectionBadge">—</div>
+  <div class="spacer"></div>
+  <div class="timer-wrap">
+    <div class="timer-display" id="timerDisplay">00:00</div>
+    <button class="btn-sm" id="btnTimer">&#9654; Start</button>
+    <button class="btn-sm" id="btnReset">&#8634;</button>
+  </div>
+</header>
+
+<div class="progress-track">
+  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+</div>
+
+<main>
+  <div class="slide-wrapper">
+    <div class="slide-current" id="slideCurrent"></div>
+  </div>
+  <div class="divider"><span class="divider-label">j&auml;rgmine</span></div>
+  <div class="preview-wrapper">
+    <div class="slide-preview" id="slidePreview"></div>
+    <div class="projector-hint" id="projectorHint">Projektor aktiveerub</div>
+  </div>
+</main>
+
+<footer>
+  <button class="btn-nav" id="btnPrev">&larr; Eelmine</button>
+  <div class="slide-counter" id="slideCounter">— / —</div>
+  <button class="btn-nav" id="btnNext">J&auml;rgmine &rarr;</button>
+</footer>
+
+<div class="fullscreen-hint">F11 = t&auml;isekraan &middot; &larr; &rarr; = navigeeri &middot; Space = edasi</div>
+
+<!-- Slides loader (fetches JSON) -->
+<script src="js/slides-loader.js"></script>
+
+<!-- Firebase v12 + app logic -->
+<script type="module">
+import { initializeApp }         from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBylcQYwOuQbFU8AmP7h1WnggyvJJSw1XI",
+  authDomain:        "armulaud-af87f.firebaseapp.com",
+  databaseURL:       "https://armulaud-af87f-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "armulaud-af87f",
+  storageBucket:     "armulaud-af87f.firebasestorage.app",
+  messagingSenderId: "916225040299",
+  appId:             "1:916225040299:web:af7b185e5787cea27cbcee"
+};
+
+const app             = initializeApp(firebaseConfig);
+const db              = getDatabase(app);
+const presentationRef = ref(db, 'presentation');
+
+// -- Sync manager --
+const Sync = {
+  channel: null,
+
+  init() {
+    try { this.channel = new BroadcastChannel('armulaud-2026'); } catch(e) {}
+    this.updateStatusUI('firebase');
+    console.log('Firebase connected');
+  },
+
+  send(slideIndex) {
+    const payload = { currentSlide: slideIndex, ts: Date.now() };
+    if (this.channel) this.channel.postMessage(payload);
+    set(presentationRef, payload).catch(err => {
+      console.error('Firebase write error:', err);
+      this.updateStatusUI('offline');
+    });
+  },
+
+  updateStatusUI(mode) {
+    const dot   = document.getElementById('statusDot');
+    const label = document.getElementById('statusLabel');
+    dot.className = 'status-dot';
+    if (mode === 'firebase') { dot.classList.add('firebase'); label.textContent = 'Firebase'; }
+    else if (mode === 'offline') { dot.classList.add('offline'); label.textContent = 'Offline'; }
+    else { label.textContent = 'Lokaalne'; }
+  }
+};
+
+// -- Presentation controller --
+let currentIdx = 0;
+
+const el = {
+  current:  document.getElementById('slideCurrent'),
+  preview:  document.getElementById('slidePreview'),
+  counter:  document.getElementById('slideCounter'),
+  progress: document.getElementById('progressFill'),
+  section:  document.getElementById('sectionBadge'),
+  hint:     document.getElementById('projectorHint'),
+  btnPrev:  document.getElementById('btnPrev'),
+  btnNext:  document.getElementById('btnNext'),
+};
+
+function showSlide(n, animate = true) {
+  if (n < 0 || n >= SLIDES.length) return;
+  currentIdx = n;
+
+  const slide     = SLIDES[n];
+  const nextSlide = SLIDES[n + 1] || null;
+
+  const doUpdate = () => {
+    el.current.textContent = slide.estonian;
+    el.current.className = 'slide-current';
+    if (slide.type === 'section-header') el.current.classList.add('is-section');
+    if (slide.type === 'bible')          el.current.classList.add('is-bible');
+
+    if (nextSlide) {
+      el.preview.textContent = nextSlide.estonian;
+      el.preview.className = 'slide-preview';
+      if (nextSlide.type === 'section-header') el.preview.classList.add('is-section');
+      if (nextSlide.type === 'bible')          el.preview.classList.add('is-bible');
+    } else {
+      el.preview.textContent = '— L\u00f5pp \u00b7 \u041a\u043e\u043d\u0435\u0446 —';
+      el.preview.className = 'slide-preview';
+    }
+
+    const hasProjector = slide.projector && slide.projector !== 'none';
+    el.hint.textContent = hasProjector
+      ? 'Projektor: ' + getProjectorLabel(slide.projector)
+      : '';
+    el.hint.className = 'projector-hint' + (hasProjector ? ' visible' : '');
+
+    el.counter.textContent  = (n + 1) + ' / ' + SLIDES.length;
+    el.progress.style.width = ((n + 1) / SLIDES.length * 100) + '%';
+    el.section.textContent  = slide.section;
+    el.btnPrev.disabled = n === 0;
+    el.btnNext.disabled = n === SLIDES.length - 1;
+  };
+
+  if (animate) {
+    el.current.classList.add('fade');
+    el.preview.classList.add('fade');
+    setTimeout(() => {
+      doUpdate();
+      el.current.classList.remove('fade');
+      el.preview.classList.remove('fade');
+    }, 180);
+  } else {
+    doUpdate();
+  }
+
+  Sync.send(n);
+}
+
+function getProjectorLabel(type) {
+  const labels = { section: 'Sektsioon', bible: 'Piiblisalm', image: 'Pilt', keytext: 'V\u00f5tmes\u00f5na' };
+  return labels[type] || type;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); showSlide(currentIdx + 1); }
+  if (['ArrowLeft',  'PageUp'       ].includes(e.key)) { e.preventDefault(); showSlide(currentIdx - 1); }
+  if (e.key === 'Home') showSlide(0);
+  if (e.key === 'End')  showSlide(SLIDES.length - 1);
+});
+
+el.btnNext.addEventListener('click', () => showSlide(currentIdx + 1));
+el.btnPrev.addEventListener('click', () => showSlide(currentIdx - 1));
+
+// -- Timer --
+let timerInterval = null;
+let timerSec = 0;
+let timerRunning = false;
+
+const btnTimer = document.getElementById('btnTimer');
+const btnReset = document.getElementById('btnReset');
+const timerEl  = document.getElementById('timerDisplay');
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+btnTimer.addEventListener('click', () => {
+  timerRunning = !timerRunning;
+  if (timerRunning) {
+    timerInterval = setInterval(() => {
+      timerSec++;
+      timerEl.textContent = fmtTime(timerSec);
+      timerEl.className = 'timer-display' + (timerSec >= 420 ? ' warning' : '');
+    }, 1000);
+    btnTimer.textContent = '\u23f8 Peata';
+  } else {
+    clearInterval(timerInterval);
+    btnTimer.textContent = '\u25b6 J\u00e4tka';
+  }
+});
+
+btnReset.addEventListener('click', () => {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSec = 0;
+  timerEl.textContent = '00:00';
+  timerEl.className = 'timer-display';
+  btnTimer.textContent = '\u25b6 Start';
+});
+
+// -- Dynamic title from metadata --
+function updateTitle() {
+  const m = window.SLIDES_META;
+  if (m && m.date) {
+    document.title = 'Armulaud ' + m.date + ' \u2013 K\u00f5neleja';
+  }
+}
+
+// -- Boot --
+SLIDES_READY.then(() => {
+  updateTitle();
+  Sync.init();
+  showSlide(0, false);
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armulaud – Projektor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:      #d4b05a;
+  --gold-dim:  rgba(212,176,90,0.35);
+  --text:      #f5eed8;
+  --text-dim:  rgba(245,238,216,0.65);
+  --text-rus:  rgba(245,238,216,0.82);
+  --text-eng:  rgba(245,238,216,0.55);
+  --section:   #6aacdf;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
+  background: #060b14;
+}
+
+/* DEFAULT: Blue gradient with stars */
+#screen-default {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse 120% 80% at 20% 20%, rgba(15,35,80,0.9) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 70% at 80% 80%, rgba(10,25,60,0.9) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 50% 50%, rgba(20,45,100,0.4) 0%, transparent 70%),
+    #060b14;
+  z-index: 1;
+}
+
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  animation: twinkle var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 0.9; transform: scale(1.6); }
+}
+
+.ambient-light {
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(100,150,230,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: breathe 6s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.15); opacity: 1; }
+}
+
+.date-label {
+  position: absolute;
+  bottom: 28px;
+  color: rgba(255,255,255,0.12);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* SECTION title */
+#screen-section {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse 120% 100% at 50% 0%,  rgba(30,70,140,0.7) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 80% at 50% 110%, rgba(10,30,80,0.9) 0%, transparent 50%),
+    #070c18;
+}
+
+.section-line-top {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim));
+  margin-bottom: 28px;
+}
+.section-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+.section-title-est {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  padding: 0 40px;
+}
+.section-divider {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 22px 0 16px;
+}
+.section-title-rus {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.6rem);
+  font-weight: 300;
+  color: var(--text-dim);
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  padding: 0 60px;
+}
+.section-line-bottom {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to top, transparent, var(--gold-dim));
+  margin-top: 28px;
+}
+
+/* BIBLE verse */
+#screen-bible {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 60px 80px;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 50%, rgba(30,60,120,0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 130% 80% at 10% 10%, rgba(20,50,100,0.6) 0%, transparent 55%),
+    #060b14;
+}
+
+.bible-container {
+  max-width: 1100px;
+  width: 100%;
+  text-align: center;
+}
+
+.bible-reference {
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.bible-reference::before, .bible-reference::after {
+  content: '';
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: var(--gold-dim);
+}
+
+.bible-text-est {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4.5vw, 4.2rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+.bible-separator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.bible-separator-line {
+  width: 60px; height: 1px;
+  background: rgba(212,176,90,0.2);
+}
+.bible-separator-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+}
+
+.bible-text-rus {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.8vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-rus);
+  margin-bottom: 20px;
+}
+
+.bible-text-eng {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2vw, 1.9rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-eng);
+}
+
+/* IMAGE with caption */
+#screen-image {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: flex-start;
+  z-index: 2;
+}
+
+.image-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.4s ease;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(4,8,18,0.88) 0%,
+    rgba(4,8,18,0.5) 35%,
+    rgba(4,8,18,0.1) 65%,
+    transparent 100%
+  );
+}
+
+.image-caption {
+  position: relative;
+  z-index: 1;
+  padding: 40px 60px;
+  max-width: 900px;
+}
+.image-caption-est {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 3.2rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.image-caption-rus {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2vw, 1.9rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* KEYTEXT */
+#screen-keytext {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 2;
+  padding: 60px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(25,55,110,0.4) 0%, transparent 70%),
+    #060b14;
+}
+
+.keytext-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  animation: subtleGlow 4s ease-in-out infinite;
+}
+@keyframes subtleGlow {
+  0%,100% { text-shadow: 0 0 40px rgba(212,176,90,0.1); }
+  50%      { text-shadow: 0 0 80px rgba(212,176,90,0.25), 0 0 120px rgba(100,150,255,0.1); }
+}
+
+.keytext-sub-est {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 2.8vw, 2.4rem);
+  font-weight: 300;
+  color: var(--text-dim);
+  margin-top: 24px;
+  font-style: italic;
+}
+.keytext-sub-rus {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 2vw, 1.8rem);
+  font-weight: 300;
+  color: var(--text-eng);
+  margin-top: 8px;
+  font-style: italic;
+}
+.keytext-divider {
+  width: 80px; height: 1px;
+  background: var(--gold-dim);
+  margin: 20px auto 0;
+}
+
+/* Status indicator */
+.corner-status {
+  position: fixed;
+  top: 12px; right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 100;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+.corner-status:hover { opacity: 1; }
+.corner-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #3dd68c;
+  box-shadow: 0 0 5px #3dd68c;
+}
+.corner-dot.firebase { background: #4a8fdf; box-shadow: 0 0 5px #4a8fdf; }
+.corner-dot.offline  { background: #e05555; box-shadow: 0 0 5px #e05555; }
+.corner-text {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.08em;
+}
+
+.screen-enter {
+  animation: screenIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes screenIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- DEFAULT: Blue gradient with stars -->
+<div id="screen-default">
+  <div class="stars-layer" id="starsLayer"></div>
+  <div class="ambient-light"></div>
+  <div class="date-label" id="dateLabel">armulaud</div>
+</div>
+
+<!-- SECTION title -->
+<div id="screen-section">
+  <div class="section-line-top"></div>
+  <div class="section-number" id="sectionNumber"></div>
+  <div class="section-title-est" id="sectionTitleEst"></div>
+  <div class="section-divider"></div>
+  <div class="section-title-rus" id="sectionTitleRus"></div>
+  <div class="section-line-bottom"></div>
+</div>
+
+<!-- BIBLE verse (3 languages) -->
+<div id="screen-bible">
+  <div class="bible-container">
+    <div class="bible-reference" id="bibleReference"></div>
+    <div class="bible-text-est"  id="bibleEst"></div>
+    <div class="bible-separator">
+      <div class="bible-separator-line"></div>
+      <div class="bible-separator-dot"></div>
+      <div class="bible-separator-line"></div>
+    </div>
+    <div class="bible-text-rus"  id="bibleRus"></div>
+    <div class="bible-text-eng"  id="bibleEng"></div>
+  </div>
+</div>
+
+<!-- IMAGE with caption -->
+<div id="screen-image">
+  <div class="image-bg" id="imageBg"></div>
+  <div class="image-overlay"></div>
+  <div class="image-caption">
+    <div class="image-caption-est" id="imageCaptionEst"></div>
+    <div class="image-caption-rus" id="imageCaptionRus"></div>
+  </div>
+</div>
+
+<!-- KEYTEXT: large emphasis text -->
+<div id="screen-keytext">
+  <div class="keytext-main"    id="keytextMain"></div>
+  <div class="keytext-divider"></div>
+  <div class="keytext-sub-est" id="keytextSubEst"></div>
+  <div class="keytext-sub-rus" id="keytextSubRus"></div>
+</div>
+
+<!-- Status corner -->
+<div class="corner-status">
+  <div class="corner-dot" id="cornerDot"></div>
+  <span class="corner-text" id="cornerText">offline</span>
+</div>
+
+<!-- Slides loader -->
+<script src="js/slides-loader.js"></script>
+
+<!-- Firebase v12 + projector logic -->
+<script type="module">
+import { initializeApp }             from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBylcQYwOuQbFU8AmP7h1WnggyvJJSw1XI",
+  authDomain:        "armulaud-af87f.firebaseapp.com",
+  databaseURL:       "https://armulaud-af87f-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "armulaud-af87f",
+  storageBucket:     "armulaud-af87f.firebasestorage.app",
+  messagingSenderId: "916225040299",
+  appId:             "1:916225040299:web:af7b185e5787cea27cbcee"
+};
+
+const app             = initializeApp(firebaseConfig);
+const db              = getDatabase(app);
+const presentationRef = ref(db, 'presentation');
+
+// Generate stars
+const starsLayer = document.getElementById('starsLayer');
+for (let i = 0; i < 120; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.cssText =
+    'left:' + (Math.random() * 100) + '%;' +
+    'top:' + (Math.random() * 100) + '%;' +
+    '--dur:' + (2 + Math.random() * 5) + 's;' +
+    '--delay:' + (Math.random() * 4) + 's;' +
+    'opacity:' + (0.1 + Math.random() * 0.5) + ';' +
+    'width:' + (Math.random() < 0.2 ? '3px' : '2px') + ';' +
+    'height:' + (Math.random() < 0.2 ? '3px' : '2px') + ';';
+  starsLayer.appendChild(star);
+}
+
+// Screen management
+const SCREENS = ['default', 'section', 'bible', 'image', 'keytext'];
+
+function showScreen(name, updateFn) {
+  SCREENS.forEach(s => {
+    document.getElementById('screen-' + s).style.display = 'none';
+  });
+
+  const target = document.getElementById('screen-' + name);
+  if (updateFn) updateFn();
+  target.style.display = 'flex';
+  if (['section','bible','keytext'].includes(name)) target.style.flexDirection = 'column';
+  target.classList.remove('screen-enter');
+  void target.offsetWidth;
+  target.classList.add('screen-enter');
+}
+
+function displaySlide(idx) {
+  if (idx < 0 || idx >= SLIDES.length) return;
+  const slide = SLIDES[idx];
+
+  switch (slide.projector) {
+
+    case 'section': {
+      const c = slide.projectorContent;
+      const parts = c.sectionEst.match(/^(\d+)\.\s+(.+)$/);
+      showScreen('section', () => {
+        document.getElementById('sectionNumber').textContent  = parts ? parts[1] : '';
+        document.getElementById('sectionTitleEst').textContent = parts ? parts[2] : c.sectionEst;
+        document.getElementById('sectionTitleRus').textContent = c.sectionRus;
+      });
+      break;
+    }
+
+    case 'bible': {
+      const c = slide.projectorContent;
+      showScreen('bible', () => {
+        document.getElementById('bibleReference').textContent = c.reference + '  \u00b7  ' + c.referenceRus + '  \u00b7  ' + c.referenceEng;
+        document.getElementById('bibleEst').textContent = c.textEst;
+        document.getElementById('bibleRus').textContent = c.textRus;
+        document.getElementById('bibleEng').textContent = c.textEng;
+      });
+      break;
+    }
+
+    case 'image': {
+      const c = slide.projectorContent;
+      showScreen('image', () => {
+        const bg = document.getElementById('imageBg');
+        const img = new Image();
+        img.onload = () => { bg.style.backgroundImage = "url('" + c.imageUrl + "')"; };
+        img.onerror = () => { bg.style.background = c.imageFallback; };
+        img.src = c.imageUrl;
+        bg.style.background = c.imageFallback;
+        document.getElementById('imageCaptionEst').textContent = c.captionEst;
+        document.getElementById('imageCaptionRus').textContent = c.captionRus;
+      });
+      break;
+    }
+
+    case 'keytext': {
+      const c = slide.projectorContent;
+      showScreen('keytext', () => {
+        document.getElementById('keytextMain').textContent    = c.textEst;
+        document.getElementById('keytextSubEst').textContent  = c.subEst || '';
+        document.getElementById('keytextSubRus').textContent  = c.subRus || (c.textRus || '');
+      });
+      break;
+    }
+
+    default: {
+      SCREENS.forEach(s => {
+        document.getElementById('screen-' + s).style.display = 'none';
+      });
+      document.getElementById('screen-default').style.display = 'flex';
+      break;
+    }
+  }
+}
+
+function setStatus(mode) {
+  const dot  = document.getElementById('cornerDot');
+  const text = document.getElementById('cornerText');
+  dot.className = 'corner-dot';
+  if (mode === 'firebase') { dot.classList.add('firebase'); text.textContent = 'Firebase'; }
+  else if (mode === 'broadcast') { text.textContent = 'Lokaalne'; }
+  else { dot.classList.add('offline'); text.textContent = 'Offline'; }
+}
+
+// Dynamic date from metadata
+function updateDate() {
+  const m = window.SLIDES_META;
+  if (m && m.date) {
+    const parts = m.date.split('.');
+    const months = ['', 'jaanuar','veebruar','m\u00e4rts','aprill','mai','juuni','juuli','august','september','oktoober','november','detsember'];
+    const day = parts[0];
+    const monthNum = parseInt(parts[1], 10);
+    const year = parts[2];
+    document.getElementById('dateLabel').textContent = day + ' \u00b7 ' + (months[monthNum] || parts[1]) + ' \u00b7 ' + year;
+    document.title = 'Armulaud ' + m.date + ' \u2013 Projektor';
+  }
+}
+
+// Wait for slides then set up listeners
+SLIDES_READY.then(() => {
+  updateDate();
+
+  // BroadcastChannel (same browser)
+  try {
+    const bc = new BroadcastChannel('armulaud-2026');
+    bc.onmessage = (e) => {
+      setStatus('broadcast');
+      displaySlide(e.data.currentSlide);
+    };
+  } catch(e) {}
+
+  // Firebase (cross-device)
+  onValue(presentationRef, (snap) => {
+    const data = snap.val();
+    if (data !== null) {
+      setStatus('firebase');
+      displaySlide(data.currentSlide);
+    }
+  });
+});
+
+// Keyboard: F = fullscreen, ESC = default screen
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+  if (e.key === 'Escape') {
+    SCREENS.forEach(s => {
+      document.getElementById('screen-' + s).style.display = 'none';
+    });
+    document.getElementById('screen-default').style.display = 'flex';
+  }
+});
+
+document.getElementById('screen-default').style.display = 'flex';
+
+</script>
+</body>
+</html>

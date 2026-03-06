@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armulaud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0b0f1a;
+  --text:    #f0e8d2;
+  --dim:     rgba(240,232,210,0.5);
+  --gold:    #c9a532;
+  --gold-dim: rgba(201,165,50,0.25);
+  --border:  rgba(201,165,50,0.18);
+  --surface: rgba(255,255,255,0.04);
+  --blue:    #4a8fdf;
+}
+
+html, body {
+  min-height: 100vh;
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(20,45,100,0.5) 0%, transparent 70%),
+    #0b0f1a;
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+  margin-bottom: 48px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.card {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.25s ease;
+}
+.card:hover {
+  background: rgba(201,165,50,0.08);
+  border-color: var(--gold-dim);
+  transform: translateY(-2px);
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-size: 0.78rem;
+  color: var(--dim);
+  line-height: 1.5;
+}
+
+.footer-note {
+  margin-top: 48px;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="logo">Armulaud</div>
+<div class="date" id="dateLabel">—</div>
+
+<div class="cards">
+  <a class="card" href="speaker.html">
+    <div class="card-icon">&#127908;</div>
+    <div class="card-title">K&otilde;neleja</div>
+    <div class="card-desc">Juhib esitlust. Navigeerib slaide ja s&uuml;nkroniseerib teiste vaadetega.</div>
+  </a>
+
+  <a class="card" href="translator.html">
+    <div class="card-icon">&#127911;</div>
+    <div class="card-title">T&otilde;lkija</div>
+    <div class="card-desc">N&auml;eb venekeelset teksti reaalajas. J&auml;lgib k&otilde;nelejat automaatselt.</div>
+  </a>
+
+  <a class="card" href="projector.html">
+    <div class="card-icon">&#128253;</div>
+    <div class="card-title">Projektor</div>
+    <div class="card-desc">T&auml;isekraani vaade projektorile. Piiblisalmid, pildid, sektsioonid.</div>
+  </a>
+
+  <a class="card" href="admin.html">
+    <div class="card-icon">&#9881;&#65039;</div>
+    <div class="card-title">Haldus</div>
+    <div class="card-desc">Muuda slaide, lisa uusi, eemalda. Laadi alla uuendatud JSON fail.</div>
+  </a>
+</div>
+
+<div class="footer-note">Firebase synced &middot; Vercel deployed</div>
+
+<script src="js/slides-loader.js"></script>
+<script>
+SLIDES_READY.then(function() {
+  var m = window.SLIDES_META;
+  if (m && m.date) {
+    document.getElementById('dateLabel').textContent = m.date;
+  }
+});
+</script>
+</body>
+</html>

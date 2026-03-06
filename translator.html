@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Armulaud – T&otilde;lkija</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0b0f1a;
+  --surface: rgba(255,255,255,0.05);
+  --border:  rgba(201,165,50,0.18);
+  --text:    #f0e8d2;
+  --dim:     rgba(240,232,210,0.4);
+  --gold:    #c9a532;
+  --blue:    #4a8fdf;
+  --green:   #3dd68c;
+  --red:     #e05555;
+  --section: #5a9fd4;
+}
+
+html, body {
+  min-height: 100vh;
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(20,40,80,0.7) 0%, transparent 70%),
+    #0b0f1a;
+}
+
+/* --- STATUS BAR --- */
+.statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.status-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+.status-dot.firebase { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+.status-dot.offline  { background: var(--red);  box-shadow: 0 0 6px var(--red);  }
+.status-dot.waiting  {
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold);
+  animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+.status-text {
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+
+.slide-counter-badge {
+  font-size: 0.75rem;
+  color: var(--gold);
+  background: rgba(201,165,50,0.12);
+  border: 1px solid rgba(201,165,50,0.25);
+  border-radius: 12px;
+  padding: 2px 10px;
+  letter-spacing: 0.05em;
+}
+
+/* --- SECTION LABEL --- */
+.section-label {
+  font-size: 0.68rem;
+  color: var(--section);
+  text-align: center;
+  padding: 6px 16px;
+  background: rgba(90,159,212,0.08);
+  border-bottom: 1px solid rgba(90,159,212,0.15);
+  letter-spacing: 0.08em;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+
+/* --- MAIN CONTENT --- */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 12px;
+  gap: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.current-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(201,165,50,0.5);
+  margin-bottom: 10px;
+}
+
+.slide-current {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.55rem, 5vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text);
+  transition: opacity 0.2s ease;
+  padding-bottom: 20px;
+}
+.slide-current.is-section {
+  font-size: clamp(1.4rem, 4.5vw, 2rem);
+  font-weight: 600;
+  color: var(--gold);
+  text-align: center;
+  padding: 12px 0 20px;
+}
+.slide-current.is-bible {
+  font-style: italic;
+  color: #ddd0a8;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 4px 0 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+.divider::after {
+  content: '\2193';
+  position: absolute;
+  top: -9px; left: 50%;
+  transform: translateX(-50%);
+  background: #0b0f1a;
+  color: var(--border);
+  font-size: 11px;
+  padding: 0 6px;
+}
+
+.preview-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-bottom: 10px;
+}
+
+.slide-preview {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.05rem, 3.5vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--dim);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.slide-preview.is-section {
+  color: rgba(201,165,50,0.35);
+}
+.slide-preview.is-bible { font-style: italic; }
+
+.progress-bar {
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(201,165,50,0.3), var(--gold));
+  transition: width 0.35s ease;
+}
+
+.projector-note {
+  font-size: 0.65rem;
+  color: var(--section);
+  background: rgba(74,143,223,0.1);
+  border: 1px solid rgba(74,143,223,0.25);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-top: 14px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.projector-note.visible { opacity: 1; }
+
+.fade { opacity: 0 !important; }
+</style>
+</head>
+<body>
+
+<!-- Status bar -->
+<div class="statusbar">
+  <div class="status-left">
+    <div class="status-dot waiting" id="statusDot"></div>
+    <span class="status-text" id="statusText">Ootab k&otilde;nelejat&hellip;</span>
+  </div>
+  <div class="slide-counter-badge" id="counterBadge">— / —</div>
+</div>
+
+<!-- Section label -->
+<div class="section-label" id="sectionLabel">—</div>
+
+<!-- Main content -->
+<main id="mainContent">
+  <div class="current-label">Praegune slaid</div>
+  <div class="slide-current" id="slideCurrent">Ootab k&otilde;nelejat&hellip;</div>
+  <div class="projector-note" id="projectorNote"></div>
+  <div class="divider"></div>
+  <div class="preview-label">J&auml;rgmine &rarr;</div>
+  <div class="slide-preview" id="slidePreview">—</div>
+</main>
+
+<!-- Progress bar -->
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+</div>
+
+<!-- Slides loader -->
+<script src="js/slides-loader.js"></script>
+
+<!-- Firebase v12 + listener logic -->
+<script type="module">
+import { initializeApp }                       from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getDatabase, ref, onValue }           from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBylcQYwOuQbFU8AmP7h1WnggyvJJSw1XI",
+  authDomain:        "armulaud-af87f.firebaseapp.com",
+  databaseURL:       "https://armulaud-af87f-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "armulaud-af87f",
+  storageBucket:     "armulaud-af87f.firebasestorage.app",
+  messagingSenderId: "916225040299",
+  appId:             "1:916225040299:web:af7b185e5787cea27cbcee"
+};
+
+const app             = initializeApp(firebaseConfig);
+const db              = getDatabase(app);
+const presentationRef = ref(db, 'presentation');
+
+let lastIndex = -1;
+
+const el = {
+  current:  document.getElementById('slideCurrent'),
+  preview:  document.getElementById('slidePreview'),
+  counter:  document.getElementById('counterBadge'),
+  progress: document.getElementById('progressFill'),
+  section:  document.getElementById('sectionLabel'),
+  dot:      document.getElementById('statusDot'),
+  text:     document.getElementById('statusText'),
+  note:     document.getElementById('projectorNote'),
+};
+
+function renderSlide(idx) {
+  if (idx === lastIndex) return;
+  lastIndex = idx;
+  if (idx < 0 || idx >= SLIDES.length) return;
+
+  const slide     = SLIDES[idx];
+  const nextSlide = SLIDES[idx + 1] || null;
+
+  el.current.classList.add('fade');
+  el.preview.classList.add('fade');
+
+  setTimeout(() => {
+    // Current slide in RUSSIAN
+    el.current.textContent = slide.russian;
+    el.current.className = 'slide-current';
+    if (slide.type === 'section-header') el.current.classList.add('is-section');
+    if (slide.type === 'bible')          el.current.classList.add('is-bible');
+
+    // Next slide preview
+    if (nextSlide) {
+      el.preview.textContent = nextSlide.russian;
+      el.preview.className = 'slide-preview';
+      if (nextSlide.type === 'section-header') el.preview.classList.add('is-section');
+      if (nextSlide.type === 'bible')          el.preview.classList.add('is-bible');
+    } else {
+      el.preview.textContent = '\u2014 \u041a\u043e\u043d\u0435\u0446 \u2014';
+      el.preview.className = 'slide-preview';
+    }
+
+    // Projector note
+    const hasProjector = slide.projector && slide.projector !== 'none';
+    if (hasProjector) {
+      const labels = { section: '\u0420\u0430\u0437\u0434\u0435\u043b \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435', bible: '\u0411\u0438\u0431\u043b\u0435\u0439\u0441\u043a\u0438\u0439 \u0441\u0442\u0438\u0445 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435', image: '\u0418\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435', keytext: '\u041a\u043b\u044e\u0447\u0435\u0432\u043e\u0435 \u0441\u043b\u043e\u0432\u043e \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435' };
+      el.note.textContent = '\ud83d\udcfd ' + (labels[slide.projector] || '\u041f\u0440\u043e\u0435\u043a\u0442\u043e\u0440 \u0430\u043a\u0442\u0438\u0432\u0435\u043d');
+      el.note.classList.add('visible');
+    } else {
+      el.note.className = 'projector-note';
+    }
+
+    // Metadata
+    el.counter.textContent  = (idx + 1) + ' / ' + SLIDES.length;
+    el.progress.style.width = ((idx + 1) / SLIDES.length * 100) + '%';
+    el.section.textContent  = slide.section;
+
+    el.current.classList.remove('fade');
+    el.preview.classList.remove('fade');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 180);
+}
+
+function setConnected(mode) {
+  el.dot.className = 'status-dot';
+  if (mode === 'firebase') {
+    el.dot.classList.add('firebase');
+    el.text.textContent = 'Firebase \u2013 reaalajas';
+  } else if (mode === 'broadcast') {
+    el.text.textContent = 'Lokaalne s\u00fcnk';
+  } else {
+    el.dot.classList.add('offline');
+    el.text.textContent = 'Offline';
+  }
+}
+
+// Dynamic title from metadata
+function updateTitle() {
+  const m = window.SLIDES_META;
+  if (m && m.date) {
+    document.title = 'Armulaud ' + m.date + ' \u2013 T\u00f5lkija';
+  }
+}
+
+// -- Sync listeners (wait for slides to load first) --
+SLIDES_READY.then(() => {
+  updateTitle();
+
+  // BroadcastChannel (same browser - testing)
+  try {
+    const bc = new BroadcastChannel('armulaud-2026');
+    bc.onmessage = (e) => {
+      setConnected('broadcast');
+      renderSlide(e.data.currentSlide);
+    };
+  } catch(e) {}
+
+  // Firebase (cross-device - production)
+  onValue(presentationRef, (snap) => {
+    const data = snap.val();
+    if (data !== null) {
+      setConnected('firebase');
+      renderSlide(data.currentSlide);
+    }
+  });
+});
+
+// Keep screen awake on mobile
+if ('wakeLock' in navigator) {
+  navigator.wakeLock.request('screen').catch(() => {});
+}
+
+</script>
+</body>
+</html>

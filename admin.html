@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armulaud – Haldus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0b0f1a;
+  --surface: rgba(255,255,255,0.04);
+  --border:  rgba(201,165,50,0.18);
+  --text:    #f0e8d2;
+  --dim:     rgba(240,232,210,0.5);
+  --gold:    #c9a532;
+  --gold-dim: rgba(201,165,50,0.25);
+  --blue:    #4a8fdf;
+  --green:   #3dd68c;
+  --red:     #e05555;
+  --section: #5a9fd4;
+}
+
+html, body {
+  min-height: 100vh;
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(20,45,100,0.4) 0%, transparent 70%),
+    #0b0f1a;
+}
+
+/* --- TOOLBAR --- */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(11,15,26,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  flex-wrap: wrap;
+}
+
+.toolbar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-right: 8px;
+}
+
+.btn {
+  background: rgba(201,165,50,0.12);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+.btn:hover { background: rgba(201,165,50,0.25); }
+.btn.primary {
+  background: rgba(61,214,140,0.15);
+  border-color: rgba(61,214,140,0.35);
+  color: var(--green);
+}
+.btn.primary:hover { background: rgba(61,214,140,0.3); }
+.btn.danger {
+  background: rgba(224,85,85,0.12);
+  border-color: rgba(224,85,85,0.3);
+  color: var(--red);
+}
+.btn.danger:hover { background: rgba(224,85,85,0.25); }
+
+.toolbar .spacer { flex: 1; }
+
+.slide-count {
+  font-size: 0.72rem;
+  color: var(--dim);
+}
+
+/* --- META SECTION --- */
+.meta-section {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.meta-field label {
+  font-size: 0.65rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.meta-field input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+}
+.meta-field input:focus { border-color: var(--gold); }
+
+/* --- SLIDE LIST --- */
+.slide-list {
+  padding: 12px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slide-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+.slide-card:hover { border-color: var(--gold-dim); }
+.slide-card.is-section { border-left: 3px solid var(--section); }
+.slide-card.is-bible   { border-left: 3px solid var(--gold); }
+.slide-card.is-image   { border-left: 3px solid var(--green); }
+.slide-card.is-keytext { border-left: 3px solid var(--red); }
+
+.slide-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.slide-id {
+  font-size: 0.65rem;
+  color: var(--dim);
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 2px 6px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.slide-type-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.72rem;
+  outline: none;
+}
+.slide-type-select:focus { border-color: var(--gold); }
+
+.slide-section-input {
+  background: var(--surface);
+  border: 1px solid rgba(90,159,212,0.25);
+  color: var(--section);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.72rem;
+  outline: none;
+  flex: 1;
+  max-width: 200px;
+}
+
+.projector-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--dim);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.72rem;
+  outline: none;
+}
+
+.slide-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.btn-icon {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.btn-icon:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+.btn-icon.delete:hover { color: var(--red); }
+
+/* Text areas */
+.slide-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-row {
+  display: flex;
+  gap: 8px;
+  align-items: start;
+}
+
+.field-label {
+  font-size: 0.6rem;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-width: 24px;
+  padding-top: 8px;
+  flex-shrink: 0;
+}
+
+.field-textarea {
+  flex: 1;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 36px;
+  outline: none;
+}
+.field-textarea:focus { border-color: var(--gold-dim); }
+
+/* Projector content fields */
+.projector-fields {
+  margin-top: 8px;
+  padding: 10px;
+  background: rgba(74,143,223,0.06);
+  border: 1px solid rgba(74,143,223,0.15);
+  border-radius: 6px;
+}
+.projector-fields-title {
+  font-size: 0.6rem;
+  color: var(--section);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* Hidden file input */
+.hidden { display: none; }
+
+/* Back link */
+.back-link {
+  color: var(--dim);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="index.html" class="back-link">&larr; Tagasi</a>
+  <span class="toolbar-title">Slaidide haldus</span>
+  <span class="slide-count" id="slideCount">0 slaidi</span>
+  <span class="spacer"></span>
+  <input type="file" id="importInput" accept=".json" class="hidden">
+  <button class="btn" id="btnImport">Import JSON</button>
+  <button class="btn primary" id="btnDownload">&#8681; Download JSON</button>
+  <button class="btn" id="btnAddSlide">+ Lisa slaid</button>
+</div>
+
+<div class="meta-section" id="metaSection">
+  <div class="meta-field">
+    <label>Pealkiri</label>
+    <input type="text" id="metaTitle" placeholder="Armulaud">
+  </div>
+  <div class="meta-field">
+    <label>Kuup&auml;ev</label>
+    <input type="text" id="metaDate" placeholder="08.03.2026">
+  </div>
+  <div class="meta-field">
+    <label>Kirjeldus</label>
+    <input type="text" id="metaDesc" placeholder="Teenistuse kirjeldus" style="min-width: 260px;">
+  </div>
+</div>
+
+<div class="slide-list" id="slideList"></div>
+
+<script>
+(function() {
+  var slides = [];
+  var meta = { title: '', date: '', description: '' };
+
+  // Load current data
+  fetch('data/slides.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      meta = data.meta || {};
+      slides = data.slides || [];
+      renderMeta();
+      renderAll();
+    })
+    .catch(function() {
+      renderAll();
+    });
+
+  function renderMeta() {
+    document.getElementById('metaTitle').value = meta.title || '';
+    document.getElementById('metaDate').value = meta.date || '';
+    document.getElementById('metaDesc').value = meta.description || '';
+  }
+
+  function readMeta() {
+    meta.title = document.getElementById('metaTitle').value;
+    meta.date = document.getElementById('metaDate').value;
+    meta.description = document.getElementById('metaDesc').value;
+  }
+
+  function renderAll() {
+    var list = document.getElementById('slideList');
+    list.innerHTML = '';
+    document.getElementById('slideCount').textContent = slides.length + ' slaidi';
+
+    slides.forEach(function(slide, i) {
+      var card = document.createElement('div');
+      card.className = 'slide-card';
+      if (slide.type === 'section-header') card.classList.add('is-section');
+      if (slide.type === 'bible') card.classList.add('is-bible');
+      if (slide.projector === 'image') card.classList.add('is-image');
+      if (slide.projector === 'keytext') card.classList.add('is-keytext');
+
+      card.innerHTML =
+        '<div class="slide-header">' +
+          '<span class="slide-id">#' + i + '</span>' +
+          '<select class="slide-type-select" data-i="' + i + '" data-field="type">' +
+            '<option value="text"' + (slide.type === 'text' ? ' selected' : '') + '>text</option>' +
+            '<option value="section-header"' + (slide.type === 'section-header' ? ' selected' : '') + '>section-header</option>' +
+            '<option value="bible"' + (slide.type === 'bible' ? ' selected' : '') + '>bible</option>' +
+          '</select>' +
+          '<input class="slide-section-input" data-i="' + i + '" data-field="section" value="' + esc(slide.section || '') + '" placeholder="Sektsioon">' +
+          '<select class="projector-select" data-i="' + i + '" data-field="projector">' +
+            '<option value="none"' + (slide.projector === 'none' ? ' selected' : '') + '>none</option>' +
+            '<option value="section"' + (slide.projector === 'section' ? ' selected' : '') + '>section</option>' +
+            '<option value="bible"' + (slide.projector === 'bible' ? ' selected' : '') + '>bible</option>' +
+            '<option value="image"' + (slide.projector === 'image' ? ' selected' : '') + '>image</option>' +
+            '<option value="keytext"' + (slide.projector === 'keytext' ? ' selected' : '') + '>keytext</option>' +
+          '</select>' +
+          '<div class="slide-actions">' +
+            '<button class="btn-icon" data-action="up" data-i="' + i + '" title="Move up">&#9650;</button>' +
+            '<button class="btn-icon" data-action="down" data-i="' + i + '" title="Move down">&#9660;</button>' +
+            '<button class="btn-icon delete" data-action="delete" data-i="' + i + '" title="Delete">&#10005;</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="slide-fields">' +
+          '<div class="field-row">' +
+            '<span class="field-label">ET</span>' +
+            '<textarea class="field-textarea" data-i="' + i + '" data-field="estonian" rows="1">' + esc(slide.estonian || '') + '</textarea>' +
+          '</div>' +
+          '<div class="field-row">' +
+            '<span class="field-label">RU</span>' +
+            '<textarea class="field-textarea" data-i="' + i + '" data-field="russian" rows="1">' + esc(slide.russian || '') + '</textarea>' +
+          '</div>' +
+        '</div>' +
+        renderProjectorFields(slide, i);
+
+      list.appendChild(card);
+    });
+
+    // Attach events
+    list.querySelectorAll('[data-field]').forEach(function(el) {
+      el.addEventListener('input', function() {
+        var idx = parseInt(el.getAttribute('data-i'));
+        var field = el.getAttribute('data-field');
+        slides[idx][field] = el.value;
+      });
+      el.addEventListener('change', function() {
+        var idx = parseInt(el.getAttribute('data-i'));
+        var field = el.getAttribute('data-field');
+        slides[idx][field] = el.value;
+        if (field === 'type' || field === 'projector') renderAll();
+      });
+    });
+
+    list.querySelectorAll('[data-action]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx = parseInt(btn.getAttribute('data-i'));
+        var action = btn.getAttribute('data-action');
+        if (action === 'up' && idx > 0) {
+          var tmp = slides[idx]; slides[idx] = slides[idx-1]; slides[idx-1] = tmp;
+          renderAll();
+        } else if (action === 'down' && idx < slides.length - 1) {
+          var tmp = slides[idx]; slides[idx] = slides[idx+1]; slides[idx+1] = tmp;
+          renderAll();
+        } else if (action === 'delete') {
+          if (confirm('Kustuta slaid #' + idx + '?')) {
+            slides.splice(idx, 1);
+            renderAll();
+          }
+        }
+      });
+    });
+
+    // Projector content fields
+    list.querySelectorAll('[data-pc]').forEach(function(el) {
+      el.addEventListener('input', function() {
+        var idx = parseInt(el.getAttribute('data-pci'));
+        var key = el.getAttribute('data-pc');
+        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
+        slides[idx].projectorContent[key] = el.value;
+      });
+    });
+
+    // Auto-resize textareas
+    list.querySelectorAll('textarea').forEach(function(ta) {
+      autosize(ta);
+      ta.addEventListener('input', function() { autosize(ta); });
+    });
+  }
+
+  function renderProjectorFields(slide, i) {
+    if (!slide.projector || slide.projector === 'none') return '';
+    var c = slide.projectorContent || {};
+    var fields = '';
+
+    if (slide.projector === 'section') {
+      fields =
+        pcField(i, 'sectionEst', 'Sektsioon ET', c.sectionEst) +
+        pcField(i, 'sectionRus', 'Sektsioon RU', c.sectionRus);
+    } else if (slide.projector === 'bible') {
+      fields =
+        pcField(i, 'reference', 'Viide ET', c.reference) +
+        pcField(i, 'referenceRus', 'Viide RU', c.referenceRus) +
+        pcField(i, 'referenceEng', 'Viide EN', c.referenceEng) +
+        pcField(i, 'textEst', 'Tekst ET', c.textEst) +
+        pcField(i, 'textRus', 'Tekst RU', c.textRus) +
+        pcField(i, 'textEng', 'Tekst EN', c.textEng);
+    } else if (slide.projector === 'image') {
+      fields =
+        pcField(i, 'imageUrl', 'Pildi URL', c.imageUrl) +
+        pcField(i, 'imageFallback', 'Fallback CSS', c.imageFallback) +
+        pcField(i, 'captionEst', 'Allkiri ET', c.captionEst) +
+        pcField(i, 'captionRus', 'Allkiri RU', c.captionRus);
+    } else if (slide.projector === 'keytext') {
+      fields =
+        pcField(i, 'textEst', 'Tekst ET', c.textEst) +
+        pcField(i, 'textRus', 'Tekst RU', c.textRus) +
+        pcField(i, 'subEst', 'Alamtekst ET', c.subEst) +
+        pcField(i, 'subRus', 'Alamtekst RU', c.subRus);
+    }
+
+    return '<div class="projector-fields">' +
+      '<div class="projector-fields-title">Projektori sisu (' + slide.projector + ')</div>' +
+      fields +
+    '</div>';
+  }
+
+  function pcField(i, key, label, value) {
+    return '<div class="field-row">' +
+      '<span class="field-label" style="min-width:64px;">' + label + '</span>' +
+      '<textarea class="field-textarea" data-pci="' + i + '" data-pc="' + key + '" rows="1">' + esc(value || '') + '</textarea>' +
+    '</div>';
+  }
+
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function autosize(ta) {
+    ta.style.height = 'auto';
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+
+  function buildJSON() {
+    readMeta();
+    // Reassign IDs sequentially
+    slides.forEach(function(s, i) { s.id = i; });
+    return JSON.stringify({ meta: meta, slides: slides }, null, 2);
+  }
+
+  // Download
+  document.getElementById('btnDownload').addEventListener('click', function() {
+    var json = buildJSON();
+    var blob = new Blob([json], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'slides.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Import
+  document.getElementById('btnImport').addEventListener('click', function() {
+    document.getElementById('importInput').click();
+  });
+  document.getElementById('importInput').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        var data = JSON.parse(ev.target.result);
+        meta = data.meta || {};
+        slides = data.slides || [];
+        renderMeta();
+        renderAll();
+      } catch(err) {
+        alert('Vigane JSON fail: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // Add slide
+  document.getElementById('btnAddSlide').addEventListener('click', function() {
+    var lastSection = slides.length > 0 ? slides[slides.length - 1].section : '';
+    slides.push({
+      id: slides.length,
+      type: 'text',
+      section: lastSection,
+      estonian: '',
+      russian: '',
+      projector: 'none'
+    });
+    renderAll();
+    // Scroll to bottom
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  });
+
+})();
+</script>
+</body>
+</html>
