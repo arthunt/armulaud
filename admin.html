@@ -643,6 +643,52 @@ body {
   border: 1px solid rgba(201,165,50,0.15);
 }
 
+/* --- SPAN INDICATORS --- */
+.span-badge {
+  font-size: 0.55rem;
+  padding: 2px 7px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-top: 4px;
+}
+.span-badge.span-source {
+  color: var(--green);
+  background: rgba(61,214,140,0.1);
+  border: 1px solid rgba(61,214,140,0.2);
+}
+.span-badge.span-inherit {
+  color: var(--blue);
+  background: rgba(74,143,223,0.1);
+  border: 1px solid rgba(74,143,223,0.2);
+}
+.span-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  width: 40px;
+  text-align: center;
+  outline: none;
+}
+.span-input:focus { border-color: var(--gold); }
+.span-label {
+  font-size: 0.58rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+}
+.inherited-notice {
+  padding: 8px;
+  background: rgba(74,143,223,0.06);
+  border: 1px solid rgba(74,143,223,0.15);
+  border-radius: 5px;
+  font-size: 0.7rem;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+
 /* --- HIDDEN FILE INPUT --- */
 .hidden { display: none; }
 
@@ -708,6 +754,24 @@ body {
   var slides = [];
   var meta = { title: '', date: '', description: '', timerPreset: 420 };
   var collapsedSections = {};
+  var spanMap = {};
+
+  function computeSpanMap() {
+    spanMap = {};
+    var activeSpan = null;
+    for (var i = 0; i < slides.length; i++) {
+      var slide = slides[i];
+      var hasOwn = slide.projector && slide.projector !== 'none';
+      if (hasOwn) {
+        var span = slide.projectorSpan || 1;
+        activeSpan = (span > 1) ? { sourceIndex: i, remaining: span - 1 } : null;
+      } else if (activeSpan && activeSpan.remaining > 0) {
+        spanMap[i] = { sourceIndex: activeSpan.sourceIndex, sourceSlide: slides[activeSpan.sourceIndex] };
+        activeSpan.remaining--;
+        if (activeSpan.remaining === 0) activeSpan = null;
+      }
+    }
+  }
 
   // --- LOAD DATA ---
   fetch('data/slides.json')
@@ -810,6 +874,7 @@ body {
   // --- RENDER ---
   function renderAll() {
     readMeta();
+    computeSpanMap();
     var list = document.getElementById('slideList');
     list.innerHTML = '';
 
@@ -970,20 +1035,37 @@ body {
     // RIGHT COLUMN
     html += '<div class="slide-right">';
 
-    // Projector type selector
-    html += '<select class="projector-select" data-i="' + globalIndex + '" data-field="projector" style="margin-bottom:6px;">';
-    html += '<option value="none"' + (slide.projector === 'none' ? ' selected' : '') + '>none</option>';
-    html += '<option value="bible"' + (slide.projector === 'bible' ? ' selected' : '') + '>bible</option>';
-    html += '<option value="keytext"' + (slide.projector === 'keytext' ? ' selected' : '') + '>keytext</option>';
-    html += '<option value="image"' + (slide.projector === 'image' ? ' selected' : '') + '>image</option>';
-    html += '<option value="image-keytext"' + (slide.projector === 'image-keytext' ? ' selected' : '') + '>image-keytext</option>';
-    html += '</select>';
+    var inherited = spanMap[globalIndex];
+    if (inherited) {
+      // Inherited projector from source slide
+      var srcSlide = inherited.sourceSlide;
+      html += '<div class="inherited-notice">&larr; P&auml;rib projektorit slaidist #' + inherited.sourceIndex + '</div>';
+      html += buildProjectorPreview(srcSlide);
+    } else {
+      // Projector type selector
+      html += '<select class="projector-select" data-i="' + globalIndex + '" data-field="projector" style="margin-bottom:6px;">';
+      html += '<option value="none"' + (slide.projector === 'none' ? ' selected' : '') + '>none</option>';
+      html += '<option value="bible"' + (slide.projector === 'bible' ? ' selected' : '') + '>bible</option>';
+      html += '<option value="keytext"' + (slide.projector === 'keytext' ? ' selected' : '') + '>keytext</option>';
+      html += '<option value="image"' + (slide.projector === 'image' ? ' selected' : '') + '>image</option>';
+      html += '<option value="image-keytext"' + (slide.projector === 'image-keytext' ? ' selected' : '') + '>image-keytext</option>';
+      html += '</select>';
 
-    // Mini projector preview
-    html += buildProjectorPreview(slide);
+      // Span input (only if projector is not 'none')
+      if (slide.projector && slide.projector !== 'none') {
+        html += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">';
+        html += '<span class="span-label">Kestus:</span>';
+        html += '<input type="number" class="span-input" data-i="' + globalIndex + '" data-field="projectorSpan" min="1" max="10" value="' + (slide.projectorSpan || 1) + '">';
+        html += '<span class="span-label">slaidi</span>';
+        html += '</div>';
+      }
 
-    // Projector content fields
-    html += buildProjectorFields(slide, globalIndex);
+      // Mini projector preview
+      html += buildProjectorPreview(slide);
+
+      // Projector content fields
+      html += buildProjectorFields(slide, globalIndex);
+    }
 
     html += '</div>';
 
@@ -998,6 +1080,7 @@ body {
       var idx = parseInt(el.getAttribute('data-i'), 10);
 
       el.addEventListener('input', function() {
+        if (field === 'projectorSpan') return;
         slides[idx][field] = el.value;
 
         // Auto-resize textareas
@@ -1005,6 +1088,12 @@ body {
       });
 
       el.addEventListener('change', function() {
+        if (field === 'projectorSpan') {
+          var val = parseInt(el.value, 10);
+          slides[idx].projectorSpan = isNaN(val) || val < 1 ? 1 : val;
+          renderAll();
+          return;
+        }
         slides[idx][field] = el.value;
         if (field === 'type' || field === 'projector' || field === 'section') {
           renderAll();
@@ -1221,24 +1310,41 @@ body {
       }
     }
 
+    // Span source indicator
+    if (currentSlide.projector && currentSlide.projector !== 'none' && (currentSlide.projectorSpan || 1) > 1) {
+      var spanCount = currentSlide.projectorSpan - 1;
+      html += '<div class="span-badge span-source">span &rarr; +' + spanCount + ' slaidi</div>';
+    }
+
+    // Span inherit indicator
+    if (spanMap[globalIndex]) {
+      html += '<div class="span-badge span-inherit">&larr; projektor slaidist #' + spanMap[globalIndex].sourceIndex + '</div>';
+    }
+
     return html;
   }
 
   // --- BUILD JSON ---
   function buildJSON() {
     readMeta();
+    computeSpanMap();
 
-    var cleanSlides = slides.map(function(s) {
+    var cleanSlides = slides.map(function(s, idx) {
       var obj = {};
       if (s.type) obj.type = s.type;
       if (s.section) obj.section = s.section;
       if (s.estonian) obj.estonian = s.estonian;
       if (s.russian) obj.russian = s.russian;
-      if (s.projector) obj.projector = s.projector;
+      if (spanMap[idx]) {
+        obj.projector = 'none';
+      } else {
+        if (s.projector) obj.projector = s.projector;
+      }
       if (s.hint) obj.hint = s.hint;
       if (s.hidden) obj.hidden = s.hidden;
+      if (!spanMap[idx] && s.projectorSpan && s.projectorSpan > 1) obj.projectorSpan = s.projectorSpan;
 
-      if (s.projectorContent && Object.keys(s.projectorContent).length > 0) {
+      if (!spanMap[idx] && s.projectorContent && Object.keys(s.projectorContent).length > 0) {
         var pc = {};
         Object.keys(s.projectorContent).forEach(function(k) {
           var v = s.projectorContent[k];
