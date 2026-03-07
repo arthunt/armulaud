@@ -309,7 +309,13 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   padding: 12px 48px 16px;
+}
+.preview-wrapper .projector-preview {
+  width: 140px;
+  height: 79px;
+  flex-shrink: 0;
 }
 
 .slide-preview {
@@ -417,6 +423,7 @@ footer {
 
   <div class="preview-wrapper">
     <div class="slide-preview" id="slidePreview"></div>
+    <div class="projector-preview" id="projectorPreviewNext"></div>
   </div>
 </main>
 
@@ -481,13 +488,14 @@ const el = {
   progress: document.getElementById('progressFill'),
   section:  document.getElementById('sectionBadge'),
   ppBox:    document.getElementById('projectorPreview'),
+  ppNext:   document.getElementById('projectorPreviewNext'),
   btnPrev:  document.getElementById('btnPrev'),
   btnNext:  document.getElementById('btnNext'),
 };
 
-function renderProjectorPreview(slide) {
-  var box = el.ppBox;
-  if (!slide.projector || slide.projector === 'none') {
+function renderProjectorPreview(slide, box) {
+  if (!box) box = el.ppBox;
+  if (!slide || !slide.projector || slide.projector === 'none') {
     box.className = 'projector-preview';
     box.innerHTML = '';
     return;
@@ -572,7 +580,8 @@ function showSlide(n, animate) {
       el.preview.className = 'slide-preview';
     }
 
-    renderProjectorPreview(slide);
+    renderProjectorPreview(slide, el.ppBox);
+    renderProjectorPreview(nextSlide, el.ppNext);
 
     el.counter.textContent  = (n + 1) + ' / ' + SLIDES.length;
     el.progress.style.width = ((n + 1) / SLIDES.length * 100) + '%';
