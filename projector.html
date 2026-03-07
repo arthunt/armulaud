@@ -561,11 +561,18 @@ function displaySlide(idx) {
       const c = slide.projectorContent;
       showScreen('image', () => {
         const bg = document.getElementById('imageBg');
-        const img = new Image();
-        img.onload = () => { bg.style.backgroundImage = "url('" + c.imageUrl + "')"; };
-        img.onerror = () => { bg.style.background = c.imageFallback; };
-        img.src = c.imageUrl;
-        bg.style.background = c.imageFallback;
+        // Reset to fallback gradient first
+        bg.style.cssText = 'position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;';
+        bg.style.backgroundImage = c.imageFallback ? c.imageFallback : 'none';
+        if (c.imageUrl) {
+          const img = new Image();
+          img.onload = () => {
+            bg.style.backgroundImage = "url('" + c.imageUrl + "')";
+            bg.style.backgroundSize = 'cover';
+            bg.style.backgroundPosition = 'center';
+          };
+          img.src = c.imageUrl;
+        }
         document.getElementById('imageCaptionEst').textContent = c.captionEst;
         document.getElementById('imageCaptionRus').textContent = c.captionRus;
       });
