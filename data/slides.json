@@ -32,7 +32,7 @@
     },
     {
       "id": 4, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Pigem olen ma „väga raskesti õppiv inimene".",
+      "estonian": "Pigem olen ma \u201eväga raskesti õppiv inimene\u201d.",
       "russian": "Скорее, я человек, который «очень трудно учится».",
       "projector": "none"
     },
@@ -142,15 +142,15 @@
     },
     {
       "id": 21, "type": "bible", "section": "3. Identiteet",
-      "estonian": "„Sulle piisab minu armust, sest vägi saab täielikuks nõrkuses."",
-      "russian": "«Довольно для тебя благодати Моей, ибо сила Моя совершается в немощи».",
+      "estonian": "\u201eSulle piisab minu armust, sest vägi saab täielikuks nõrkuses.\u201d",
+      "russian": "\u00abДовольно для тебя благодати Моей, ибо сила Моя совершается в немощи\u00bb.",
       "projector": "bible",
       "projectorContent": {
         "reference": "2. Korintlastele 12:9",
         "referenceRus": "2-е Коринфянам 12:9",
         "referenceEng": "2 Corinthians 12:9",
-        "textEst": "„Sulle piisab minu armust, sest vägi saab täielikuks nõrkuses."",
-        "textRus": "«Довольно для тебя благодати Моей, ибо сила Моя совершается в немощи».",
+        "textEst": "\u201eSulle piisab minu armust, sest vägi saab täielikuks nõrkuses.\u201d",
+        "textRus": "\u00abДовольно для тебя благодати Моей, ибо сила Моя совершается в немощи\u00bb.",
         "textEng": "\"My grace is sufficient for you, for my power is made perfect in weakness.\""
       }
     },
@@ -173,7 +173,7 @@
     },
     {
       "id": 24, "type": "text", "section": "4. Mikro-võidud",
-      "estonian": "Koguja raamat õpetas mulle „mikro-võite".",
+      "estonian": "Koguja raamat õpetas mulle \u201emikro-võite\u201d.",
       "russian": "Книга Екклесиаста научила меня «микро-победам».",
       "projector": "none"
     },
@@ -271,13 +271,13 @@
     },
     {
       "id": 39, "type": "text", "section": "6. Armulaud",
-      "estonian": "Murtud leib ütleb: sa ei pea olema „terve tükk", et siia kuuluda.",
+      "estonian": "Murtud leib ütleb: sa ei pea olema \u201eterve tükk\u201d, et siia kuuluda.",
       "russian": "Преломленный хлеб говорит: тебе не нужно быть «целым куском», чтобы быть здесь.",
       "projector": "image",
       "projectorContent": {
         "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=80",
         "imageFallback": "linear-gradient(135deg, #2a1800 0%, #5a3800 60%, #3a2500 100%)",
-        "captionEst": "Sa ei pea olema „terve tükk", et siia kuuluda.",
+        "captionEst": "Sa ei pea olema \u201eterve tükk\u201d, et siia kuuluda.",
         "captionRus": "Тебе не нужно быть «целым куском», чтобы быть здесь."
       }
     },
@@ -313,7 +313,7 @@
     },
     {
       "id": 45, "type": "text", "section": "6. Armulaud",
-      "estonian": "Me saame öelda: „Issand, ma ei jaksa enam seda kaitsekihti hoida. Ma lasen Su armastusel end murda, et saaksin uuesti terveks."",
+      "estonian": "Me saame öelda: \u201eIssand, ma ei jaksa enam seda kaitsekihti hoida. Ma lasen Su armastusel end murda, et saaksin uuesti terveks.\u201d",
       "russian": "Мы можем сказать: «Господи, я больше не в силах удерживать эту броню. Я позволяю Твоей любви сокрушить меня, чтобы я мог снова стать исцеленным».",
       "projector": "none"
     },
