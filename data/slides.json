@@ -60,7 +60,11 @@
       "section": "Sissejuhatus",
       "estonian": "Ma ei ole siin, et jagada teadmisi, mille ma olen juba ammu selgeks saanud.",
       "russian": "\u042f \u043d\u0435 \u0437\u0434\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u0434\u0435\u043b\u0438\u0442\u044c\u0441\u044f \u0437\u043d\u0430\u043d\u0438\u044f\u043c\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u044f \u0434\u0430\u0432\u043d\u043e \u0443\u0441\u0432\u043e\u0438\u043b.",
-      "projector": "none"
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Raskesti \u00f5ppiv inimene",
+        "textRus": "\u0422\u0440\u0443\u0434\u043d\u043e \u043e\u0431\u0443\u0447\u0430\u0435\u043c\u044b\u0439 \u0447\u0435\u043b\u043e\u0432\u0435\u043a"
+      }
     },
     {
       "id": 7,
@@ -84,7 +88,11 @@
       "section": "Sissejuhatus",
       "estonian": "Nagu trenn. Ja nagu trennisgi \u2013 kui sa l\u00f5petad, siis sa kaotad vormi.",
       "russian": "\u041a\u0430\u043a \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0430. \u0418 \u043a\u0430\u043a \u0432 \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0435 \u2014 \u0435\u0441\u043b\u0438 \u0442\u044b \u043f\u0440\u0435\u043a\u0440\u0430\u0449\u0430\u0435\u0448\u044c, \u0442\u044b \u0442\u0435\u0440\u044f\u0435\u0448\u044c \u0444\u043e\u0440\u043c\u0443.",
-      "projector": "none"
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "L\u00f5petad \u2014 kaotad vormi",
+        "textRus": "\u041f\u0440\u0435\u043a\u0440\u0430\u0449\u0430\u0435\u0448\u044c \u2014 \u0442\u0435\u0440\u044f\u0435\u0448\u044c \u0444\u043e\u0440\u043c\u0443"
+      }
     },
     {
       "id": 10,
@@ -328,8 +336,8 @@
       "russian": "\u0418\u043c\u0435\u043d\u043d\u043e \u0432 \u0442\u0432\u043e\u0435\u0439 \u0441\u043b\u0430\u0431\u043e\u0441\u0442\u0438 \u2014 \u0442\u043e \u043c\u0435\u0441\u0442\u043e, \u0433\u0434\u0435 \u0411\u043e\u0433 \u043c\u043e\u0436\u0435\u0442 \u0442\u0435\u0431\u0435 \u043f\u043e\u043c\u043e\u0447\u044c.",
       "projector": "keytext",
       "projectorContent": {
-        "textEst": "Sinu n\u00f5rkuses ongi koht, kus Jumal saab sind aidata",
-        "textRus": "\u0418\u043c\u0435\u043d\u043d\u043e \u0432 \u0442\u0432\u043e\u0435\u0439 \u0441\u043b\u0430\u0431\u043e\u0441\u0442\u0438 \u2014 \u0442\u043e \u043c\u0435\u0441\u0442\u043e, \u0433\u0434\u0435 \u0411\u043e\u0433 \u043c\u043e\u0436\u0435\u0442 \u0442\u0435\u0431\u0435 \u043f\u043e\u043c\u043e\u0447\u044c"
+        "textEst": "N\u00f5rkuses saab Jumal aidata",
+        "textRus": "\u0412 \u043d\u0435\u043c\u043e\u0449\u0438 \u0411\u043e\u0433 \u043f\u043e\u043c\u043e\u0436\u0435\u0442"
       }
     },
     {
@@ -504,7 +512,11 @@
       "section": "Kaitsesoomused",
       "estonian": "Kuid reaalsus on see, et mu l\u00e4hedased n\u00e4evad seda kaitsekihti.",
       "russian": "\u041d\u043e \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0442\u0430\u043a\u043e\u0432\u0430, \u0447\u0442\u043e \u043c\u043e\u0438 \u0431\u043b\u0438\u0437\u043a\u0438\u0435 \u0432\u0438\u0434\u044f\u0442 \u044d\u0442\u043e\u0442 \u0437\u0430\u0449\u0438\u0442\u043d\u044b\u0439 \u0441\u043b\u043e\u0439.",
-      "projector": "none"
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Naeratan. Aga sees on t\u00fchjus.",
+        "textRus": "\u0423\u043b\u044b\u0431\u0430\u044e\u0441\u044c. \u041d\u043e \u0432\u043d\u0443\u0442\u0440\u0438 \u043f\u0443\u0441\u0442\u043e\u0442\u0430."
+      }
     },
     {
       "id": 54,
@@ -852,11 +864,7 @@
       "section": "Palve",
       "estonian": "Aamen.",
       "russian": "\u0410\u043c\u0438\u043d\u044c.",
-      "projector": "keytext",
-      "projectorContent": {
-        "textEst": "Aamen",
-        "textRus": "\u0410\u043c\u0438\u043d\u044c"
-      }
+      "projector": "none"
     }
   ]
 }
