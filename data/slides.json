@@ -1,363 +1,861 @@
 {
   "meta": {
-    "title": "Armulaud",
+    "title": "Murtud leib ja uuesti \u00f5ppimine",
     "date": "08.03.2026",
-    "description": "Armulaua teenistus – Communion service"
+    "description": "Armulaua sissejuhatus"
   },
   "slides": [
     {
-      "id": 0, "type": "section-header", "section": "1. Sissejuhatus",
-      "estonian": "1. Sissejuhatus",
-      "russian": "1. Введение",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "1. Sissejuhatus", "sectionRus": "1. Введение" }
+      "id": 0,
+      "type": "section-header",
+      "section": "Sissejuhatus",
+      "estonian": "1. Sissejuhatus: Igavene algaja",
+      "russian": "1. \u0412\u0432\u0435\u0434\u0435\u043d\u0438\u0435: \u0412\u0435\u0447\u043d\u044b\u0439 \u043d\u0430\u0447\u0438\u043d\u0430\u044e\u0449\u0438\u0439",
+      "projector": "none",
+      "hint": "R\u00e4\u00e4gi rahulikult, vaata noortele otsa, v\u00f5id veidi naeratada"
     },
     {
-      "id": 1, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Tere kõigile. Ma olen 53-aastane.",
-      "russian": "Всем привет. Мне 53 года.",
+      "id": 1,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Tere k\u00f5igile.",
+      "russian": "\u0412\u0441\u0435\u043c \u043f\u0440\u0438\u0432\u0435\u0442.",
       "projector": "none"
     },
     {
-      "id": 2, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Ma ei ole siin teie ees kui täiuslik edulugu või inimene, kes kunagi ei eksi.",
-      "russian": "Я не стою перед вами как пример идеального успеха или человек, который никогда не ошибается.",
+      "id": 2,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Ma olen 53-aastane.",
+      "russian": "\u041c\u043d\u0435 53 \u0433\u043e\u0434\u0430.",
       "projector": "none"
     },
     {
-      "id": 3, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Ma ei ole inimene, kellel on kõik vastused olemas.",
-      "russian": "Я не тот, у кого есть все ответы.",
+      "id": 3,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Ma ei ole siin teie ees kui edulugu v\u00f5i inimene, kes kunagi ei eksi.",
+      "russian": "\u042f \u043d\u0435 \u0441\u0442\u043e\u044e \u043f\u0435\u0440\u0435\u0434 \u0432\u0430\u043c\u0438 \u043a\u0430\u043a \u0438\u0441\u0442\u043e\u0440\u0438\u044f \u0443\u0441\u043f\u0435\u0445\u0430 \u0438\u043b\u0438 \u0447\u0435\u043b\u043e\u0432\u0435\u043a, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u043d\u0438\u043a\u043e\u0433\u0434\u0430 \u043d\u0435 \u043e\u0448\u0438\u0431\u0430\u0435\u0442\u0441\u044f.",
       "projector": "none"
     },
     {
-      "id": 4, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Pigem olen ma \u201eväga raskesti õppiv inimene\u201d.",
-      "russian": "Скорее, я человек, который «очень трудно учится».",
+      "id": 4,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Ma ei ole inimene, kellel on k\u00f5ik vastused olemas.",
+      "russian": "\u042f \u043d\u0435 \u0442\u043e\u0442 \u0447\u0435\u043b\u043e\u0432\u0435\u043a, \u0443 \u043a\u043e\u0442\u043e\u0440\u043e\u0433\u043e \u0435\u0441\u0442\u044c \u0432\u0441\u0435 \u043e\u0442\u0432\u0435\u0442\u044b.",
       "projector": "none"
     },
     {
-      "id": 5, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "See, mida ma täna teiega jagan, ei ole midagi, mille ma olen juba selgeks saanud.",
-      "russian": "То, чем я делюсь сегодня, — это не то, что я когда-то раз и навсегда усвоил.",
+      "id": 5,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Pigem olen ma \u201ev\u00e4ga raskesti \u00f5ppiv inimene\u201d.",
+      "russian": "\u0421\u043a\u043e\u0440\u0435\u0435 \u044f \u2014 \u00ab\u043e\u0447\u0435\u043d\u044c \u0442\u0440\u0443\u0434\u043d\u043e \u043e\u0431\u0443\u0447\u0430\u0435\u043c\u044b\u0439 \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u00bb.",
       "projector": "none"
     },
     {
-      "id": 6, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Ma jagan teiega seda, mida ma alles täna ja jätkuvalt edasi õpin.",
-      "russian": "Я делюсь тем, чему я только сегодня и постоянно продолжаю учиться.",
+      "id": 6,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Ma ei ole siin, et jagada teadmisi, mille ma olen juba ammu selgeks saanud.",
+      "russian": "\u042f \u043d\u0435 \u0437\u0434\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u0434\u0435\u043b\u0438\u0442\u044c\u0441\u044f \u0437\u043d\u0430\u043d\u0438\u044f\u043c\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u044f \u0434\u0430\u0432\u043d\u043e \u0443\u0441\u0432\u043e\u0438\u043b.",
       "projector": "none"
     },
     {
-      "id": 7, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "See on midagi, mida ma pean iga päev uuesti harjutama.",
-      "russian": "Это то, что мне нужно практиковать заново каждый день.",
+      "id": 7,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Ma jagan teiega seda, mida ma alles t\u00e4na ja j\u00e4tkuvalt edasi \u00f5pin.",
+      "russian": "\u042f \u0434\u0435\u043b\u044e\u0441\u044c \u0441 \u0432\u0430\u043c\u0438 \u0442\u0435\u043c, \u0447\u0435\u043c\u0443 \u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0441\u0435\u0433\u043e\u0434\u043d\u044f \u0438 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u044e \u0443\u0447\u0438\u0442\u044c\u0441\u044f.",
       "projector": "none"
     },
     {
-      "id": 8, "type": "text", "section": "1. Sissejuhatus",
-      "estonian": "Nagu trenn – kui sa lõpetad, siis sa kaotad vormi.",
-      "russian": "Как тренировка — если перестаешь, теряешь форму.",
-      "projector": "image",
+      "id": 8,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "See on midagi, mida ma pean iga p\u00e4ev uuesti ja uuesti harjutama.",
+      "russian": "\u042d\u0442\u043e \u0442\u043e, \u0447\u0442\u043e \u043c\u043d\u0435 \u043d\u0443\u0436\u043d\u043e \u043f\u0440\u0430\u043a\u0442\u0438\u043a\u043e\u0432\u0430\u0442\u044c \u043a\u0430\u0436\u0434\u044b\u0439 \u0434\u0435\u043d\u044c \u0441\u043d\u043e\u0432\u0430 \u0438 \u0441\u043d\u043e\u0432\u0430.",
+      "projector": "none"
+    },
+    {
+      "id": 9,
+      "type": "normal",
+      "section": "Sissejuhatus",
+      "estonian": "Nagu trenn. Ja nagu trennisgi \u2013 kui sa l\u00f5petad, siis sa kaotad vormi.",
+      "russian": "\u041a\u0430\u043a \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0430. \u0418 \u043a\u0430\u043a \u0432 \u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u043a\u0435 \u2014 \u0435\u0441\u043b\u0438 \u0442\u044b \u043f\u0440\u0435\u043a\u0440\u0430\u0449\u0430\u0435\u0448\u044c, \u0442\u044b \u0442\u0435\u0440\u044f\u0435\u0448\u044c \u0444\u043e\u0440\u043c\u0443.",
+      "projector": "none"
+    },
+    {
+      "id": 10,
+      "type": "section-header",
+      "section": "Murdumine",
+      "estonian": "Murdumine kui uus algus",
+      "russian": "\u0421\u043b\u043e\u043c\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u044c \u043a\u0430\u043a \u043d\u043e\u0432\u043e\u0435 \u043d\u0430\u0447\u0430\u043b\u043e",
+      "projector": "none",
+      "hint": "Muutu t\u00f5sisemaks, r\u00e4\u00e4gi s\u00fcdamest"
+    },
+    {
+      "id": 11,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Ma olen oma elus kogenud mitmeid l\u00e4bip\u00f5lemisi ja eba\u00f5nnestumisi.",
+      "russian": "\u0412 \u043c\u043e\u0435\u0439 \u0436\u0438\u0437\u043d\u0438 \u0431\u044b\u043b\u043e \u043c\u043d\u043e\u0433\u043e \u0432\u044b\u0433\u043e\u0440\u0430\u043d\u0438\u0439 \u0438 \u043d\u0435\u0443\u0434\u0430\u0447.",
+      "projector": "none"
+    },
+    {
+      "id": 12,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Depressioon ja selle k\u00f5ige s\u00fcgavamad hetked ei ole minu jaoks v\u00f5\u00f5rad.",
+      "russian": "\u0414\u0435\u043f\u0440\u0435\u0441\u0441\u0438\u044f \u0438 \u0435\u0451 \u0441\u0430\u043c\u044b\u0435 \u0433\u043b\u0443\u0431\u043e\u043a\u0438\u0435 \u043c\u043e\u043c\u0435\u043d\u0442\u044b \u043c\u043d\u0435 \u043d\u0435 \u0447\u0443\u0436\u0434\u044b.",
+      "projector": "none"
+    },
+    {
+      "id": 13,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Mul on olnud hetki nagu prohvet Eelijal, kes oli nii v\u00e4sinud, et ei tahtnud enam elada.",
+      "russian": "\u0423 \u043c\u0435\u043d\u044f \u0431\u044b\u043b\u0438 \u043c\u043e\u043c\u0435\u043d\u0442\u044b, \u043a\u0430\u043a \u0443 \u043f\u0440\u043e\u0440\u043e\u043a\u0430 \u0418\u043b\u0438\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0442\u0430\u043a \u0443\u0441\u0442\u0430\u043b, \u0447\u0442\u043e \u043d\u0435 \u0445\u043e\u0442\u0435\u043b \u0431\u043e\u043b\u044c\u0448\u0435 \u0436\u0438\u0442\u044c.",
+      "projector": "none"
+    },
+    {
+      "id": 14,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Ma olen kogenud seda sama, mida kuningas Nebukadnessar...",
+      "russian": "\u042f \u043f\u0435\u0440\u0435\u0436\u0438\u043b \u0442\u043e \u0436\u0435, \u0447\u0442\u043e \u0438 \u0446\u0430\u0440\u044c \u041d\u0430\u0432\u0443\u0445\u043e\u0434\u043e\u043d\u043e\u0441\u043e\u0440...",
+      "projector": "none"
+    },
+    {
+      "id": 15,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "...kes pidi kaotama k\u00f5ik, et ennast uuesti leida.",
+      "russian": "...\u043a\u043e\u0442\u043e\u0440\u043e\u043c\u0443 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u043b\u043e \u043f\u043e\u0442\u0435\u0440\u044f\u0442\u044c \u0432\u0441\u0451, \u0447\u0442\u043e\u0431\u044b \u043d\u0430\u0439\u0442\u0438 \u0441\u0435\u0431\u044f \u0437\u0430\u043d\u043e\u0432\u043e.",
+      "projector": "none"
+    },
+    {
+      "id": 16,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "T\u00e4na teie ees seistes tean ma, et olen t\u00e4iulikkusest v\u00e4ga kaugel.",
+      "russian": "\u0421\u0442\u043e\u044f \u0441\u0435\u0433\u043e\u0434\u043d\u044f \u043f\u0435\u0440\u0435\u0434 \u0432\u0430\u043c\u0438, \u044f \u0437\u043d\u0430\u044e, \u0447\u0442\u043e \u044f \u043e\u0447\u0435\u043d\u044c \u0434\u0430\u043b\u0451\u043a \u043e\u0442 \u0441\u043e\u0432\u0435\u0440\u0448\u0435\u043d\u0441\u0442\u0432\u0430.",
+      "projector": "none"
+    },
+    {
+      "id": 17,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Kuid ma olen \u00f5ppinud \u2013 ja j\u00e4tkan \u00f5ppimist \u2013 elama teisiti.",
+      "russian": "\u041d\u043e \u044f \u043d\u0430\u0443\u0447\u0438\u043b\u0441\u044f \u2014 \u0438 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u044e \u0443\u0447\u0438\u0442\u044c\u0441\u044f \u2014 \u0436\u0438\u0442\u044c \u043f\u043e-\u0434\u0440\u0443\u0433\u043e\u043c\u0443.",
+      "projector": "none"
+    },
+    {
+      "id": 18,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Ma olen Jeesuse j\u00fcnger.",
+      "russian": "\u042f \u0443\u0447\u0435\u043d\u0438\u043a \u0418\u0438\u0441\u0443\u0441\u0430.",
+      "projector": "none"
+    },
+    {
+      "id": 19,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Ja Ta lubab, et tormid tulevad...",
+      "russian": "\u0418 \u041e\u043d \u043e\u0431\u0435\u0449\u0430\u0435\u0442, \u0447\u0442\u043e \u0431\u0443\u0440\u0438 \u043f\u0440\u0438\u0434\u0443\u0442...",
+      "projector": "keytext",
       "projectorContent": {
-        "imageUrl": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1920&q=80",
-        "imageFallback": "linear-gradient(135deg, #1a2a1a 0%, #2d4a2d 60%, #1a3020 100%)",
-        "captionEst": "Nagu trenn – kui sa lõpetad, siis sa kaotad vormi.",
-        "captionRus": "Как тренировка — если перестаешь, теряешь форму."
+        "textEst": "Ma olen Jeesuse j\u00fcnger",
+        "textRus": "\u042f \u0443\u0447\u0435\u043d\u0438\u043a \u0418\u0438\u0441\u0443\u0441\u0430"
       }
     },
     {
-      "id": 9, "type": "section-header", "section": "2. Murdumine ja lootus",
-      "estonian": "2. Murdumine ja lootus",
-      "russian": "2. Сокрушение и надежда",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "2. Murdumine ja lootus", "sectionRus": "2. Сокрушение и надежда" }
+      "id": 20,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "...ja minu osa on olla tormideks valmis.",
+      "russian": "...\u0438 \u043c\u043e\u044f \u0447\u0430\u0441\u0442\u044c \u2014 \u0431\u044b\u0442\u044c \u0433\u043e\u0442\u043e\u0432\u044b\u043c \u043a \u0431\u0443\u0440\u044f\u043c.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Ma olen Jeesuse j\u00fcnger",
+        "textRus": "\u042f \u0443\u0447\u0435\u043d\u0438\u043a \u0418\u0438\u0441\u0443\u0441\u0430"
+      }
     },
     {
-      "id": 10, "type": "text", "section": "2. Murdumine ja lootus",
-      "estonian": "Ma olen oma elus kogenud mitmeid läbipõlemisi ja ebaõnnestumisi.",
-      "russian": "Я пережил в своей жизни несколько выгораний и неудач.",
+      "id": 21,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Ma \u00f5pin iga p\u00e4ev usaldama Jumala lubadusi.",
+      "russian": "\u042f \u0443\u0447\u0443\u0441\u044c \u043a\u0430\u0436\u0434\u044b\u0439 \u0434\u0435\u043d\u044c \u0434\u043e\u0432\u0435\u0440\u044f\u0442\u044c \u0411\u043e\u0436\u044c\u0438\u043c \u043e\u0431\u0435\u0449\u0430\u043d\u0438\u044f\u043c.",
       "projector": "none"
     },
     {
-      "id": 11, "type": "text", "section": "2. Murdumine ja lootus",
-      "estonian": "Depressioon ja selle kõige sügavamad hetked ei ole minu jaoks võõrad.",
-      "russian": "Депрессия и её самые глубокие моменты мне знакомы.",
+      "id": 22,
+      "type": "normal",
+      "section": "Murdumine",
+      "estonian": "Ja ma olen s\u00fcdamest t\u00e4nulik Jeesuse ohvri eest, mille Ta t\u00f5i minu, koguduse ja iga\u00fche eest.",
+      "russian": "\u0418 \u044f \u043e\u0442 \u0432\u0441\u0435\u0433\u043e \u0441\u0435\u0440\u0434\u0446\u0430 \u0431\u043b\u0430\u0433\u043e\u0434\u0430\u0440\u0435\u043d \u0437\u0430 \u0436\u0435\u0440\u0442\u0432\u0443 \u0418\u0438\u0441\u0443\u0441\u0430, \u043a\u043e\u0442\u043e\u0440\u0443\u044e \u041e\u043d \u043f\u0440\u0438\u043d\u0451\u0441 \u0437\u0430 \u043c\u0435\u043d\u044f, \u0437\u0430 \u0446\u0435\u0440\u043a\u043e\u0432\u044c \u0438 \u0437\u0430 \u043a\u0430\u0436\u0434\u043e\u0433\u043e.",
       "projector": "none"
     },
     {
-      "id": 12, "type": "text", "section": "2. Murdumine ja lootus",
-      "estonian": "Olen olnud väsinud nagu prohvet Eelija ja kogenud sama, mida kuningas Nebukadnessar, kes pidi kaotama kõik, et ennast uuesti leida.",
-      "russian": "Я бывал истощен, как пророк Илия, и переживал то же, что и царь Навуходоносор, которому пришлось потерять всё, чтобы снова найти себя.",
+      "id": 23,
+      "type": "section-header",
+      "section": "Identiteet",
+      "estonian": "2. Kes sa tegelikult oled?",
+      "russian": "2. \u041a\u0442\u043e \u0442\u044b \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435?",
+      "projector": "none",
+      "hint": "R\u00e4\u00e4gi veenvamalt, oluline meeldetuletus kuulajatele"
+    },
+    {
+      "id": 24,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Ma jagan teiega seda, mida ma pean endale pidevalt meelde tuletama:",
+      "russian": "\u042f \u0434\u0435\u043b\u044e\u0441\u044c \u0441 \u0432\u0430\u043c\u0438 \u0442\u0435\u043c, \u0447\u0442\u043e \u043c\u043d\u0435 \u043f\u0440\u0438\u0445\u043e\u0434\u0438\u0442\u0441\u044f \u043f\u043e\u0441\u0442\u043e\u044f\u043d\u043d\u043e \u043d\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u0442\u044c \u0441\u0435\u0431\u0435:",
       "projector": "none"
     },
     {
-      "id": 13, "type": "text", "section": "2. Murdumine ja lootus",
-      "estonian": "Ma tean, et olen täiuslikkusest väga kaugel.",
-      "russian": "Я знаю, что очень далек от совершенства.",
+      "id": 25,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Sa ei ole sinu t\u00f6\u00f6koht.",
+      "russian": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u0440\u0430\u0431\u043e\u0442\u0430.",
       "projector": "none"
     },
     {
-      "id": 14, "type": "text", "section": "2. Murdumine ja lootus",
-      "estonian": "Kuid ma õpin elama teisiti. Ma olen Jeesuse jünger.",
-      "russian": "Но я учусь жить иначе. Я — ученик Иисуса.",
+      "id": 26,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Sa ei ole sinu eba\u00f5nnestumine.",
+      "russian": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u043d\u0435\u0443\u0434\u0430\u0447\u0430.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Sa ei ole sinu t\u00f6\u00f6koht",
+        "textRus": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u0440\u0430\u0431\u043e\u0442\u0430"
+      }
+    },
+    {
+      "id": 27,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Sa ei ole sinu v\u00e4simus v\u00f5i depressioon.",
+      "russian": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u0443\u0441\u0442\u0430\u043b\u043e\u0441\u0442\u044c \u0438\u043b\u0438 \u0434\u0435\u043f\u0440\u0435\u0441\u0441\u0438\u044f.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Sa ei ole sinu eba\u00f5nnestumine",
+        "textRus": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u043d\u0435\u0443\u0434\u0430\u0447\u0430"
+      }
+    },
+    {
+      "id": 28,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Sa ei ole sinu haigus v\u00f5i erip\u00e4ra.",
+      "russian": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u0431\u043e\u043b\u0435\u0437\u043d\u044c \u0438\u043b\u0438 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u044c.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Sa ei ole sinu v\u00e4simus v\u00f5i depressioon",
+        "textRus": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u0443\u0441\u0442\u0430\u043b\u043e\u0441\u0442\u044c \u0438\u043b\u0438 \u0434\u0435\u043f\u0440\u0435\u0441\u0441\u0438\u044f"
+      }
+    },
+    {
+      "id": 29,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "See on viga, mida ma v\u00f5in ikka ja j\u00e4lle teha.",
+      "russian": "\u042d\u0442\u043e \u043e\u0448\u0438\u0431\u043a\u0430, \u043a\u043e\u0442\u043e\u0440\u0443\u044e \u044f \u043c\u043e\u0433\u0443 \u0441\u043e\u0432\u0435\u0440\u0448\u0430\u0442\u044c \u0441\u043d\u043e\u0432\u0430 \u0438 \u0441\u043d\u043e\u0432\u0430.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Sa ei ole sinu haigus v\u00f5i erip\u00e4ra",
+        "textRus": "\u0422\u044b \u2014 \u044d\u0442\u043e \u043d\u0435 \u0442\u0432\u043e\u044f \u0431\u043e\u043b\u0435\u0437\u043d\u044c \u0438\u043b\u0438 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u044c"
+      }
+    },
+    {
+      "id": 30,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "L\u00e4bi elu ma kippusin ennast defineerima l\u00e4bi oma vigade.",
+      "russian": "\u041d\u0430 \u043f\u0440\u043e\u0442\u044f\u0436\u0435\u043d\u0438\u0438 \u0436\u0438\u0437\u043d\u0438 \u044f \u0431\u044b\u043b \u0441\u043a\u043b\u043e\u043d\u0435\u043d \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0442\u044c \u0441\u0435\u0431\u044f \u0447\u0435\u0440\u0435\u0437 \u0441\u0432\u043e\u0438 \u043e\u0448\u0438\u0431\u043a\u0438.",
       "projector": "none"
     },
     {
-      "id": 15, "type": "text", "section": "2. Murdumine ja lootus",
-      "estonian": "Ma õpin iga päev usaldama Jumala lubadusi ja olen südamest tänulik Jeesuse ohvri eest, mille Ta tõi minu, koguduse ja igaühe eest.",
-      "russian": "Я каждый день учусь доверять обещаниям Бога и от всего сердца благодарен за жертву Иисуса, которую Он принес за меня, за церковь и за каждого человека.",
+      "id": 31,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Loeme koos \u00fche piiblikoha, mis on mind palju aidanud. See on 2. Korintlastele 12:9:",
+      "russian": "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u0432\u043c\u0435\u0441\u0442\u0435 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0435\u043c \u043e\u0434\u043d\u043e \u043c\u0435\u0441\u0442\u043e \u0438\u0437 \u0411\u0438\u0431\u043b\u0438\u0438, \u043a\u043e\u0442\u043e\u0440\u043e\u0435 \u043c\u043d\u0435 \u043e\u0447\u0435\u043d\u044c \u043f\u043e\u043c\u043e\u0433\u043b\u043e. \u042d\u0442\u043e 2-\u0435 \u041a\u043e\u0440\u0438\u043d\u0444\u044f\u043d\u0430\u043c 12:9:",
       "projector": "none"
     },
     {
-      "id": 16, "type": "section-header", "section": "3. Identiteet",
-      "estonian": "3. Identiteet",
-      "russian": "3. Идентичность",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "3. Identiteet", "sectionRus": "3. Идентичность" }
-    },
-    {
-      "id": 17, "type": "text", "section": "3. Identiteet",
-      "estonian": "Ma pean endale pidevalt meelde tuletama: Sa ei ole sinu töökoht.",
-      "russian": "Мне нужно постоянно напоминать себе: ты — это не твоя работа.",
-      "projector": "none"
-    },
-    {
-      "id": 18, "type": "text", "section": "3. Identiteet",
-      "estonian": "Sa ei ole sinu ebaõnnestumine. Sa ei ole sinu väsimus või depressioon.",
-      "russian": "Ты — это не твои неудачи. Ты — это не твоя усталость или депрессия.",
-      "projector": "none"
-    },
-    {
-      "id": 19, "type": "text", "section": "3. Identiteet",
-      "estonian": "Sa ei ole sinu haigus või eripära.",
-      "russian": "Ты — это не твоя болезнь или особенность.",
-      "projector": "none"
-    },
-    {
-      "id": 20, "type": "text", "section": "3. Identiteet",
-      "estonian": "Läbi elu kippusin ma ennast defineerima oma vigade kaudu.",
-      "russian": "Всю жизнь я был склонен определять себя через свои ошибки.",
-      "projector": "none"
-    },
-    {
-      "id": 21, "type": "bible", "section": "3. Identiteet",
-      "estonian": "\u201eSulle piisab minu armust, sest vägi saab täielikuks nõrkuses.\u201d",
-      "russian": "\u00abДовольно для тебя благодати Моей, ибо сила Моя совершается в немощи\u00bb.",
+      "id": 32,
+      "type": "bible",
+      "section": "Identiteet",
+      "estonian": "\u201eSulle piisab minu armust, sest v\u00e4gi saab t\u00e4ielikuks n\u00f5rkuses.\u201d",
+      "russian": "\u00ab\u0414\u043e\u0432\u043e\u043b\u044c\u043d\u043e \u0434\u043b\u044f \u0442\u0435\u0431\u044f \u0431\u043b\u0430\u0433\u043e\u0434\u0430\u0442\u0438 \u041c\u043e\u0435\u0439, \u0438\u0431\u043e \u0441\u0438\u043b\u0430 \u041c\u043e\u044f \u0441\u043e\u0432\u0435\u0440\u0448\u0430\u0435\u0442\u0441\u044f \u0432 \u043d\u0435\u043c\u043e\u0449\u0438.\u00bb",
       "projector": "bible",
       "projectorContent": {
         "reference": "2. Korintlastele 12:9",
-        "referenceRus": "2-е Коринфянам 12:9",
+        "referenceRus": "2 \u041a\u043e\u0440\u0438\u043d\u0444\u044f\u043d\u0430\u043c 12:9",
         "referenceEng": "2 Corinthians 12:9",
-        "textEst": "\u201eSulle piisab minu armust, sest vägi saab täielikuks nõrkuses.\u201d",
-        "textRus": "\u00abДовольно для тебя благодати Моей, ибо сила Моя совершается в немощи\u00bb.",
+        "textEst": "\u201eSulle piisab minu armust, sest v\u00e4gi saab t\u00e4ielikuks n\u00f5rkuses.\u201d",
+        "textRus": "\u00ab\u0414\u043e\u0432\u043e\u043b\u044c\u043d\u043e \u0434\u043b\u044f \u0442\u0435\u0431\u044f \u0431\u043b\u0430\u0433\u043e\u0434\u0430\u0442\u0438 \u041c\u043e\u0435\u0439, \u0438\u0431\u043e \u0441\u0438\u043b\u0430 \u041c\u043e\u044f \u0441\u043e\u0432\u0435\u0440\u0448\u0430\u0435\u0442\u0441\u044f \u0432 \u043d\u0435\u043c\u043e\u0449\u0438.\u00bb",
         "textEng": "\"My grace is sufficient for you, for my power is made perfect in weakness.\""
       }
     },
     {
-      "id": 22, "type": "text", "section": "3. Identiteet",
-      "estonian": "Sa ei pea olema tugev. Sinu nõrkuses ongi koht, kus Jumal saab sind aidata.",
-      "russian": "Тебе не нужно быть сильным. Именно в твоей слабости Бог может тебе помочь.",
+      "id": 33,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "M\u00f5elge sellele \u2013 sa ei pea olema tugev.",
+      "russian": "\u041f\u043e\u0434\u0443\u043c\u0430\u0439\u0442\u0435 \u043e\u0431 \u044d\u0442\u043e\u043c \u2014 \u0442\u0435\u0431\u0435 \u043d\u0435 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0441\u0438\u043b\u044c\u043d\u044b\u043c.",
+      "projector": "bible",
+      "projectorContent": {
+        "reference": "2. Korintlastele 12:9",
+        "referenceRus": "2 \u041a\u043e\u0440\u0438\u043d\u0444\u044f\u043d\u0430\u043c 12:9",
+        "referenceEng": "2 Corinthians 12:9",
+        "textEst": "\u201eSulle piisab minu armust, sest v\u00e4gi saab t\u00e4ielikuks n\u00f5rkuses.\u201d",
+        "textRus": "\u00ab\u0414\u043e\u0432\u043e\u043b\u044c\u043d\u043e \u0434\u043b\u044f \u0442\u0435\u0431\u044f \u0431\u043b\u0430\u0433\u043e\u0434\u0430\u0442\u0438 \u041c\u043e\u0435\u0439, \u0438\u0431\u043e \u0441\u0438\u043b\u0430 \u041c\u043e\u044f \u0441\u043e\u0432\u0435\u0440\u0448\u0430\u0435\u0442\u0441\u044f \u0432 \u043d\u0435\u043c\u043e\u0449\u0438.\u00bb",
+        "textEng": "\"My grace is sufficient for you, for my power is made perfect in weakness.\""
+      }
+    },
+    {
+      "id": 34,
+      "type": "normal",
+      "section": "Identiteet",
+      "estonian": "Sinu n\u00f5rkuses ongi koht, kus Jumal saab sind aidata.",
+      "russian": "\u0418\u043c\u0435\u043d\u043d\u043e \u0432 \u0442\u0432\u043e\u0435\u0439 \u0441\u043b\u0430\u0431\u043e\u0441\u0442\u0438 \u2014 \u0442\u043e \u043c\u0435\u0441\u0442\u043e, \u0433\u0434\u0435 \u0411\u043e\u0433 \u043c\u043e\u0436\u0435\u0442 \u0442\u0435\u0431\u0435 \u043f\u043e\u043c\u043e\u0447\u044c.",
       "projector": "keytext",
       "projectorContent": {
-        "textEst": "Sa ei pea olema tugev.",
-        "textRus": "Тебе не нужно быть сильным."
+        "textEst": "Sinu n\u00f5rkuses ongi koht, kus Jumal saab sind aidata",
+        "textRus": "\u0418\u043c\u0435\u043d\u043d\u043e \u0432 \u0442\u0432\u043e\u0435\u0439 \u0441\u043b\u0430\u0431\u043e\u0441\u0442\u0438 \u2014 \u0442\u043e \u043c\u0435\u0441\u0442\u043e, \u0433\u0434\u0435 \u0411\u043e\u0433 \u043c\u043e\u0436\u0435\u0442 \u0442\u0435\u0431\u0435 \u043f\u043e\u043c\u043e\u0447\u044c"
       }
     },
     {
-      "id": 23, "type": "section-header", "section": "4. Mikro-võidud",
-      "estonian": "4. Mikro-võidud",
-      "russian": "4. Микро-победы",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "4. Mikro-võidud", "sectionRus": "4. Микро-победы" }
+      "id": 35,
+      "type": "section-header",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "3. Mikro-v\u00f5idud ja Koguja",
+      "russian": "3. \u041c\u0438\u043a\u0440\u043e-\u043f\u043e\u0431\u0435\u0434\u044b \u0438 \u0415\u043a\u043a\u043b\u0435\u0441\u0438\u0430\u0441\u0442",
+      "projector": "none",
+      "hint": "T\u00f5sta veidi tempot, r\u00e4\u00e4gi elavamalt"
     },
     {
-      "id": 24, "type": "text", "section": "4. Mikro-võidud",
-      "estonian": "Koguja raamat õpetas mulle \u201emikro-võite\u201d.",
-      "russian": "Книга Екклесиаста научила меня «микро-победам».",
+      "id": 36,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "\u00dcks mu lemmikuid kohti Piiblis on alati olnud Koguja raamatust.",
+      "russian": "\u041e\u0434\u043d\u043e \u0438\u0437 \u043c\u043e\u0438\u0445 \u043b\u044e\u0431\u0438\u043c\u044b\u0445 \u043c\u0435\u0441\u0442 \u0432 \u0411\u0438\u0431\u043b\u0438\u0438 \u0432\u0441\u0435\u0433\u0434\u0430 \u0431\u044b\u043b\u043e \u0438\u0437 \u043a\u043d\u0438\u0433\u0438 \u0415\u043a\u043a\u043b\u0435\u0441\u0438\u0430\u0441\u0442\u0430.",
       "projector": "none"
     },
     {
-      "id": 25, "type": "text", "section": "4. Mikro-võidud",
-      "estonian": "Kui oled augus, ei pea tegema suuri asju. Piisab väikestest sammudest.",
-      "russian": "Когда ты в яме, не нужно делать великих дел. Достаточно маленьких шагов.",
+      "id": 37,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "See \u00f5petas mulle \u201emikro-v\u00f5ite\u201d siis, kui ma kogudusse tulin, ja \u00f5petab seda ka praegu.",
+      "russian": "\u041e\u043d\u043e \u043d\u0430\u0443\u0447\u0438\u043b\u043e \u043c\u0435\u043d\u044f \u00ab\u043c\u0438\u043a\u0440\u043e-\u043f\u043e\u0431\u0435\u0434\u0430\u043c\u00bb, \u043a\u043e\u0433\u0434\u0430 \u044f \u043f\u0440\u0438\u0448\u0451\u043b \u0432 \u0446\u0435\u0440\u043a\u043e\u0432\u044c, \u0438 \u0443\u0447\u0438\u0442 \u044d\u0442\u043e\u043c\u0443 \u0434\u043e \u0441\u0438\u0445 \u043f\u043e\u0440.",
       "projector": "none"
     },
     {
-      "id": 26, "type": "text", "section": "4. Mikro-võidud",
-      "estonian": "Minu õpitud oskus on nautida seda tööd, mida ma pean tegema täna, ja tunda rõõmu väikestest asjadest.",
-      "russian": "Мой навык, которому я научился, — это наслаждаться тем трудом, который я должен делать сегодня, и радоваться мелочам.",
+      "id": 38,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "Kui ma olen emotsionaalses augus, siis ma ei pea tegema suuri asju.",
+      "russian": "\u041a\u043e\u0433\u0434\u0430 \u044f \u0432 \u044d\u043c\u043e\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u043e\u0439 \u044f\u043c\u0435, \u043c\u043d\u0435 \u043d\u0435 \u043d\u0443\u0436\u043d\u043e \u0434\u0435\u043b\u0430\u0442\u044c \u0432\u0435\u043b\u0438\u043a\u0438\u0445 \u0434\u0435\u043b.",
       "projector": "none"
     },
     {
-      "id": 27, "type": "text", "section": "4. Mikro-võidud",
-      "estonian": "See on teadlik otsus leppida sellega, et ma ei kontrolli kõike.",
-      "russian": "Это осознанное решение примириться с тем, что я не всё контролирую.",
-      "projector": "none"
-    },
-    {
-      "id": 28, "type": "section-header", "section": "5. Maskid ja otsus",
-      "estonian": "5. Maskid ja otsus",
-      "russian": "5. Маски и решение",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "5. Maskid ja otsus", "sectionRus": "5. Маски и решение" }
-    },
-    {
-      "id": 29, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "Kui eluisu kaob, hakkame me energiat säästma.",
-      "russian": "Когда пропадает вкус к жизни, мы начинаем экономить энергию.",
-      "projector": "none"
-    },
-    {
-      "id": 30, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "Me paneme ette kaitsemaski ja soomused, et end maailma eest peita.",
-      "russian": "Мы надеваем защитную маску и броню, чтобы спрятаться от мира.",
-      "projector": "none"
-    },
-    {
-      "id": 31, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "Me naeratame, aga sees on tühjus.",
-      "russian": "Мы улыбаемся, но внутри — пустота.",
-      "projector": "none"
-    },
-    {
-      "id": 32, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "Kuid lähedased näevad seda kaitsekihti. Nad näevad, et me ei ole päriselt kohal.",
-      "russian": "Но близкие видят этот защитный слой. Они видят, что нас на самом деле нет рядом.",
-      "projector": "none"
-    },
-    {
-      "id": 33, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "See on koht, kus me peame taas tegema otsuse.",
-      "russian": "Это тот момент, когда нам снова нужно принять решение.",
-      "projector": "none"
-    },
-    {
-      "id": 34, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "Murdma oma kaitsekihi ja avama end Sellele, kes meid armastab.",
-      "russian": "Разрушить свой защитный слой и открыться Тому, Кто любит нас.",
-      "projector": "none"
-    },
-    {
-      "id": 35, "type": "text", "section": "5. Maskid ja otsus",
-      "estonian": "Ainuke õige aeg selleks on TÄNA. Meile on antud ainult see hetk.",
-      "russian": "Единственное верное время для этого — СЕГОДНЯ. Нам дан только этот миг.",
+      "id": 39,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "Piisab v\u00e4ikestest sammudest.",
+      "russian": "\u0414\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u0448\u0430\u0433\u043e\u0432.",
       "projector": "keytext",
       "projectorContent": {
-        "textEst": "TÄNA",
-        "textRus": "СЕГОДНЯ",
-        "subEst": "Meile on antud ainult see hetk.",
-        "subRus": "Нам дан только этот миг."
+        "textEst": "Piisab v\u00e4ikestest sammudest",
+        "textRus": "\u0414\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u0448\u0430\u0433\u043e\u0432"
       }
     },
     {
-      "id": 36, "type": "section-header", "section": "6. Armulaud",
-      "estonian": "6. Armulaud",
-      "russian": "6. Причастие",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "6. Armulaud", "sectionRus": "6. Причастие" }
-    },
-    {
-      "id": 37, "type": "text", "section": "6. Armulaud",
-      "estonian": "Siin on leib ja mahl – tavalised asjad.",
-      "russian": "Здесь хлеб и сок — обычные вещи.",
-      "projector": "none"
-    },
-    {
-      "id": 38, "type": "text", "section": "6. Armulaud",
-      "estonian": "Aga täna on neil igavikuline tähendus.",
-      "russian": "Но сегодня у них вечное значение.",
-      "projector": "none"
-    },
-    {
-      "id": 39, "type": "text", "section": "6. Armulaud",
-      "estonian": "Murtud leib ütleb: sa ei pea olema \u201eterve tükk\u201d, et siia kuuluda.",
-      "russian": "Преломленный хлеб говорит: тебе не нужно быть «целым куском», чтобы быть здесь.",
-      "projector": "image",
+      "id": 40,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "Loeme koos Koguja 3:12\u201313:",
+      "russian": "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0435\u043c \u0432\u043c\u0435\u0441\u0442\u0435 \u0415\u043a\u043a\u043b\u0435\u0441\u0438\u0430\u0441\u0442 3:12\u201313:",
+      "projector": "keytext",
       "projectorContent": {
-        "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=80",
-        "imageFallback": "linear-gradient(135deg, #2a1800 0%, #5a3800 60%, #3a2500 100%)",
-        "captionEst": "Sa ei pea olema \u201eterve tükk\u201d, et siia kuuluda.",
-        "captionRus": "Тебе не нужно быть «целым куском», чтобы быть здесь."
+        "textEst": "Piisab v\u00e4ikestest sammudest",
+        "textRus": "\u0414\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u0448\u0430\u0433\u043e\u0432"
       }
     },
     {
-      "id": 40, "type": "text", "section": "6. Armulaud",
-      "estonian": "Me võimegi olla murtud oma nõrkuses.",
-      "russian": "Мы можем быть сокрушенными в своей слабости.",
-      "projector": "none"
-    },
-    {
-      "id": 41, "type": "text", "section": "6. Armulaud",
-      "estonian": "Kogudus ei ole täiuslike inimeste näitus, vaid koht neile, kes vajavad abi.",
-      "russian": "Церковь — это не выставка идеальных людей, а место для тех, кто нуждается в помощи.",
-      "projector": "none"
-    },
-    {
-      "id": 42, "type": "text", "section": "6. Armulaud",
-      "estonian": "Jeesus laskis end meie eest murda.",
-      "russian": "Иисус позволил сокрушить Себя за нас.",
-      "projector": "none"
-    },
-    {
-      "id": 43, "type": "text", "section": "6. Armulaud",
-      "estonian": "Ta läks sinna, kus on kõige valusam ja oli ristil täiesti üksi.",
-      "russian": "Он пошел туда, где больнее всего, и на кресте остался совершенно один.",
-      "projector": "none"
-    },
-    {
-      "id": 44, "type": "text", "section": "6. Armulaud",
-      "estonian": "Ta tegi seda, et meie ei peaks oma mures kunagi üksi olema.",
-      "russian": "Он сделал это для того, чтобы мы никогда не были одиноки в своей беде.",
-      "projector": "none"
-    },
-    {
-      "id": 45, "type": "text", "section": "6. Armulaud",
-      "estonian": "Me saame öelda: \u201eIssand, ma ei jaksa enam seda kaitsekihti hoida. Ma lasen Su armastusel end murda, et saaksin uuesti terveks.\u201d",
-      "russian": "Мы можем сказать: «Господи, я больше не в силах удерживать эту броню. Я позволяю Твоей любви сокрушить меня, чтобы я мог снова стать исцеленным».",
-      "projector": "none"
-    },
-    {
-      "id": 46, "type": "section-header", "section": "7. Palve",
-      "estonian": "7. Palve",
-      "russian": "7. Молитва",
-      "projector": "section",
-      "projectorContent": { "sectionEst": "7. Palve", "sectionRus": "7. Молитва" }
-    },
-    {
-      "id": 47, "type": "text", "section": "7. Palve",
-      "estonian": "Issand, me oleme Sinu ees. Sa näed meie väsimust ja maske.",
-      "russian": "Господь, мы перед Тобой. Ты видишь нашу усталость и наши маски.",
-      "projector": "none"
-    },
-    {
-      "id": 48, "type": "text", "section": "7. Palve",
-      "estonian": "Me toome Sinu ette oma ebaõnnestumised.",
-      "russian": "Мы приносим Тебе свои неудачи.",
-      "projector": "none"
-    },
-    {
-      "id": 49, "type": "text", "section": "7. Palve",
-      "estonian": "Aitäh, et me võime olla Sinu ees murtud ja haavatavad.",
-      "russian": "Спасибо, что мы можем быть перед Тобой сокрушенными и уязвимыми.",
-      "projector": "none"
-    },
-    {
-      "id": 50, "type": "text", "section": "7. Palve",
-      "estonian": "Me otsustame täna Sind usaldada.",
-      "russian": "Сегодня мы решаем доверять Тебе.",
-      "projector": "none"
-    },
-    {
-      "id": 51, "type": "text", "section": "7. Palve",
-      "estonian": "Aita meil vastu võtta Sinu lõpmatu armastus ja leida rõõmu väikestest asjadest. Aamen.",
-      "russian": "Помоги нам принять Твою бесконечную любовь и находить радость в мелочах. Аминь.",
-      "projector": "image",
+      "id": 41,
+      "type": "bible",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "\u201eMa m\u00f5istsin, et neil pole muud paremat kui r\u00f5\u00f5mus olla ja elus head teha... et ta v\u00f5ib s\u00fc\u00fca ja juua ning nautida head k\u00f5igest oma vaevast.\u201d",
+      "russian": "\u00ab\u042f \u043f\u043e\u0437\u043d\u0430\u043b, \u0447\u0442\u043e \u043d\u0435\u0442 \u0434\u043b\u044f \u043d\u0438\u0445 \u043d\u0438\u0447\u0435\u0433\u043e \u043b\u0443\u0447\u0448\u0435\u0433\u043e, \u043a\u0430\u043a \u0432\u0435\u0441\u0435\u043b\u0438\u0442\u044c\u0441\u044f \u0438 \u0434\u0435\u043b\u0430\u0442\u044c \u0434\u043e\u0431\u0440\u043e\u0435 \u0432 \u0436\u0438\u0437\u043d\u0438 \u0441\u0432\u043e\u0435\u0439... \u0435\u0441\u0442\u044c \u0438 \u043f\u0438\u0442\u044c \u0438 \u043d\u0430\u0441\u043b\u0430\u0436\u0434\u0430\u0442\u044c\u0441\u044f \u0434\u043e\u0431\u0440\u043e\u043c \u0432\u043e \u0432\u0441\u0435\u0445 \u0442\u0440\u0443\u0434\u0430\u0445 \u0441\u0432\u043e\u0438\u0445.\u00bb",
+      "projector": "bible",
       "projectorContent": {
-        "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80",
-        "imageFallback": "linear-gradient(160deg, #060a14 0%, #0d2040 50%, #1a3a60 100%)",
-        "captionEst": "Aita meil vastu võtta Sinu lõpmatu armastus.",
-        "captionRus": "Помоги нам принять Твою бесконечную любовь."
+        "reference": "Koguja 3:12\u201313",
+        "referenceRus": "\u0415\u043a\u043a\u043b\u0435\u0441\u0438\u0430\u0441\u0442 3:12\u201313",
+        "referenceEng": "Ecclesiastes 3:12\u201313",
+        "textEst": "\u201eMa m\u00f5istsin, et neil pole muud paremat kui r\u00f5\u00f5mus olla ja elus head teha... et ta v\u00f5ib s\u00fc\u00fca ja juua ning nautida head k\u00f5igest oma vaevast.\u201d",
+        "textRus": "\u00ab\u042f \u043f\u043e\u0437\u043d\u0430\u043b, \u0447\u0442\u043e \u043d\u0435\u0442 \u0434\u043b\u044f \u043d\u0438\u0445 \u043d\u0438\u0447\u0435\u0433\u043e \u043b\u0443\u0447\u0448\u0435\u0433\u043e, \u043a\u0430\u043a \u0432\u0435\u0441\u0435\u043b\u0438\u0442\u044c\u0441\u044f \u0438 \u0434\u0435\u043b\u0430\u0442\u044c \u0434\u043e\u0431\u0440\u043e\u0435 \u0432 \u0436\u0438\u0437\u043d\u0438 \u0441\u0432\u043e\u0435\u0439... \u0435\u0441\u0442\u044c \u0438 \u043f\u0438\u0442\u044c \u0438 \u043d\u0430\u0441\u043b\u0430\u0436\u0434\u0430\u0442\u044c\u0441\u044f \u0434\u043e\u0431\u0440\u043e\u043c \u0432\u043e \u0432\u0441\u0435\u0445 \u0442\u0440\u0443\u0434\u0430\u0445 \u0441\u0432\u043e\u0438\u0445.\u00bb",
+        "textEng": "\"I perceived that there is nothing better for them than to be joyful and to do good... everyone should eat and drink and take pleasure in all his toil.\""
+      }
+    },
+    {
+      "id": 42,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "See ongi minu \u00f5pitud oskus: nautida seda t\u00f6\u00f6d, mida ma pean tegema t\u00e4na.",
+      "russian": "\u042d\u0442\u043e \u0438 \u0435\u0441\u0442\u044c \u043c\u043e\u0439 \u043f\u0440\u0438\u043e\u0431\u0440\u0435\u0442\u0451\u043d\u043d\u044b\u0439 \u043d\u0430\u0432\u044b\u043a: \u043d\u0430\u0441\u043b\u0430\u0436\u0434\u0430\u0442\u044c\u0441\u044f \u0442\u0435\u043c \u0442\u0440\u0443\u0434\u043e\u043c, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u043c\u043d\u0435 \u043d\u0443\u0436\u043d\u043e \u0434\u0435\u043b\u0430\u0442\u044c \u0441\u0435\u0433\u043e\u0434\u043d\u044f.",
+      "projector": "none"
+    },
+    {
+      "id": 43,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "Ja \u00f5ppida tunda r\u00f5\u00f5mu v\u00e4ikestest igap\u00e4evastest asjadest.",
+      "russian": "\u0418 \u0443\u0447\u0438\u0442\u044c\u0441\u044f \u0440\u0430\u0434\u043e\u0432\u0430\u0442\u044c\u0441\u044f \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u043c \u043f\u043e\u0432\u0441\u0435\u0434\u043d\u0435\u0432\u043d\u044b\u043c \u0432\u0435\u0449\u0430\u043c.",
+      "projector": "none"
+    },
+    {
+      "id": 44,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "See on minu teadlik otsus ja treenitud vorm...",
+      "russian": "\u042d\u0442\u043e \u043c\u043e\u0451 \u043e\u0441\u043e\u0437\u043d\u0430\u043d\u043d\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0438 \u043d\u0430\u0442\u0440\u0435\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u0430\u044f \u043f\u0440\u0438\u0432\u044b\u0447\u043a\u0430...",
+      "projector": "none"
+    },
+    {
+      "id": 45,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "...leppida sellega, et ma ei kontrolli k\u00f5ike.",
+      "russian": "...\u0441\u043c\u0438\u0440\u0438\u0442\u044c\u0441\u044f \u0441 \u0442\u0435\u043c, \u0447\u0442\u043e \u044f \u043d\u0435 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u044e \u0432\u0441\u0451.",
+      "projector": "none"
+    },
+    {
+      "id": 46,
+      "type": "normal",
+      "section": "Mikro-v\u00f5idud",
+      "estonian": "Aga ma saan nautida seda hetke, mille Jumal on andnud.",
+      "russian": "\u041d\u043e \u044f \u043c\u043e\u0433\u0443 \u043d\u0430\u0441\u043b\u0430\u0436\u0434\u0430\u0442\u044c\u0441\u044f \u044d\u0442\u0438\u043c \u043c\u043e\u043c\u0435\u043d\u0442\u043e\u043c, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0411\u043e\u0433 \u043c\u043d\u0435 \u043f\u043e\u0434\u0430\u0440\u0438\u043b.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Naudin seda hetke, mille Jumal on andnud",
+        "textRus": "\u041d\u0430\u0441\u043b\u0430\u0436\u0434\u0430\u044e\u0441\u044c \u043c\u043e\u043c\u0435\u043d\u0442\u043e\u043c, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0411\u043e\u0433 \u043f\u043e\u0434\u0430\u0440\u0438\u043b"
+      }
+    },
+    {
+      "id": 47,
+      "type": "section-header",
+      "section": "Kaitsesoomused",
+      "estonian": "4. Kaitsesoomused ja energia s\u00e4\u00e4stmine",
+      "russian": "4. \u0417\u0430\u0449\u0438\u0442\u043d\u0430\u044f \u0431\u0440\u043e\u043d\u044f \u0438 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u044f \u044d\u043d\u0435\u0440\u0433\u0438\u0438",
+      "projector": "none",
+      "hint": "R\u00e4\u00e4gi vaiksemalt ja intiimsemalt, nagu usaldaksid neile saladust"
+    },
+    {
+      "id": 48,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Ma tean v\u00e4ga h\u00e4sti, mis tunne on olla surmv\u00e4sinud.",
+      "russian": "\u042f \u043e\u0447\u0435\u043d\u044c \u0445\u043e\u0440\u043e\u0448\u043e \u0437\u043d\u0430\u044e, \u043a\u0430\u043a\u043e\u0432\u043e \u044d\u0442\u043e \u2014 \u0431\u044b\u0442\u044c \u0441\u043c\u0435\u0440\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u0441\u0442\u0430\u0432\u0448\u0438\u043c.",
+      "projector": "none"
+    },
+    {
+      "id": 49,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Kui eluisu kaob, hakkame me energiat s\u00e4\u00e4stma ja teisi v\u00e4ltima.",
+      "russian": "\u041a\u043e\u0433\u0434\u0430 \u043f\u0440\u043e\u043f\u0430\u0434\u0430\u0435\u0442 \u0436\u0435\u043b\u0430\u043d\u0438\u0435 \u0436\u0438\u0442\u044c, \u043c\u044b \u043d\u0430\u0447\u0438\u043d\u0430\u0435\u043c \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0442\u044c \u044d\u043d\u0435\u0440\u0433\u0438\u044e \u0438 \u0438\u0437\u0431\u0435\u0433\u0430\u0442\u044c \u0434\u0440\u0443\u0433\u0438\u0445.",
+      "projector": "none"
+    },
+    {
+      "id": 50,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Ma t\u00f5mbun endasse.",
+      "russian": "\u042f \u0437\u0430\u043c\u044b\u043a\u0430\u044e\u0441\u044c \u0432 \u0441\u0435\u0431\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 51,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Ma panen ette kaitsemaski ja soomused, et end maailma eest peita.",
+      "russian": "\u042f \u043d\u0430\u0434\u0435\u0432\u0430\u044e \u0437\u0430\u0449\u0438\u0442\u043d\u0443\u044e \u043c\u0430\u0441\u043a\u0443 \u0438 \u0431\u0440\u043e\u043d\u044e, \u0447\u0442\u043e\u0431\u044b \u0441\u043f\u0440\u044f\u0442\u0430\u0442\u044c\u0441\u044f \u043e\u0442 \u043c\u0438\u0440\u0430.",
+      "projector": "none"
+    },
+    {
+      "id": 52,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Ma naeratan, aga sees on t\u00fchjus.",
+      "russian": "\u042f \u0443\u043b\u044b\u0431\u0430\u044e\u0441\u044c, \u043d\u043e \u0432\u043d\u0443\u0442\u0440\u0438 \u043f\u0443\u0441\u0442\u043e\u0442\u0430.",
+      "projector": "none"
+    },
+    {
+      "id": 53,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Kuid reaalsus on see, et mu l\u00e4hedased n\u00e4evad seda kaitsekihti.",
+      "russian": "\u041d\u043e \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0442\u0430\u043a\u043e\u0432\u0430, \u0447\u0442\u043e \u043c\u043e\u0438 \u0431\u043b\u0438\u0437\u043a\u0438\u0435 \u0432\u0438\u0434\u044f\u0442 \u044d\u0442\u043e\u0442 \u0437\u0430\u0449\u0438\u0442\u043d\u044b\u0439 \u0441\u043b\u043e\u0439.",
+      "projector": "none"
+    },
+    {
+      "id": 54,
+      "type": "normal",
+      "section": "Kaitsesoomused",
+      "estonian": "Nad n\u00e4evad, et ma ei ole p\u00e4riselt kohal.",
+      "russian": "\u041e\u043d\u0438 \u0432\u0438\u0434\u044f\u0442, \u0447\u0442\u043e \u043c\u0435\u043d\u044f \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435 \u043d\u0435\u0442 \u0440\u044f\u0434\u043e\u043c.",
+      "projector": "none"
+    },
+    {
+      "id": 55,
+      "type": "section-header",
+      "section": "Otsus",
+      "estonian": "Otsuse hetk: T\u00c4NA ja siin",
+      "russian": "\u041c\u043e\u043c\u0435\u043d\u0442 \u0440\u0435\u0448\u0435\u043d\u0438\u044f: \u0421\u0415\u0413\u041e\u0414\u041d\u042f \u0438 \u0437\u0434\u0435\u0441\u044c",
+      "projector": "none",
+      "hint": "R\u00e4\u00e4gi kindlalt ja otsustavalt"
+    },
+    {
+      "id": 56,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "See ongi koht, kus me peame taas tegema otsuse.",
+      "russian": "\u0418\u043c\u0435\u043d\u043d\u043e \u0437\u0434\u0435\u0441\u044c \u043d\u0430\u043c \u043d\u0443\u0436\u043d\u043e \u0441\u043d\u043e\u0432\u0430 \u043f\u0440\u0438\u043d\u044f\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 57,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "Ma \u00f5pin j\u00e4tkuvalt oma seisundit endale teadvustama.",
+      "russian": "\u042f \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u044e \u0443\u0447\u0438\u0442\u044c\u0441\u044f \u043e\u0441\u043e\u0437\u043d\u0430\u0432\u0430\u0442\u044c \u0441\u0432\u043e\u0451 \u0441\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 58,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "Ma \u00f5pin end... t\u00e4psemalt oma kaitsekihti... murdma.",
+      "russian": "\u042f \u0443\u0447\u0443\u0441\u044c \u043b\u043e\u043c\u0430\u0442\u044c \u0441\u0435\u0431\u044f... \u0442\u043e\u0447\u043d\u0435\u0435, \u0441\u0432\u043e\u0439 \u0437\u0430\u0449\u0438\u0442\u043d\u044b\u0439 \u0441\u043b\u043e\u0439.",
+      "projector": "none"
+    },
+    {
+      "id": 59,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "Ja avama ennast Sellele, kes mind l\u00f5pmatult armastab.",
+      "russian": "\u0418 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0442\u044c\u0441\u044f \u0422\u043e\u043c\u0443, \u041a\u0442\u043e \u043b\u044e\u0431\u0438\u0442 \u043c\u0435\u043d\u044f \u0431\u0435\u0441\u043a\u043e\u043d\u0435\u0447\u043d\u043e.",
+      "projector": "none"
+    },
+    {
+      "id": 60,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "Ainuke \u00f5ige aeg selleks on T\u00c4NA. Siin ja praegu.",
+      "russian": "\u0415\u0434\u0438\u043d\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e\u0435 \u0432\u0440\u0435\u043c\u044f \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u2014 \u0421\u0415\u0413\u041e\u0414\u041d\u042f. \u0417\u0434\u0435\u0441\u044c \u0438 \u0441\u0435\u0439\u0447\u0430\u0441.",
+      "projector": "none"
+    },
+    {
+      "id": 61,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "Ma ei saa oodata homset.",
+      "russian": "\u042f \u043d\u0435 \u043c\u043e\u0433\u0443 \u0436\u0434\u0430\u0442\u044c \u0437\u0430\u0432\u0442\u0440\u0430\u0448\u043d\u0435\u0433\u043e \u0434\u043d\u044f.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "T\u00c4NA. Siin ja praegu.",
+        "textRus": "\u0421\u0415\u0413\u041e\u0414\u041d\u042f. \u0417\u0434\u0435\u0441\u044c \u0438 \u0441\u0435\u0439\u0447\u0430\u0441."
+      }
+    },
+    {
+      "id": 62,
+      "type": "normal",
+      "section": "Otsus",
+      "estonian": "Meile k\u00f5igile on antud ainult see hetk.",
+      "russian": "\u041d\u0430\u043c \u0432\u0441\u0435\u043c \u0434\u0430\u043d \u0442\u043e\u043b\u044c\u043a\u043e \u044d\u0442\u043e\u0442 \u043c\u043e\u043c\u0435\u043d\u0442.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "T\u00c4NA. Siin ja praegu.",
+        "textRus": "\u0421\u0415\u0413\u041e\u0414\u041d\u042f. \u0417\u0434\u0435\u0441\u044c \u0438 \u0441\u0435\u0439\u0447\u0430\u0441."
+      }
+    },
+    {
+      "id": 63,
+      "type": "section-header",
+      "section": "Armulaud",
+      "estonian": "5. Armulaud: Murtud olemise kingitus",
+      "russian": "5. \u041f\u0440\u0438\u0447\u0430\u0441\u0442\u0438\u0435: \u0414\u0430\u0440 \u0441\u043b\u043e\u043c\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438",
+      "projector": "none",
+      "hint": "Muuda toon pidulikuks ja t\u00e4hendusrikkaks"
+    },
+    {
+      "id": 64,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "N\u00fc\u00fcd armulauast.",
+      "russian": "\u0422\u0435\u043f\u0435\u0440\u044c \u043e \u043f\u0440\u0438\u0447\u0430\u0441\u0442\u0438\u0438.",
+      "projector": "none"
+    },
+    {
+      "id": 65,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "See on meie koguduse \u00fchine hetk.",
+      "russian": "\u042d\u0442\u043e \u043e\u0431\u0449\u0438\u0439 \u043c\u043e\u043c\u0435\u043d\u0442 \u043d\u0430\u0448\u0435\u0439 \u0446\u0435\u0440\u043a\u0432\u0438.",
+      "projector": "none"
+    },
+    {
+      "id": 66,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Meil on siin leib ja viinamarjamahl \u2013 tavalised asjad.",
+      "russian": "\u0423 \u043d\u0430\u0441 \u0437\u0434\u0435\u0441\u044c \u0445\u043b\u0435\u0431 \u0438 \u0432\u0438\u043d\u043e\u0433\u0440\u0430\u0434\u043d\u044b\u0439 \u0441\u043e\u043a \u2014 \u043e\u0431\u044b\u0447\u043d\u044b\u0435 \u0432\u0435\u0449\u0438.",
+      "projector": "none"
+    },
+    {
+      "id": 67,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Aga t\u00e4na ja siin on neil igavikuline t\u00e4hendus.",
+      "russian": "\u041d\u043e \u0441\u0435\u0433\u043e\u0434\u043d\u044f \u0438 \u0437\u0434\u0435\u0441\u044c \u0443 \u043d\u0438\u0445 \u0432\u0435\u0447\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 68,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Me murrame seda leiba koos.",
+      "russian": "\u041c\u044b \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u044f\u0435\u043c \u044d\u0442\u043e\u0442 \u0445\u043b\u0435\u0431 \u0432\u043c\u0435\u0441\u0442\u0435.",
+      "projector": "none",
+      "hint": "Murra galett ja anna t\u00fckk t\u00f5lkijale, tee paus"
+    },
+    {
+      "id": 69,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "See murtud leib \u00fctleb: sa ei pea olema \u201eterve t\u00fckk\u201d, et siia kuuluda.",
+      "russian": "\u042d\u0442\u043e\u0442 \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0451\u043d\u043d\u044b\u0439 \u0445\u043b\u0435\u0431 \u0433\u043e\u0432\u043e\u0440\u0438\u0442: \u0442\u0435\u0431\u0435 \u043d\u0435 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u00ab\u0446\u0435\u043b\u044b\u043c \u043a\u0443\u0441\u043a\u043e\u043c\u00bb, \u0447\u0442\u043e\u0431\u044b \u0431\u044b\u0442\u044c \u0437\u0434\u0435\u0441\u044c.",
+      "projector": "none"
+    },
+    {
+      "id": 70,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Me v\u00f5imegi olla murtud oma n\u00f5rkuses.",
+      "russian": "\u041c\u044b \u0438 \u043c\u043e\u0436\u0435\u043c \u0431\u044b\u0442\u044c \u0441\u043b\u043e\u043c\u043b\u0435\u043d\u044b \u0432 \u0441\u0432\u043e\u0435\u0439 \u0441\u043b\u0430\u0431\u043e\u0441\u0442\u0438.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Sa ei pea olema \u201eterve t\u00fckk\u201d",
+        "textRus": "\u0422\u0435\u0431\u0435 \u043d\u0435 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u00ab\u0446\u0435\u043b\u044b\u043c \u043a\u0443\u0441\u043a\u043e\u043c\u00bb"
+      }
+    },
+    {
+      "id": 71,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Kogudus ei ole t\u00e4iuslike inimeste n\u00e4itus!",
+      "russian": "\u0426\u0435\u0440\u043a\u043e\u0432\u044c \u2014 \u044d\u0442\u043e \u043d\u0435 \u0432\u044b\u0441\u0442\u0430\u0432\u043a\u0430 \u0438\u0434\u0435\u0430\u043b\u044c\u043d\u044b\u0445 \u043b\u044e\u0434\u0435\u0439!",
+      "projector": "none"
+    },
+    {
+      "id": 72,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "See on koht neile, kes vajavad abi.",
+      "russian": "\u042d\u0442\u043e \u043c\u0435\u0441\u0442\u043e \u0434\u043b\u044f \u0442\u0435\u0445, \u043a\u0442\u043e \u043d\u0443\u0436\u0434\u0430\u0435\u0442\u0441\u044f \u0432 \u043f\u043e\u043c\u043e\u0449\u0438.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Kogudus ei ole t\u00e4iuslike inimeste n\u00e4itus!",
+        "textRus": "\u0426\u0435\u0440\u043a\u043e\u0432\u044c \u2014 \u044d\u0442\u043e \u043d\u0435 \u0432\u044b\u0441\u0442\u0430\u0432\u043a\u0430 \u0438\u0434\u0435\u0430\u043b\u044c\u043d\u044b\u0445 \u043b\u044e\u0434\u0435\u0439!"
+      }
+    },
+    {
+      "id": 73,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Jeesus laskis end minu ja sinu eest murda.",
+      "russian": "\u0418\u0438\u0441\u0443\u0441 \u043f\u043e\u0437\u0432\u043e\u043b\u0438\u043b \u0421\u0435\u0431\u044f \u0441\u043b\u043e\u043c\u0438\u0442\u044c \u0440\u0430\u0434\u0438 \u043c\u0435\u043d\u044f \u0438 \u0442\u0435\u0431\u044f.",
+      "projector": "none"
+    },
+    {
+      "id": 74,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Ta l\u00e4ks sinna, kus on k\u00f5ige valusam.",
+      "russian": "\u041e\u043d \u043f\u043e\u0448\u0451\u043b \u0442\u0443\u0434\u0430, \u0433\u0434\u0435 \u0431\u043e\u043b\u044c\u043d\u0435\u0435 \u0432\u0441\u0435\u0433\u043e.",
+      "projector": "none"
+    },
+    {
+      "id": 75,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Ta talus valu ja seda, et Isa j\u00e4ttis Ta meie pattude p\u00e4rast \u00fcksi.",
+      "russian": "\u041e\u043d \u0442\u0435\u0440\u043f\u0435\u043b \u0431\u043e\u043b\u044c \u0438 \u0442\u043e, \u0447\u0442\u043e \u041e\u0442\u0435\u0446 \u043e\u0441\u0442\u0430\u0432\u0438\u043b \u0415\u0433\u043e \u043e\u0434\u043d\u043e\u0433\u043e \u0438\u0437-\u0437\u0430 \u043d\u0430\u0448\u0438\u0445 \u0433\u0440\u0435\u0445\u043e\u0432.",
+      "projector": "none"
+    },
+    {
+      "id": 76,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Ta tegi seda selleks, et meie ei peaks oma mures kunagi \u00fcksi olema.",
+      "russian": "\u041e\u043d \u0441\u0434\u0435\u043b\u0430\u043b \u044d\u0442\u043e \u0434\u043b\u044f \u0442\u043e\u0433\u043e, \u0447\u0442\u043e\u0431\u044b \u043c\u044b \u043d\u0438\u043a\u043e\u0433\u0434\u0430 \u043d\u0435 \u0431\u044b\u043b\u0438 \u043e\u0434\u0438\u043d\u043e\u043a\u0438 \u0432 \u0441\u0432\u043e\u0435\u0439 \u0431\u0435\u0434\u0435.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "...et meie ei peaks kunagi \u00fcksi olema",
+        "textRus": "...\u0447\u0442\u043e\u0431\u044b \u043c\u044b \u043d\u0438\u043a\u043e\u0433\u0434\u0430 \u043d\u0435 \u0431\u044b\u043b\u0438 \u043e\u0434\u0438\u043d\u043e\u043a\u0438"
+      }
+    },
+    {
+      "id": 77,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "Kui me t\u00e4na seda leiba v\u00f5tame, siis me saamegi \u00f6elda:",
+      "russian": "\u041a\u043e\u0433\u0434\u0430 \u043c\u044b \u0441\u0435\u0433\u043e\u0434\u043d\u044f \u0431\u0435\u0440\u0451\u043c \u044d\u0442\u043e\u0442 \u0445\u043b\u0435\u0431, \u043c\u044b \u043c\u043e\u0436\u0435\u043c \u0441\u043a\u0430\u0437\u0430\u0442\u044c:",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "...et meie ei peaks kunagi \u00fcksi olema",
+        "textRus": "...\u0447\u0442\u043e\u0431\u044b \u043c\u044b \u043d\u0438\u043a\u043e\u0433\u0434\u0430 \u043d\u0435 \u0431\u044b\u043b\u0438 \u043e\u0434\u0438\u043d\u043e\u043a\u0438"
+      }
+    },
+    {
+      "id": 78,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "\u201eIssand, ma ei jaksa enam seda kaitsekihti hoida.\u201d",
+      "russian": "\u00ab\u0413\u043e\u0441\u043f\u043e\u0434\u0438, \u044f \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u0432 \u0441\u0438\u043b\u0430\u0445 \u0434\u0435\u0440\u0436\u0430\u0442\u044c \u044d\u0442\u0443 \u0437\u0430\u0449\u0438\u0442\u0443.\u00bb",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "\u201eIssand, ma ei jaksa enam seda kaitsekihti hoida.\u201d",
+        "textRus": "\u00ab\u0413\u043e\u0441\u043f\u043e\u0434\u0438, \u044f \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u0432 \u0441\u0438\u043b\u0430\u0445 \u0434\u0435\u0440\u0436\u0430\u0442\u044c \u044d\u0442\u0443 \u0437\u0430\u0449\u0438\u0442\u0443.\u00bb"
+      }
+    },
+    {
+      "id": 79,
+      "type": "normal",
+      "section": "Armulaud",
+      "estonian": "\u201eMa lasen Su armastusel end murda, et ma saaksin uuesti terveks.\u201d",
+      "russian": "\u00ab\u042f \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u044e \u0422\u0432\u043e\u0435\u0439 \u043b\u044e\u0431\u0432\u0438 \u0441\u043b\u043e\u043c\u0438\u0442\u044c \u043c\u0435\u043d\u044f, \u0447\u0442\u043e\u0431\u044b \u044f \u043c\u043e\u0433 \u0441\u043d\u043e\u0432\u0430 \u0438\u0441\u0446\u0435\u043b\u0438\u0442\u044c\u0441\u044f.\u00bb",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "\u201eMa lasen Su armastusel end murda, et saaksin uuesti terveks.\u201d",
+        "textRus": "\u00ab\u042f \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u044e \u0422\u0432\u043e\u0435\u0439 \u043b\u044e\u0431\u0432\u0438 \u0441\u043b\u043e\u043c\u0438\u0442\u044c \u043c\u0435\u043d\u044f, \u0447\u0442\u043e\u0431\u044b \u044f \u043c\u043e\u0433 \u0441\u043d\u043e\u0432\u0430 \u0438\u0441\u0446\u0435\u043b\u0438\u0442\u044c\u0441\u044f.\u00bb"
+      }
+    },
+    {
+      "id": 80,
+      "type": "section-header",
+      "section": "Palve",
+      "estonian": "6. Palve",
+      "russian": "6. \u041c\u043e\u043b\u0438\u0442\u0432\u0430",
+      "projector": "none",
+      "hint": "Sule silmad, r\u00e4\u00e4gi v\u00e4ga aeglaselt"
+    },
+    {
+      "id": 81,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Palvetame koos.",
+      "russian": "\u041f\u043e\u043c\u043e\u043b\u0438\u043c\u0441\u044f \u0432\u043c\u0435\u0441\u0442\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 82,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Issand, me oleme Sinu ees.",
+      "russian": "\u0413\u043e\u0441\u043f\u043e\u0434\u0438, \u043c\u044b \u043f\u0435\u0440\u0435\u0434 \u0422\u043e\u0431\u043e\u0439.",
+      "projector": "none"
+    },
+    {
+      "id": 83,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Sa n\u00e4ed meie v\u00e4simust, meie kaitsemaske ja soomuseid.",
+      "russian": "\u0422\u044b \u0432\u0438\u0434\u0438\u0448\u044c \u043d\u0430\u0448\u0443 \u0443\u0441\u0442\u0430\u043b\u043e\u0441\u0442\u044c, \u043d\u0430\u0448\u0438 \u0437\u0430\u0449\u0438\u0442\u043d\u044b\u0435 \u043c\u0430\u0441\u043a\u0438 \u0438 \u0431\u0440\u043e\u043d\u044e.",
+      "projector": "none"
+    },
+    {
+      "id": 84,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Sa n\u00e4ed, et me kardame oma valu teistele n\u00e4idata.",
+      "russian": "\u0422\u044b \u0432\u0438\u0434\u0438\u0448\u044c, \u0447\u0442\u043e \u043c\u044b \u0431\u043e\u0438\u043c\u0441\u044f \u043f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u0432\u043e\u044e \u0431\u043e\u043b\u044c \u0434\u0440\u0443\u0433\u0438\u043c.",
+      "projector": "none"
+    },
+    {
+      "id": 85,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Me toome Sinu ette oma eba\u00f5nnestumised.",
+      "russian": "\u041c\u044b \u043f\u0440\u0438\u043d\u043e\u0441\u0438\u043c \u043f\u0435\u0440\u0435\u0434 \u0422\u043e\u0431\u043e\u0439 \u043d\u0430\u0448\u0438 \u043d\u0435\u0443\u0434\u0430\u0447\u0438.",
+      "projector": "none"
+    },
+    {
+      "id": 86,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Ait\u00e4h, et me v\u00f5ime olla Sinu ees murtud ja t\u00e4iesti haavatavad.",
+      "russian": "\u0421\u043f\u0430\u0441\u0438\u0431\u043e, \u0447\u0442\u043e \u043c\u044b \u043c\u043e\u0436\u0435\u043c \u0431\u044b\u0442\u044c \u043f\u0435\u0440\u0435\u0434 \u0422\u043e\u0431\u043e\u0439 \u0441\u043b\u043e\u043c\u043b\u0435\u043d\u044b \u0438 \u043f\u043e\u043b\u043d\u043e\u0441\u0442\u044c\u044e \u0443\u044f\u0437\u0432\u0438\u043c\u044b.",
+      "projector": "none"
+    },
+    {
+      "id": 87,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Mina ja meie \u2013 t\u00e4na, siin ja praegu \u2013 otsustame usaldada Sind.",
+      "russian": "\u042f \u0438 \u043c\u044b \u2014 \u0441\u0435\u0433\u043e\u0434\u043d\u044f, \u0437\u0434\u0435\u0441\u044c \u0438 \u0441\u0435\u0439\u0447\u0430\u0441 \u2014 \u0440\u0435\u0448\u0430\u0435\u043c \u0434\u043e\u0432\u0435\u0440\u0438\u0442\u044c\u0441\u044f \u0422\u0435\u0431\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 88,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "\u00d5peta meile alandlikkust, et me tunnistaksime, kes me p\u00e4riselt oleme.",
+      "russian": "\u041d\u0430\u0443\u0447\u0438 \u043d\u0430\u0441 \u0441\u043c\u0438\u0440\u0435\u043d\u0438\u044e, \u0447\u0442\u043e\u0431\u044b \u043c\u044b \u043f\u0440\u0438\u0437\u043d\u0430\u043b\u0438, \u043a\u0442\u043e \u043c\u044b \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435.",
+      "projector": "none"
+    },
+    {
+      "id": 89,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Aita meil vastu v\u00f5tta Sinu l\u00f5pmatu armastus.",
+      "russian": "\u041f\u043e\u043c\u043e\u0433\u0438 \u043d\u0430\u043c \u043f\u0440\u0438\u043d\u044f\u0442\u044c \u0422\u0432\u043e\u044e \u0431\u0435\u0441\u043a\u043e\u043d\u0435\u0447\u043d\u0443\u044e \u043b\u044e\u0431\u043e\u0432\u044c.",
+      "projector": "none"
+    },
+    {
+      "id": 90,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "\u00d5peta meid leidma r\u00f5\u00f5mu v\u00e4ikestest asjadest.",
+      "russian": "\u041d\u0430\u0443\u0447\u0438 \u043d\u0430\u0441 \u043d\u0430\u0445\u043e\u0434\u0438\u0442\u044c \u0440\u0430\u0434\u043e\u0441\u0442\u044c \u0432 \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u0432\u0435\u0449\u0430\u0445.",
+      "projector": "none"
+    },
+    {
+      "id": 91,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Las see armulaud olla meile uueks alguseks.",
+      "russian": "\u041f\u0443\u0441\u0442\u044c \u044d\u0442\u043e \u043f\u0440\u0438\u0447\u0430\u0441\u0442\u0438\u0435 \u0441\u0442\u0430\u043d\u0435\u0442 \u0434\u043b\u044f \u043d\u0430\u0441 \u043d\u043e\u0432\u044b\u043c \u043d\u0430\u0447\u0430\u043b\u043e\u043c.",
+      "projector": "none"
+    },
+    {
+      "id": 92,
+      "type": "normal",
+      "section": "Palve",
+      "estonian": "Aamen.",
+      "russian": "\u0410\u043c\u0438\u043d\u044c.",
+      "projector": "keytext",
+      "projectorContent": {
+        "textEst": "Aamen",
+        "textRus": "\u0410\u043c\u0438\u043d\u044c"
       }
     }
   ]

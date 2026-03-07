@@ -148,10 +148,29 @@ main {
 .slide-wrapper {
   flex: 3;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px 48px;
 }
+
+/* Presenter hint */
+.hint-bar {
+  font-size: 0.75rem;
+  color: rgba(201,165,50,0.7);
+  background: rgba(201,165,50,0.08);
+  border: 1px solid rgba(201,165,50,0.15);
+  border-radius: 6px;
+  padding: 4px 14px;
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+  font-style: italic;
+  text-align: center;
+  align-self: center;
+  max-width: 600px;
+  transition: opacity 0.3s ease;
+}
+.hint-bar:empty { display: none; }
 
 .slide-current {
   font-family: 'Cormorant Garamond', serif;
@@ -167,6 +186,10 @@ main {
   font-size: clamp(2rem, 3.4vw, 3.6rem);
   font-weight: 600;
   color: var(--gold);
+  padding: 16px 24px;
+  border: 1px solid rgba(201,165,50,0.25);
+  border-radius: 8px;
+  background: rgba(201,165,50,0.06);
 }
 .slide-current.is-bible {
   font-style: italic;
@@ -411,6 +434,7 @@ footer {
 
 <main>
   <div class="slide-wrapper">
+    <div class="hint-bar" id="hintBar"></div>
     <div class="slide-current" id="slideCurrent"></div>
   </div>
 
@@ -487,6 +511,7 @@ const el = {
   counter:  document.getElementById('slideCounter'),
   progress: document.getElementById('progressFill'),
   section:  document.getElementById('sectionBadge'),
+  hintBar:  document.getElementById('hintBar'),
   ppBox:    document.getElementById('projectorPreview'),
   ppNext:   document.getElementById('projectorPreviewNext'),
   btnPrev:  document.getElementById('btnPrev'),
@@ -586,6 +611,13 @@ function showSlide(n, animate) {
     el.counter.textContent  = (n + 1) + ' / ' + SLIDES.length;
     el.progress.style.width = ((n + 1) / SLIDES.length * 100) + '%';
     el.section.textContent  = slide.section;
+
+    // Find current hint (look backward for most recent hint)
+    var hint = '';
+    for (var h = n; h >= 0; h--) {
+      if (SLIDES[h].hint) { hint = SLIDES[h].hint; break; }
+    }
+    el.hintBar.textContent = hint;
     el.btnPrev.disabled = n === 0;
     el.btnNext.disabled = n === SLIDES.length - 1;
   };
