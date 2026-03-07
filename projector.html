@@ -591,23 +591,24 @@ function displaySlide(idx) {
   switch (slide.projector) {
 
     case 'section': {
-      const c = slide.projectorContent;
-      const parts = c.sectionEst.match(/^(\d+)\.\s+(.+)$/);
+      const c = slide.projectorContent || {};
+      const parts = (c.sectionEst || '').match(/^(\d+)\.\s+(.+)$/);
       showScreen('section', () => {
         document.getElementById('sectionNumber').textContent  = parts ? parts[1] : '';
-        document.getElementById('sectionTitleEst').textContent = parts ? parts[2] : c.sectionEst;
-        document.getElementById('sectionTitleRus').textContent = c.sectionRus;
+        document.getElementById('sectionTitleEst').textContent = parts ? parts[2] : (c.sectionEst || '');
+        document.getElementById('sectionTitleRus').textContent = c.sectionRus || '';
       });
       break;
     }
 
     case 'bible': {
-      const c = slide.projectorContent;
+      const c = slide.projectorContent || {};
       showScreen('bible', () => {
-        document.getElementById('bibleReference').textContent = c.reference + '  \u00b7  ' + c.referenceRus + '  \u00b7  ' + c.referenceEng;
-        document.getElementById('bibleEst').textContent = c.textEst;
-        document.getElementById('bibleRus').textContent = c.textRus;
-        document.getElementById('bibleEng').textContent = c.textEng;
+        var refs = [c.reference, c.referenceRus, c.referenceEng].filter(Boolean).join('  \u00b7  ');
+        document.getElementById('bibleReference').textContent = refs;
+        document.getElementById('bibleEst').textContent = c.textEst || '';
+        document.getElementById('bibleRus').textContent = c.textRus || '';
+        document.getElementById('bibleEng').textContent = c.textEng || '';
       });
       break;
     }
