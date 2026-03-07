@@ -837,22 +837,31 @@ body {
   text-align: right;
 }
 
-/* --- PROJECTOR SPAN CHECKBOX --- */
+/* --- PROJECTOR SPAN --- */
 .span-checkbox-row {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-bottom: 6px;
 }
-.span-checkbox-row label {
+.span-label {
   font-size: 0.65rem;
   color: var(--dim);
-  cursor: pointer;
+  letter-spacing: 0.04em;
 }
-.span-checkbox-row input[type="checkbox"] {
-  accent-color: var(--blue);
-  cursor: pointer;
+.span-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  width: 42px;
+  text-align: center;
+  outline: none;
 }
+.span-input:focus { border-color: var(--gold); }
 
 /* --- FLOW INDICATOR --- */
 .flow-indicator {
@@ -935,6 +944,27 @@ body {
   border-radius: 2px;
   width: 0%;
   transition: width 0.3s;
+}
+.upload-cancel-btn {
+  background: rgba(224,85,85,0.12);
+  border: 1px solid rgba(224,85,85,0.3);
+  color: var(--red);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-family: 'Lato', sans-serif;
+  transition: all 0.2s;
+}
+.upload-cancel-btn:hover { background: rgba(224,85,85,0.25); }
+.upload-error {
+  font-size: 0.68rem;
+  color: var(--red);
+  background: rgba(224,85,85,0.08);
+  border: 1px solid rgba(224,85,85,0.2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-bottom: 6px;
 }
 
 /* --- HIDDEN FILE INPUT --- */
@@ -1422,8 +1452,9 @@ async function saveToFirebase() {
     obj.projector = s.projector || 'none';
     if (s.hint) obj.hint = s.hint;
     if (s.hidden) obj.hidden = true;
-    // projectorSpan is boolean
-    obj.projectorSpan = s.projectorSpan === true;
+    // projectorSpan: store as number, only if > 1
+    const spanNum = typeof s.projectorSpan === 'number' ? s.projectorSpan : (s.projectorSpan === true ? 2 : 1);
+    if (spanNum > 1) obj.projectorSpan = spanNum;
 
     if (s.projectorContent && Object.keys(s.projectorContent).length > 0) {
       const pc = {};
@@ -1729,12 +1760,13 @@ function createSlideCard(slide, globalIndex) {
   });
   html += '</select>';
 
-  // projectorSpan checkbox (shown when projector is not 'none' and not 'inherit')
+  // projectorSpan (shown when projector is not 'none' and not 'inherit')
   if (projVal !== 'none' && projVal !== 'inherit') {
-    const isSpan = slide.projectorSpan === true;
+    const spanVal = typeof slide.projectorSpan === 'number' ? slide.projectorSpan : (slide.projectorSpan === true ? 2 : 1);
     html += '<div class="span-checkbox-row">';
-    html += '<input type="checkbox" id="span_' + globalIndex + '" data-i="' + globalIndex + '" data-field="projectorSpan"' + (isSpan ? ' checked' : '') + '>';
-    html += '<label for="span_' + globalIndex + '">projectorSpan (kehtib j\u00E4rgmistele inherit-slaididele)</label>';
+    html += '<span class="span-label">Kestus:</span>';
+    html += '<input type="number" class="span-input" data-i="' + globalIndex + '" data-field="projectorSpan" min="1" max="20" value="' + spanVal + '">';
+    html += '<span class="span-label">slaidi</span>';
     html += '</div>';
   }
 
@@ -1756,9 +1788,10 @@ function createSlideCard(slide, globalIndex) {
     const idx = parseInt(el.getAttribute('data-i'), 10);
 
     if (field === 'projectorSpan') {
-      // Checkbox
+      // Number input
       el.addEventListener('change', () => {
-        slides[idx].projectorSpan = el.checked;
+        const val = parseInt(el.value, 10);
+        slides[idx].projectorSpan = isNaN(val) || val < 1 ? 1 : val;
         markDirty();
         renderSlides();
       });
@@ -1826,32 +1859,87 @@ function createSlideCard(slide, globalIndex) {
       if (!file) return;
       const idx = parseInt(input.getAttribute('data-upload-input'), 10);
 
-      if (!storageAvailable) {
-        alert('Firebase Storage pole saadaval.');
-        return;
-      }
-
       const uploadBtn = card.querySelector('[data-upload-trigger][data-upload-i="' + idx + '"]');
+      const cancelBtn = card.querySelector('[data-upload-cancel="' + idx + '"]');
       const statusEl = card.querySelector('[data-upload-status="' + idx + '"]');
       const progressBar = card.querySelector('[data-upload-progress="' + idx + '"]');
       const progressFill = progressBar ? progressBar.querySelector('.upload-progress-bar') : null;
+      const errorEl = card.querySelector('[data-upload-error="' + idx + '"]');
+
+      // Clear previous error
+      if (errorEl) { errorEl.textContent = ''; errorEl.classList.add('hidden'); }
+
+      if (!storageAvailable) {
+        if (errorEl) { errorEl.textContent = 'Firebase Storage pole saadaval. Mine Firebase Console \u2192 Storage \u2192 Get Started.'; errorEl.classList.remove('hidden'); }
+        input.value = '';
+        return;
+      }
 
       if (uploadBtn) uploadBtn.disabled = true;
+      if (cancelBtn) cancelBtn.classList.remove('hidden');
       if (statusEl) statusEl.textContent = 'Kompressitakse...';
       if (progressBar) progressBar.classList.add('visible');
 
+      // Store uploadTask reference for cancel
+      let currentUploadTask = null;
+      let cancelled = false;
+
+      // Cancel handler
+      const cancelHandler = () => {
+        cancelled = true;
+        if (currentUploadTask) currentUploadTask.cancel();
+        if (statusEl) statusEl.textContent = 'Katkestatud';
+        if (uploadBtn) uploadBtn.disabled = false;
+        if (cancelBtn) cancelBtn.classList.add('hidden');
+        if (progressBar) progressBar.classList.remove('visible');
+        input.value = '';
+      };
+      if (cancelBtn) cancelBtn.addEventListener('click', cancelHandler, { once: true });
+
       try {
-        const url = await uploadImage(file, currentPresId, (phase, pct) => {
-          if (phase === 'compress') {
-            if (statusEl) statusEl.textContent = 'Kompressitakse...';
-          } else if (phase === 'upload') {
-            if (statusEl) statusEl.textContent = 'Laetakse \u00FCles... ' + pct + '%';
-            if (progressFill) progressFill.style.width = pct + '%';
-          } else if (phase === 'done') {
-            if (statusEl) statusEl.textContent = 'Valmis!';
-            if (progressFill) progressFill.style.width = '100%';
-          }
+        // 1. Compress
+        const compressed = await compressImage(file, {
+          maxWidth: 1920, maxHeight: 1080, quality: 0.82
         });
+
+        if (cancelled) return;
+
+        // 2. Upload
+        const safeName = file.name.replace(/[^a-zA-Z0-9.\-]/g, '_').toLowerCase();
+        const fileName = Date.now() + '_' + safeName.replace(/\.[^.]+$/, '') + '.webp';
+        const path = 'images/' + currentPresId + '/' + fileName;
+        const fileRef = storageRef(storage, path);
+        currentUploadTask = uploadBytesResumable(fileRef, compressed);
+
+        const url = await new Promise((resolve, reject) => {
+          currentUploadTask.on('state_changed',
+            (snapshot) => {
+              const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              if (statusEl) statusEl.textContent = 'Laetakse \u00FCles... ' + pct + '%';
+              if (progressFill) progressFill.style.width = pct + '%';
+            },
+            (error) => {
+              if (error.code === 'storage/canceled') {
+                reject(new Error('Katkestatud'));
+              } else {
+                reject(error);
+              }
+            },
+            async () => {
+              try {
+                const downloadUrl = await getDownloadURL(currentUploadTask.snapshot.ref);
+                resolve(downloadUrl);
+              } catch (e) {
+                reject(e);
+              }
+            }
+          );
+        });
+
+        if (cancelled) return;
+
+        if (statusEl) statusEl.textContent = 'Valmis!';
+        if (progressFill) progressFill.style.width = '100%';
 
         // Set imageUrl
         if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
@@ -1865,10 +1953,14 @@ function createSlideCard(slide, globalIndex) {
         // Re-render to update preview
         setTimeout(() => renderSlides(), 500);
       } catch (err) {
-        alert('\u00DCleslaadimise viga: ' + err.message);
-        if (statusEl) statusEl.textContent = 'Viga!';
+        if (!cancelled) {
+          const msg = err.message || String(err);
+          if (errorEl) { errorEl.textContent = '\u00DCleslaadimise viga: ' + msg; errorEl.classList.remove('hidden'); }
+          if (statusEl) statusEl.textContent = 'Viga!';
+        }
       } finally {
         if (uploadBtn) uploadBtn.disabled = false;
+        if (cancelBtn) { cancelBtn.classList.add('hidden'); cancelBtn.removeEventListener('click', cancelHandler); }
         input.value = '';
         setTimeout(() => {
           if (progressBar) progressBar.classList.remove('visible');
@@ -1948,6 +2040,9 @@ function buildProjectorPreview(slide) {
   } else if (projector === 'keytext') {
     html = '<div class="projector-preview type-keytext">';
     html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
+    if (pc.textRus) {
+      html += '<div class="preview-sub" style="font-style:italic;">' + esc(pc.textRus) + '</div>';
+    }
     if (pc.subEst) {
       html += '<div class="preview-sub">' + esc(pc.subEst) + '</div>';
     }
@@ -2058,12 +2153,14 @@ function overlaySlider(i, value) {
 function imageUploadRow(i) {
   return '<div class="upload-row">' +
     '<button class="upload-btn" data-upload-trigger data-upload-i="' + i + '">Laadi pilt \u00FCles</button>' +
+    '<button class="upload-cancel-btn hidden" data-upload-cancel="' + i + '">Katkesta</button>' +
     '<span class="upload-status" data-upload-status="' + i + '"></span>' +
     '<input type="file" accept="image/*" class="hidden" data-upload-input="' + i + '">' +
   '</div>' +
   '<div class="upload-progress" data-upload-progress="' + i + '">' +
     '<div class="upload-progress-bar"></div>' +
-  '</div>';
+  '</div>' +
+  '<div class="upload-error hidden" data-upload-error="' + i + '"></div>';
 }
 
 // =============================================================
@@ -2093,8 +2190,9 @@ function buildFlowIndicator(globalIndex) {
   }
 
   // Span source indicator
-  if (currentSlide.projectorSpan === true && currentSlide.projector && currentSlide.projector !== 'none' && currentSlide.projector !== 'inherit') {
-    html += '<div class="span-badge span-source">projectorSpan &rarr; kehtib j\u00E4rgmistele inherit-slaididele</div>';
+  const spanVal = typeof currentSlide.projectorSpan === 'number' ? currentSlide.projectorSpan : (currentSlide.projectorSpan === true ? 2 : 1);
+  if (spanVal > 1 && currentSlide.projector && currentSlide.projector !== 'none' && currentSlide.projector !== 'inherit') {
+    html += '<div class="span-badge span-source">span &rarr; +' + (spanVal - 1) + ' slaidi</div>';
   }
 
   return html;
@@ -2116,7 +2214,8 @@ function buildJSON() {
     obj.projector = s.projector || 'none';
     if (s.hint) obj.hint = s.hint;
     if (s.hidden) obj.hidden = s.hidden;
-    obj.projectorSpan = s.projectorSpan === true;
+    const spanNum = typeof s.projectorSpan === 'number' ? s.projectorSpan : (s.projectorSpan === true ? 2 : 1);
+    if (spanNum > 1) obj.projectorSpan = spanNum;
 
     if (s.projectorContent && Object.keys(s.projectorContent).length > 0) {
       const pc = {};
