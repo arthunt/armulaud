@@ -153,11 +153,12 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 2;
-  padding: 60px 80px;
+  padding: 40px clamp(20px, 5vw, 80px);
   background:
     radial-gradient(ellipse 100% 80% at 50% 50%, rgba(30,60,120,0.5) 0%, transparent 70%),
     radial-gradient(ellipse 130% 80% at 10% 10%, rgba(20,50,100,0.6) 0%, transparent 55%),
     #060b14;
+  overflow: hidden;
 }
 
 .bible-container {
@@ -266,25 +267,28 @@ html, body {
 .image-caption {
   position: relative;
   z-index: 1;
-  padding: 40px 60px;
+  padding: 30px 40px;
   max-width: 900px;
+  width: 100%;
 }
 .image-caption-est {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.6rem, 3.5vw, 3.2rem);
+  font-size: clamp(1.2rem, 3vw, 3.2rem);
   font-weight: 400;
   font-style: italic;
   color: var(--text);
   line-height: 1.4;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  word-wrap: break-word;
 }
 .image-caption-rus {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2vw, 1.9rem);
+  font-size: clamp(0.9rem, 1.8vw, 1.9rem);
   font-weight: 300;
   font-style: italic;
   color: var(--text-dim);
   line-height: 1.4;
+  word-wrap: break-word;
 }
 
 /* KEYTEXT */
@@ -305,7 +309,7 @@ html, body {
 
 .keytext-main {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(4rem, 12vw, 10rem);
+  font-size: clamp(3.5rem, 10vw, 9rem);
   font-weight: 600;
   color: var(--text);
   line-height: 1.05;
@@ -315,6 +319,17 @@ html, body {
 @keyframes subtleGlow {
   0%,100% { text-shadow: 0 0 40px rgba(212,176,90,0.1); }
   50%      { text-shadow: 0 0 80px rgba(212,176,90,0.25), 0 0 120px rgba(100,150,255,0.1); }
+}
+
+.keytext-main-rus {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-weight: 400;
+  color: var(--text-rus);
+  line-height: 1.1;
+  margin-top: 12px;
+  font-style: italic;
+  animation: subtleGlow 4s ease-in-out infinite;
 }
 
 .keytext-sub-est {
@@ -372,6 +387,29 @@ html, body {
   from { opacity: 0; transform: scale(0.98); }
   to   { opacity: 1; transform: scale(1); }
 }
+
+/* Fullscreen button */
+.fullscreen-btn {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: rgba(201,165,50,0.2);
+  border: 1px solid rgba(201,165,50,0.4);
+  color: var(--gold);
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  padding: 14px 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.fullscreen-btn:hover {
+  background: rgba(201,165,50,0.35);
+}
+.fullscreen-btn.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -420,11 +458,15 @@ html, body {
 
 <!-- KEYTEXT: large emphasis text -->
 <div id="screen-keytext">
-  <div class="keytext-main"    id="keytextMain"></div>
+  <div class="keytext-main"     id="keytextMain"></div>
+  <div class="keytext-main-rus" id="keytextMainRus"></div>
   <div class="keytext-divider"></div>
-  <div class="keytext-sub-est" id="keytextSubEst"></div>
-  <div class="keytext-sub-rus" id="keytextSubRus"></div>
+  <div class="keytext-sub-est"  id="keytextSubEst"></div>
+  <div class="keytext-sub-rus"  id="keytextSubRus"></div>
 </div>
+
+<!-- Fullscreen button -->
+<button class="fullscreen-btn" id="fullscreenBtn">T&auml;isekraan</button>
 
 <!-- Status corner -->
 <div class="corner-status">
@@ -534,8 +576,9 @@ function displaySlide(idx) {
       const c = slide.projectorContent;
       showScreen('keytext', () => {
         document.getElementById('keytextMain').textContent    = c.textEst;
+        document.getElementById('keytextMainRus').textContent = c.textRus || '';
         document.getElementById('keytextSubEst').textContent  = c.subEst || '';
-        document.getElementById('keytextSubRus').textContent  = c.subRus || (c.textRus || '');
+        document.getElementById('keytextSubRus').textContent  = c.subRus || '';
       });
       break;
     }
@@ -614,6 +657,20 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.getElementById('screen-default').style.display = 'flex';
+
+// Fullscreen button
+const fsBtn = document.getElementById('fullscreenBtn');
+fsBtn.addEventListener('click', () => {
+  document.documentElement.requestFullscreen().catch(() => {});
+});
+
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) {
+    fsBtn.classList.add('hidden');
+  } else {
+    fsBtn.classList.remove('hidden');
+  }
+});
 
 </script>
 </body>
