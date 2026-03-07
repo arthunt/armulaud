@@ -459,25 +459,11 @@ footer {
 
 <div class="fullscreen-hint">F11 = t&auml;isekraan &middot; &larr; &rarr; = navigeeri &middot; Space = edasi</div>
 
-<script src="js/slides-loader.js"></script>
+<script type="module" src="js/slides-loader.js"></script>
 
 <script type="module">
-import { initializeApp }         from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey:            "AIzaSyBylcQYwOuQbFU8AmP7h1WnggyvJJSw1XI",
-  authDomain:        "armulaud-af87f.firebaseapp.com",
-  databaseURL:       "https://armulaud-af87f-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId:         "armulaud-af87f",
-  storageBucket:     "armulaud-af87f.firebasestorage.app",
-  messagingSenderId: "916225040299",
-  appId:             "1:916225040299:web:af7b185e5787cea27cbcee"
-};
-
-const app             = initializeApp(firebaseConfig);
-const db              = getDatabase(app);
-const presentationRef = ref(db, 'presentation');
+import { db } from './js/firebase-config.js';
+import { ref, set } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 const Sync = {
   channel: null,
@@ -486,12 +472,16 @@ const Sync = {
     this.updateStatusUI('firebase');
   },
   send(slideIndex) {
+    const activeId = window.ACTIVE_PRESENTATION_ID;
     const payload = { currentSlide: slideIndex, ts: Date.now() };
     if (this.channel) this.channel.postMessage(payload);
-    set(presentationRef, payload).catch(err => {
-      console.error('Firebase write error:', err);
-      this.updateStatusUI('offline');
-    });
+    if (activeId) {
+      set(ref(db, 'presentations/' + activeId + '/currentSlide'), slideIndex).catch(err => {
+        console.error('Firebase write error:', err);
+        this.updateStatusUI('offline');
+      });
+      set(ref(db, 'presentations/' + activeId + '/ts'), Date.now()).catch(() => {});
+    }
   },
   updateStatusUI(mode) {
     const dot   = document.getElementById('statusDot');

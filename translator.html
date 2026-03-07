@@ -237,26 +237,12 @@ body {
 </div>
 
 <!-- Slides loader -->
-<script src="js/slides-loader.js"></script>
+<script type="module" src="js/slides-loader.js"></script>
 
 <!-- Firebase v12 + listener logic -->
 <script type="module">
-import { initializeApp }                       from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, onValue }           from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey:            "AIzaSyBylcQYwOuQbFU8AmP7h1WnggyvJJSw1XI",
-  authDomain:        "armulaud-af87f.firebaseapp.com",
-  databaseURL:       "https://armulaud-af87f-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId:         "armulaud-af87f",
-  storageBucket:     "armulaud-af87f.firebasestorage.app",
-  messagingSenderId: "916225040299",
-  appId:             "1:916225040299:web:af7b185e5787cea27cbcee"
-};
-
-const app             = initializeApp(firebaseConfig);
-const db              = getDatabase(app);
-const presentationRef = ref(db, 'presentation');
+import { db } from './js/firebase-config.js';
+import { ref, onValue } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 let lastIndex = -1;
 
@@ -340,13 +326,17 @@ SLIDES_READY.then(() => {
     };
   } catch(e) {}
 
-  onValue(presentationRef, (snap) => {
-    const data = snap.val();
-    if (data !== null) {
-      setConnected('firebase');
-      renderSlide(data.currentSlide);
-    }
-  });
+  const activeId = window.ACTIVE_PRESENTATION_ID;
+  if (activeId) {
+    const slideRef = ref(db, 'presentations/' + activeId + '/currentSlide');
+    onValue(slideRef, (snap) => {
+      const idx = snap.val();
+      if (idx !== null) {
+        setConnected('firebase');
+        renderSlide(idx);
+      }
+    });
+  }
 });
 
 if ('wakeLock' in navigator) {

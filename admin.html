@@ -85,6 +85,16 @@ body {
   color: var(--red);
 }
 .btn.danger:hover { background: rgba(224,85,85,0.25); }
+.btn.active-btn {
+  background: rgba(74,143,223,0.15);
+  border-color: rgba(74,143,223,0.35);
+  color: var(--blue);
+}
+.btn.active-btn:hover { background: rgba(74,143,223,0.3); }
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 .toolbar .spacer { flex: 1; }
 
@@ -96,39 +106,218 @@ body {
   border-radius: 4px;
 }
 
-.toolbar-timer-group {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.toolbar-timer-group label {
-  font-size: 0.62rem;
-  color: var(--dim);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.toolbar-timer-input {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-family: 'Lato', sans-serif;
-  font-size: 0.75rem;
-  width: 60px;
-  text-align: center;
-  outline: none;
-}
-.toolbar-timer-input:focus { border-color: var(--gold); }
-
 /* --- BACK LINK --- */
 .back-link {
   color: var(--dim);
   text-decoration: none;
   font-size: 0.75rem;
   transition: color 0.2s;
+  cursor: pointer;
 }
 .back-link:hover { color: var(--gold); }
+
+/* --- SAVE STATUS --- */
+.save-status {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.save-status.saved {
+  color: var(--green);
+  background: rgba(61,214,140,0.1);
+}
+.save-status.saving {
+  color: #d4a520;
+  background: rgba(212,165,32,0.1);
+  animation: blink 1s ease-in-out infinite;
+}
+.save-status.unsaved {
+  color: var(--red);
+  background: rgba(224,85,85,0.1);
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* --- STORAGE BANNER --- */
+.storage-banner {
+  background: rgba(224,85,85,0.15);
+  border-bottom: 1px solid rgba(224,85,85,0.3);
+  color: var(--red);
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.78rem;
+}
+
+/* --- PRESENTATION LIST VIEW --- */
+.view { display: none; }
+.view.active { display: block; }
+
+.pres-list {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pres-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.pres-list-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+.pres-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--dim);
+  font-size: 0.9rem;
+}
+
+.pres-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.pres-card:hover {
+  border-color: var(--gold-dim);
+}
+.pres-card.is-active {
+  border-color: rgba(61,214,140,0.4);
+  background: rgba(61,214,140,0.04);
+}
+
+.pres-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.pres-card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dim);
+  flex-shrink: 0;
+}
+.pres-card.is-active .pres-card-dot {
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(61,214,140,0.5);
+}
+
+.pres-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+}
+
+.pres-card-date {
+  font-size: 0.78rem;
+  color: var(--dim);
+  flex-shrink: 0;
+}
+
+.pres-card-desc {
+  font-size: 0.78rem;
+  color: var(--dim);
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.pres-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 20px;
+  flex-wrap: wrap;
+}
+
+.pres-card-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: var(--dim);
+}
+.pres-card-badge.active-badge {
+  background: rgba(61,214,140,0.12);
+  color: var(--green);
+  font-weight: 700;
+}
+
+.pres-card-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* --- NEW PRESENTATION FORM --- */
+.new-pres-form {
+  background: var(--surface);
+  border: 1px solid var(--gold-dim);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: none;
+}
+.new-pres-form.visible { display: block; }
+
+.new-pres-form-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.form-field label {
+  font-size: 0.62rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.form-field input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.82rem;
+  outline: none;
+}
+.form-field input:focus { border-color: var(--gold); }
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
 
 /* --- META SECTION --- */
 .meta-section {
@@ -464,6 +653,30 @@ body {
   font-size: 1.5rem;
 }
 
+.projector-preview.type-inherit {
+  background: rgba(74,143,223,0.08);
+  border: 1px dashed rgba(74,143,223,0.3);
+}
+.projector-preview.type-inherit .preview-text {
+  color: var(--blue);
+  font-size: 0.6rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.projector-preview.type-section {
+  background: linear-gradient(135deg, rgba(90,159,212,0.15), rgba(90,159,212,0.05));
+  padding: 6px;
+  flex-direction: column;
+  text-align: center;
+}
+.projector-preview.type-section .preview-section-text {
+  font-size: 0.55rem;
+  color: var(--section);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
 .projector-preview.type-bible {
   background: linear-gradient(135deg, rgba(74,143,223,0.15), rgba(74,143,223,0.05));
   padding: 6px;
@@ -624,6 +837,23 @@ body {
   text-align: right;
 }
 
+/* --- PROJECTOR SPAN CHECKBOX --- */
+.span-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.span-checkbox-row label {
+  font-size: 0.65rem;
+  color: var(--dim);
+  cursor: pointer;
+}
+.span-checkbox-row input[type="checkbox"] {
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
 /* --- FLOW INDICATOR --- */
 .flow-indicator {
   font-size: 0.55rem;
@@ -661,32 +891,50 @@ body {
   background: rgba(74,143,223,0.1);
   border: 1px solid rgba(74,143,223,0.2);
 }
-.span-input {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-family: 'Lato', sans-serif;
-  font-size: 0.7rem;
-  width: 40px;
-  text-align: center;
-  outline: none;
-}
-.span-input:focus { border-color: var(--gold); }
-.span-label {
-  font-size: 0.58rem;
-  color: var(--dim);
-  letter-spacing: 0.06em;
-}
-.inherited-notice {
-  padding: 8px;
-  background: rgba(74,143,223,0.06);
-  border: 1px solid rgba(74,143,223,0.15);
-  border-radius: 5px;
-  font-size: 0.7rem;
-  color: var(--blue);
+
+/* --- IMAGE UPLOAD --- */
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 6px;
+}
+.upload-btn {
+  background: rgba(74,143,223,0.12);
+  border: 1px solid rgba(74,143,223,0.3);
+  color: var(--blue);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-family: 'Lato', sans-serif;
+  transition: all 0.2s;
+}
+.upload-btn:hover { background: rgba(74,143,223,0.25); }
+.upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.upload-status {
+  font-size: 0.65rem;
+  color: var(--dim);
+}
+.upload-progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  display: none;
+}
+.upload-progress.visible { display: block; }
+.upload-progress-bar {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s;
 }
 
 /* --- HIDDEN FILE INPUT --- */
@@ -715,723 +963,1246 @@ body {
 </head>
 <body>
 
-<div class="toolbar">
-  <a href="index.html" class="back-link">&larr; Tagasi</a>
-  <span class="toolbar-title">Slaidide haldus</span>
-  <span class="toolbar-badge" id="slideCount">0 slaidi</span>
-  <span class="toolbar-badge" id="totalTime">~0 min 0 sek</span>
-  <div class="toolbar-timer-group">
-    <label>Taimeri hoiatus</label>
-    <input type="text" class="toolbar-timer-input" id="timerPresetInput" value="07:00" placeholder="mm:ss">
+<!-- Storage warning banner (hidden by default) -->
+<div class="storage-banner hidden" id="storageBanner">Firebase Storage pole lubatud. Mine Firebase Console &rarr; Storage &rarr; Get Started</div>
+
+<!-- ==================== VIEW A: Presentations List ==================== -->
+<div class="view active" id="viewList">
+  <div class="toolbar">
+    <a href="index.html" class="back-link">&larr; Avaleht</a>
+    <span class="toolbar-title">Teenistuste haldus</span>
+    <span class="spacer"></span>
+    <button class="btn primary" id="btnNewPres">+ Uus teenistus</button>
   </div>
-  <span class="spacer"></span>
-  <input type="file" id="importInput" accept=".json" class="hidden">
-  <button class="btn" id="btnImport">Import JSON</button>
-  <button class="btn primary" id="btnDownload">&#8681; Download JSON</button>
+
+  <div class="pres-list" id="presList">
+    <div class="new-pres-form" id="newPresForm">
+      <div class="new-pres-form-title">Uus teenistus</div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Pealkiri</label>
+          <input type="text" id="newPresTitle" placeholder="Teenistuse pealkiri">
+        </div>
+        <div class="form-field">
+          <label>Kuup&auml;ev</label>
+          <input type="text" id="newPresDate" placeholder="pp.kk.aaaa">
+        </div>
+        <div class="form-field" style="flex:1;">
+          <label>Kirjeldus</label>
+          <input type="text" id="newPresDesc" placeholder="Teenistuse kirjeldus" style="width:100%;">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" id="btnCreatePres">Loo teenistus</button>
+        <button class="btn" id="btnCancelPres">T&uuml;hista</button>
+      </div>
+    </div>
+
+    <div id="presCards"></div>
+    <div class="pres-empty hidden" id="presEmpty">Teenistusi pole veel lisatud.</div>
+  </div>
 </div>
 
-<div class="meta-section" id="metaSection">
-  <div class="meta-field">
-    <label>Pealkiri</label>
-    <input type="text" id="metaTitle" placeholder="Armulaud">
+<!-- ==================== VIEW B: Slide Editor ==================== -->
+<div class="view" id="viewEditor">
+  <div class="toolbar">
+    <a class="back-link" id="btnBack">&larr; Tagasi</a>
+    <span class="toolbar-title" id="editorTitle">Slaidide haldus</span>
+    <span class="toolbar-badge" id="slideCount">0 slaidi</span>
+    <span class="save-status saved" id="saveStatus">Salvestatud &#10003;</span>
+    <span class="spacer"></span>
+    <input type="file" id="importInput" accept=".json" class="hidden">
+    <button class="btn" id="btnImport">Import JSON</button>
+    <button class="btn" id="btnExport">&#8681; Ekspordi JSON</button>
+    <button class="btn primary" id="btnSave">Salvesta</button>
   </div>
-  <div class="meta-field">
-    <label>Kuup&auml;ev</label>
-    <input type="text" id="metaDate" placeholder="08.03.2026">
+
+  <div class="meta-section" id="metaSection">
+    <div class="meta-field">
+      <label>Pealkiri</label>
+      <input type="text" id="metaTitle" placeholder="Teenistuse pealkiri">
+    </div>
+    <div class="meta-field">
+      <label>Kuup&auml;ev</label>
+      <input type="text" id="metaDate" placeholder="pp.kk.aaaa">
+    </div>
+    <div class="meta-field">
+      <label>Kirjeldus</label>
+      <input type="text" id="metaDesc" placeholder="Teenistuse kirjeldus" style="min-width: 260px;">
+    </div>
   </div>
-  <div class="meta-field">
-    <label>Kirjeldus</label>
-    <input type="text" id="metaDesc" placeholder="Teenistuse kirjeldus" style="min-width: 260px;">
-  </div>
+
+  <div class="slide-list" id="slideList"></div>
 </div>
 
-<div class="slide-list" id="slideList"></div>
+<!-- slides-loader kept for other pages -->
+<script type="module" src="js/slides-loader.js"></script>
 
-<script>
-(function() {
-  'use strict';
+<script type="module">
+import { db, storage } from './js/firebase-config.js';
+import { ref, get, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 
-  var slides = [];
-  var meta = { title: '', date: '', description: '', timerPreset: 420 };
-  var collapsedSections = {};
-  var spanMap = {};
+// =============================================================
+//  STATE
+// =============================================================
+let presentations = {};
+let activePresId = null;
+let currentPresId = null;
+let slides = [];
+let meta = { title: '', date: '', description: '' };
+let collapsedSections = {};
+let saveTimer = null;
+let dirty = false;
+let storageAvailable = true;
 
-  function computeSpanMap() {
-    spanMap = {};
-    var activeSpan = null;
-    for (var i = 0; i < slides.length; i++) {
-      var slide = slides[i];
-      var hasOwn = slide.projector && slide.projector !== 'none';
-      if (hasOwn) {
-        var span = slide.projectorSpan || 1;
-        activeSpan = (span > 1) ? { sourceIndex: i, remaining: span - 1 } : null;
-      } else if (activeSpan && activeSpan.remaining > 0) {
-        spanMap[i] = { sourceIndex: activeSpan.sourceIndex, sourceSlide: slides[activeSpan.sourceIndex] };
-        activeSpan.remaining--;
-        if (activeSpan.remaining === 0) activeSpan = null;
-      }
-    }
+// =============================================================
+//  STORAGE CHECK (Task 8)
+// =============================================================
+(function checkStorage() {
+  try {
+    const testRef = storageRef(storage, 'test/.keep');
+    // If no error thrown, storage module is available
+  } catch (e) {
+    storageAvailable = false;
+    document.getElementById('storageBanner').classList.remove('hidden');
   }
+})();
 
-  // --- LOAD DATA ---
-  fetch('data/slides.json')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      meta = data.meta || {};
-      if (meta.timerPreset == null) meta.timerPreset = 420;
-      slides = data.slides || [];
-      renderMeta();
-      renderAll();
-    })
-    .catch(function() {
-      renderAll();
-    });
+// =============================================================
+//  UTILITIES
+// =============================================================
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
-  // --- META ---
-  function renderMeta() {
-    document.getElementById('metaTitle').value = meta.title || '';
-    document.getElementById('metaDate').value = meta.date || '';
-    document.getElementById('metaDesc').value = meta.description || '';
-    renderTimerPreset();
+function autosize(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = ta.scrollHeight + 'px';
+}
+
+function generatePresId() {
+  // Use date-based ID if possible, otherwise timestamp
+  const now = new Date();
+  const base = now.getFullYear() + '-'
+    + String(now.getMonth() + 1).padStart(2, '0') + '-'
+    + String(now.getDate()).padStart(2, '0');
+  // If this ID already exists, append time
+  if (presentations[base]) {
+    return base + '-' + String(now.getHours()).padStart(2, '0')
+      + String(now.getMinutes()).padStart(2, '0');
   }
+  return base;
+}
 
-  function readMeta() {
-    meta.title = document.getElementById('metaTitle').value;
-    meta.date = document.getElementById('metaDate').value;
-    meta.description = document.getElementById('metaDesc').value;
-    var tp = parseTimerInput(document.getElementById('timerPresetInput').value);
-    if (tp !== null) meta.timerPreset = tp;
+function ensureArray(data) {
+  if (!data) return [];
+  if (Array.isArray(data)) return data;
+  return Object.keys(data).map(k => data[k]);
+}
+
+// =============================================================
+//  VIEW SWITCHING
+// =============================================================
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+}
+
+// =============================================================
+//  VIEW A: PRESENTATIONS LIST
+// =============================================================
+
+// Listen to /presentations and /activePresentation
+onValue(ref(db, 'presentations'), snap => {
+  presentations = snap.val() || {};
+  if (document.getElementById('viewList').classList.contains('active')) {
+    renderPresList();
   }
+});
 
-  function renderTimerPreset() {
-    var secs = meta.timerPreset || 420;
-    var m = Math.floor(secs / 60);
-    var s = secs % 60;
-    document.getElementById('timerPresetInput').value =
-      String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+onValue(ref(db, 'activePresentation'), snap => {
+  activePresId = snap.val() || null;
+  if (document.getElementById('viewList').classList.contains('active')) {
+    renderPresList();
   }
+});
 
-  function parseTimerInput(val) {
-    var parts = val.split(':');
-    if (parts.length === 2) {
-      var m = parseInt(parts[0], 10);
-      var s = parseInt(parts[1], 10);
-      if (!isNaN(m) && !isNaN(s)) return m * 60 + s;
-    }
-    return null;
+function renderPresList() {
+  const container = document.getElementById('presCards');
+  const empty = document.getElementById('presEmpty');
+  const ids = Object.keys(presentations);
+
+  if (ids.length === 0) {
+    container.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
   }
+  empty.classList.add('hidden');
 
-  document.getElementById('timerPresetInput').addEventListener('change', function() {
-    var tp = parseTimerInput(this.value);
-    if (tp !== null) {
-      meta.timerPreset = tp;
-      renderTimerPreset();
-    }
+  // Sort by date descending (use meta.date or ID)
+  ids.sort((a, b) => {
+    const da = (presentations[a].meta && presentations[a].meta.date) || a;
+    const db2 = (presentations[b].meta && presentations[b].meta.date) || b;
+    return db2.localeCompare(da);
   });
 
-  // --- UTILITIES ---
-  function esc(s) {
-    if (!s) return '';
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+  let html = '';
+  ids.forEach(id => {
+    const pres = presentations[id];
+    const m = pres.meta || {};
+    const isActive = (id === activePresId);
+    const slideData = pres.slides ? ensureArray(pres.slides) : [];
+    const slideCountNum = slideData.length;
 
-  function autosize(ta) {
-    ta.style.height = 'auto';
-    ta.style.height = ta.scrollHeight + 'px';
-  }
-
-  function calcTotalTime() {
-    var totalSec = slides.length * 4;
-    var m = Math.floor(totalSec / 60);
-    var s = totalSec % 60;
-    return '~' + m + ' min ' + s + ' sek';
-  }
-
-  function getSections() {
-    var sections = [];
-    var seen = {};
-    for (var i = 0; i < slides.length; i++) {
-      var sec = slides[i].section || '(ilma sektsioonita)';
-      if (!seen[sec]) {
-        seen[sec] = true;
-        sections.push(sec);
-      }
+    html += '<div class="pres-card' + (isActive ? ' is-active' : '') + '" data-pres-id="' + esc(id) + '">';
+    html += '<div class="pres-card-header">';
+    html += '<div class="pres-card-dot"></div>';
+    html += '<div class="pres-card-title">' + esc(m.title || id) + '</div>';
+    html += '<div class="pres-card-date">' + esc(m.date || '') + '</div>';
+    html += '</div>';
+    if (m.description) {
+      html += '<div class="pres-card-desc">' + esc(m.description) + '</div>';
     }
-    return sections;
-  }
-
-  function getSlidesForSection(sectionName) {
-    var result = [];
-    for (var i = 0; i < slides.length; i++) {
-      var sec = slides[i].section || '(ilma sektsioonita)';
-      if (sec === sectionName) {
-        result.push({ slide: slides[i], globalIndex: i });
-      }
+    html += '<div class="pres-card-meta">';
+    html += '<span class="pres-card-badge">' + slideCountNum + ' slaidi</span>';
+    if (isActive) {
+      html += '<span class="pres-card-badge active-badge">Aktiivne</span>';
     }
-    return result;
-  }
+    html += '<div class="pres-card-actions">';
+    html += '<button class="btn" data-action="edit" data-id="' + esc(id) + '">Muuda slaide</button>';
+    if (!isActive) {
+      html += '<button class="btn active-btn" data-action="activate" data-id="' + esc(id) + '">Aktiveeri</button>';
+    }
+    if (!isActive) {
+      html += '<button class="btn danger" data-action="delete" data-id="' + esc(id) + '">Kustuta</button>';
+    }
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+  });
 
-  // --- RENDER ---
-  function renderAll() {
-    readMeta();
-    computeSpanMap();
-    var list = document.getElementById('slideList');
-    list.innerHTML = '';
+  container.innerHTML = html;
 
-    document.getElementById('slideCount').textContent = slides.length + ' slaidi';
-    document.getElementById('totalTime').textContent = calcTotalTime();
-
-    var sections = getSections();
-
-    sections.forEach(function(sectionName) {
-      var sectionSlides = getSlidesForSection(sectionName);
-      if (sectionSlides.length === 0) return;
-
-      var isCollapsed = collapsedSections[sectionName] !== false; // default collapsed
-
-      var group = document.createElement('div');
-      group.className = 'section-group';
-
-      // Section header bar
-      var header = document.createElement('div');
-      header.className = 'section-header-bar';
-      header.innerHTML =
-        '<span class="section-toggle ' + (isCollapsed ? 'collapsed' : 'expanded') + '">' +
-          (isCollapsed ? '&#9654;' : '&#9660;') +
-        '</span>' +
-        '<span class="section-name">' + esc(sectionName) + '</span>' +
-        '<span class="section-count">(' + sectionSlides.length + ' slaidi)</span>';
-
-      header.addEventListener('click', function() {
-        collapsedSections[sectionName] = !isCollapsed;
-        renderAll();
-      });
-
-      group.appendChild(header);
-
-      // Slides container
-      var slidesContainer = document.createElement('div');
-      slidesContainer.className = 'section-slides ' + (isCollapsed ? 'collapsed' : 'expanded');
-
-      var inner = document.createElement('div');
-      inner.className = 'section-slides-inner';
-
-      sectionSlides.forEach(function(item, localIdx) {
-        // Insert line before each slide (including first)
-        var insertLine = createInsertLine(item.globalIndex);
-        inner.appendChild(insertLine);
-
-        var card = createSlideCard(item.slide, item.globalIndex);
-        inner.appendChild(card);
-      });
-
-      // Insert line after last slide in section
-      if (sectionSlides.length > 0) {
-        var lastGlobal = sectionSlides[sectionSlides.length - 1].globalIndex;
-        var insertAfterLast = createInsertLine(lastGlobal + 1);
-        inner.appendChild(insertAfterLast);
-      }
-
-      slidesContainer.appendChild(inner);
-
-      if (!isCollapsed) {
-        slidesContainer.style.maxHeight = 'none';
-      }
-
-      group.appendChild(slidesContainer);
-      list.appendChild(group);
-    });
-
-    // Auto-resize all textareas
-    list.querySelectorAll('textarea').forEach(function(ta) {
-      autosize(ta);
-    });
-  }
-
-  function createInsertLine(insertAtIndex) {
-    var line = document.createElement('div');
-    line.className = 'insert-line';
-    line.innerHTML = '<div class="insert-line-btn">+</div>';
-    line.addEventListener('click', function(e) {
+  // Attach events
+  container.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', e => {
       e.stopPropagation();
-      var surroundingSection = '';
-      if (insertAtIndex > 0 && insertAtIndex <= slides.length) {
-        surroundingSection = slides[insertAtIndex - 1].section || '';
-      } else if (insertAtIndex < slides.length) {
-        surroundingSection = slides[insertAtIndex].section || '';
+      const action = btn.getAttribute('data-action');
+      const id = btn.getAttribute('data-id');
+
+      if (action === 'edit') {
+        openEditor(id);
+      } else if (action === 'activate') {
+        activatePresentation(id);
+      } else if (action === 'delete') {
+        deletePresentation(id);
       }
-      var newSlide = {
-        type: 'normal',
-        section: surroundingSection,
-        estonian: '',
+    });
+  });
+}
+
+// New presentation form
+document.getElementById('btnNewPres').addEventListener('click', () => {
+  const form = document.getElementById('newPresForm');
+  form.classList.toggle('visible');
+  if (form.classList.contains('visible')) {
+    // Pre-fill date with today
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
+    document.getElementById('newPresDate').value = dd + '.' + mm + '.' + yyyy;
+    document.getElementById('newPresTitle').value = '';
+    document.getElementById('newPresDesc').value = '';
+    document.getElementById('newPresTitle').focus();
+  }
+});
+
+document.getElementById('btnCancelPres').addEventListener('click', () => {
+  document.getElementById('newPresForm').classList.remove('visible');
+});
+
+document.getElementById('btnCreatePres').addEventListener('click', async () => {
+  const title = document.getElementById('newPresTitle').value.trim();
+  const date = document.getElementById('newPresDate').value.trim();
+  const desc = document.getElementById('newPresDesc').value.trim();
+
+  if (!title) {
+    alert('Pealkiri on kohustuslik.');
+    return;
+  }
+
+  const id = generatePresId();
+  const now = Date.now();
+
+  const presData = {
+    meta: {
+      title: title,
+      date: date,
+      description: desc,
+      createdAt: now,
+      updatedAt: now
+    },
+    slides: [
+      {
+        id: 0,
+        type: 'section-header',
+        section: '1. Sissejuhatus',
+        estonian: '1. Sissejuhatus',
         russian: '',
-        projector: 'none'
-      };
-      slides.splice(insertAtIndex, 0, newSlide);
-      collapsedSections[surroundingSection] = false;
-      renderAll();
+        projector: 'section',
+        projectorSpan: false,
+        projectorContent: {
+          sectionEst: '1. Sissejuhatus',
+          sectionRus: ''
+        }
+      }
+    ]
+  };
+
+  try {
+    await set(ref(db, 'presentations/' + id), presData);
+    document.getElementById('newPresForm').classList.remove('visible');
+  } catch (err) {
+    alert('Viga teenistuse loomisel: ' + err.message);
+  }
+});
+
+async function activatePresentation(id) {
+  try {
+    await set(ref(db, 'activePresentation'), id);
+  } catch (err) {
+    alert('Viga aktiveerimisel: ' + err.message);
+  }
+}
+
+async function deletePresentation(id) {
+  if (id === activePresId) {
+    alert('Aktiivset teenistust ei saa kustutada.');
+    return;
+  }
+  if (!confirm('Kas oled kindel, et soovid teenistuse kustutada?')) return;
+  try {
+    await remove(ref(db, 'presentations/' + id));
+  } catch (err) {
+    alert('Viga kustutamisel: ' + err.message);
+  }
+}
+
+// =============================================================
+//  VIEW B: SLIDE EDITOR
+// =============================================================
+let editorListener = null;
+
+function openEditor(presId) {
+  currentPresId = presId;
+  dirty = false;
+  collapsedSections = {};
+  updateSaveStatus('saved');
+  showView('viewEditor');
+
+  // Load data
+  const presRef = ref(db, 'presentations/' + presId);
+
+  // Remove previous listener
+  if (editorListener) {
+    editorListener();
+    editorListener = null;
+  }
+
+  // Initial load
+  get(presRef).then(snap => {
+    const data = snap.val();
+    if (!data) {
+      alert('Teenistust ei leitud.');
+      goBackToList();
+      return;
+    }
+
+    meta = data.meta || {};
+    slides = ensureArray(data.slides);
+    renderEditorMeta();
+    renderEditorTitle();
+    renderSlides();
+  }).catch(err => {
+    alert('Viga laadimisel: ' + err.message);
+    goBackToList();
+  });
+}
+
+function goBackToList() {
+  if (editorListener) {
+    editorListener();
+    editorListener = null;
+  }
+  if (dirty) {
+    if (confirm('Sul on salvestamata muudatusi. Kas soovid enne salvestada?')) {
+      saveToFirebase();
+    }
+  }
+  currentPresId = null;
+  slides = [];
+  meta = {};
+  dirty = false;
+  showView('viewList');
+  renderPresList();
+}
+
+document.getElementById('btnBack').addEventListener('click', goBackToList);
+
+function renderEditorTitle() {
+  const title = meta.title || currentPresId;
+  const date = meta.date || '';
+  document.getElementById('editorTitle').textContent = (date ? date + ' \u2013 ' : '') + title;
+}
+
+function renderEditorMeta() {
+  document.getElementById('metaTitle').value = meta.title || '';
+  document.getElementById('metaDate').value = meta.date || '';
+  document.getElementById('metaDesc').value = meta.description || '';
+}
+
+function readEditorMeta() {
+  meta.title = document.getElementById('metaTitle').value;
+  meta.date = document.getElementById('metaDate').value;
+  meta.description = document.getElementById('metaDesc').value;
+}
+
+// Meta field change listeners
+['metaTitle', 'metaDate', 'metaDesc'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    readEditorMeta();
+    renderEditorTitle();
+    markDirty();
+  });
+});
+
+// =============================================================
+//  SAVE LOGIC
+// =============================================================
+function markDirty() {
+  dirty = true;
+  updateSaveStatus('unsaved');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveToFirebase();
+  }, 1500);
+}
+
+function updateSaveStatus(status) {
+  const el = document.getElementById('saveStatus');
+  el.className = 'save-status ' + status;
+  if (status === 'saved') {
+    el.innerHTML = 'Salvestatud &#10003;';
+  } else if (status === 'saving') {
+    el.textContent = 'Salvestamine...';
+  } else if (status === 'unsaved') {
+    el.textContent = 'Salvestamata muudatused';
+  }
+}
+
+async function saveToFirebase() {
+  if (!currentPresId) return;
+  clearTimeout(saveTimer);
+  updateSaveStatus('saving');
+
+  readEditorMeta();
+  meta.updatedAt = Date.now();
+
+  // Clean slides for saving
+  const cleanSlides = slides.map((s, idx) => {
+    const obj = {};
+    obj.id = idx;
+    if (s.type) obj.type = s.type;
+    if (s.section) obj.section = s.section;
+    if (s.estonian !== undefined) obj.estonian = s.estonian || '';
+    if (s.russian !== undefined) obj.russian = s.russian || '';
+    obj.projector = s.projector || 'none';
+    if (s.hint) obj.hint = s.hint;
+    if (s.hidden) obj.hidden = true;
+    // projectorSpan is boolean
+    obj.projectorSpan = s.projectorSpan === true;
+
+    if (s.projectorContent && Object.keys(s.projectorContent).length > 0) {
+      const pc = {};
+      Object.keys(s.projectorContent).forEach(k => {
+        const v = s.projectorContent[k];
+        if (v !== '' && v !== null && v !== undefined) {
+          pc[k] = v;
+        }
+      });
+      if (Object.keys(pc).length > 0) {
+        obj.projectorContent = pc;
+      }
+    }
+
+    return obj;
+  });
+
+  try {
+    await set(ref(db, 'presentations/' + currentPresId + '/meta'), meta);
+    await set(ref(db, 'presentations/' + currentPresId + '/slides'), cleanSlides);
+    dirty = false;
+    updateSaveStatus('saved');
+  } catch (err) {
+    console.error('Save failed:', err);
+    updateSaveStatus('unsaved');
+    alert('Salvestamine eba\u00F5nnestus: ' + err.message);
+  }
+}
+
+document.getElementById('btnSave').addEventListener('click', () => {
+  saveToFirebase();
+});
+
+// Ctrl+S: Save
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    if (document.getElementById('viewEditor').classList.contains('active')) {
+      saveToFirebase();
+    }
+  }
+});
+
+// =============================================================
+//  IMAGE COMPRESSION + UPLOAD
+// =============================================================
+async function compressImage(file, options) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      const ratio = Math.min(options.maxWidth / width, options.maxHeight / height, 1);
+      width = Math.round(width * ratio);
+      height = Math.round(height * ratio);
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob((blob) => resolve(blob), 'image/webp', options.quality);
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+async function uploadImage(file, presentationId, progressCallback) {
+  // 1. Compress
+  if (progressCallback) progressCallback('compress', 0);
+  const compressed = await compressImage(file, {
+    maxWidth: 1920,
+    maxHeight: 1080,
+    quality: 0.82
+  });
+
+  // 2. Build path
+  const safeName = file.name.replace(/[^a-zA-Z0-9.\-]/g, '_').toLowerCase();
+  const fileName = Date.now() + '_' + safeName.replace(/\.[^.]+$/, '') + '.webp';
+  const path = 'images/' + presentationId + '/' + fileName;
+
+  // 3. Upload with progress
+  const fileRef = storageRef(storage, path);
+  const uploadTask = uploadBytesResumable(fileRef, compressed);
+
+  return new Promise((resolve, reject) => {
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        if (progressCallback) progressCallback('upload', pct);
+      },
+      (error) => {
+        reject(error);
+      },
+      async () => {
+        try {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          if (progressCallback) progressCallback('done', 100);
+          resolve(url);
+        } catch (e) {
+          reject(e);
+        }
+      }
+    );
+  });
+}
+
+// =============================================================
+//  SLIDE RENDERING
+// =============================================================
+function getSections() {
+  const sections = [];
+  const seen = {};
+  for (let i = 0; i < slides.length; i++) {
+    const sec = slides[i].section || '(ilma sektsioonita)';
+    if (!seen[sec]) {
+      seen[sec] = true;
+      sections.push(sec);
+    }
+  }
+  return sections;
+}
+
+function getSlidesForSection(sectionName) {
+  const result = [];
+  for (let i = 0; i < slides.length; i++) {
+    const sec = slides[i].section || '(ilma sektsioonita)';
+    if (sec === sectionName) {
+      result.push({ slide: slides[i], globalIndex: i });
+    }
+  }
+  return result;
+}
+
+function renderSlides() {
+  readEditorMeta();
+  const list = document.getElementById('slideList');
+  list.innerHTML = '';
+
+  document.getElementById('slideCount').textContent = slides.length + ' slaidi';
+
+  const sections = getSections();
+
+  sections.forEach(sectionName => {
+    const sectionSlides = getSlidesForSection(sectionName);
+    if (sectionSlides.length === 0) return;
+
+    const isCollapsed = collapsedSections[sectionName] !== false;
+
+    const group = document.createElement('div');
+    group.className = 'section-group';
+
+    // Section header bar
+    const header = document.createElement('div');
+    header.className = 'section-header-bar';
+    header.innerHTML =
+      '<span class="section-toggle ' + (isCollapsed ? 'collapsed' : 'expanded') + '">' +
+        (isCollapsed ? '&#9654;' : '&#9660;') +
+      '</span>' +
+      '<span class="section-name">' + esc(sectionName) + '</span>' +
+      '<span class="section-count">(' + sectionSlides.length + ' slaidi)</span>';
+
+    header.addEventListener('click', () => {
+      collapsedSections[sectionName] = !isCollapsed;
+      renderSlides();
     });
-    return line;
-  }
 
-  function createSlideCard(slide, globalIndex) {
-    var card = document.createElement('div');
-    card.className = 'slide-card';
-    if (slide.type === 'section-header') card.classList.add('is-section');
-    if (slide.type === 'bible') card.classList.add('is-bible');
-    if (slide.hidden) card.classList.add('is-hidden');
+    group.appendChild(header);
 
-    // --- BUILD HTML ---
-    var html = '';
+    // Slides container
+    const slidesContainer = document.createElement('div');
+    slidesContainer.className = 'section-slides ' + (isCollapsed ? 'collapsed' : 'expanded');
 
-    // Header row
-    html += '<div class="slide-header">';
-    html += '<span class="slide-id">#' + globalIndex + '</span>';
+    const inner = document.createElement('div');
+    inner.className = 'section-slides-inner';
 
-    // Type selector
-    html += '<select class="slide-type-select" data-i="' + globalIndex + '" data-field="type">';
-    html += '<option value="normal"' + (slide.type === 'normal' ? ' selected' : '') + '>normal</option>';
-    html += '<option value="section-header"' + (slide.type === 'section-header' ? ' selected' : '') + '>section-header</option>';
-    html += '<option value="bible"' + (slide.type === 'bible' ? ' selected' : '') + '>bible</option>';
-    html += '</select>';
+    sectionSlides.forEach(item => {
+      const insertLine = createInsertLine(item.globalIndex);
+      inner.appendChild(insertLine);
 
-    // Section input
-    html += '<input class="slide-section-input" data-i="' + globalIndex + '" data-field="section" value="' + esc(slide.section || '') + '" placeholder="Sektsioon">';
-
-    // Hint input
-    html += '<input class="slide-hint-input" data-i="' + globalIndex + '" data-field="hint" value="' + esc(slide.hint || '') + '" placeholder="Suunav tekst">';
-
-    // Actions
-    html += '<div class="slide-actions">';
-    html += '<button class="btn-icon hidden-toggle' + (slide.hidden ? ' is-hidden' : '') + '" data-action="toggle-hidden" data-i="' + globalIndex + '" title="Peida/N&auml;ita">';
-    html += slide.hidden ? '&#9673;' : '&#9678;';
-    html += '</button>';
-    html += '<button class="btn-icon" data-action="up" data-i="' + globalIndex + '" title="Liiguta &uuml;les">&#9650;</button>';
-    html += '<button class="btn-icon" data-action="down" data-i="' + globalIndex + '" title="Liiguta alla">&#9660;</button>';
-    html += '<button class="btn-icon delete" data-action="delete" data-i="' + globalIndex + '" title="Kustuta">&#10005;</button>';
-    html += '</div>';
-    html += '</div>';
-
-    // Two-column body
-    html += '<div class="slide-card-body">';
-
-    // LEFT COLUMN
-    html += '<div class="slide-left">';
-    html += '<div class="field-row">';
-    html += '<span class="field-label">ET</span>';
-    html += '<textarea class="field-textarea" data-i="' + globalIndex + '" data-field="estonian" rows="1">' + esc(slide.estonian || '') + '</textarea>';
-    html += '</div>';
-    html += '<div class="field-row">';
-    html += '<span class="field-label">RU</span>';
-    html += '<textarea class="field-textarea" data-i="' + globalIndex + '" data-field="russian" rows="1">' + esc(slide.russian || '') + '</textarea>';
-    html += '</div>';
-
-    // Flow indicators
-    html += buildFlowIndicator(globalIndex);
-
-    html += '<div class="slide-time">~4s</div>';
-    html += '</div>';
-
-    // RIGHT COLUMN
-    html += '<div class="slide-right">';
-
-    var inherited = spanMap[globalIndex];
-    if (inherited) {
-      // Inherited projector from source slide
-      var srcSlide = inherited.sourceSlide;
-      html += '<div class="inherited-notice">&larr; P&auml;rib projektorit slaidist #' + inherited.sourceIndex + '</div>';
-      html += buildProjectorPreview(srcSlide);
-    } else {
-      // Projector type selector
-      html += '<select class="projector-select" data-i="' + globalIndex + '" data-field="projector" style="margin-bottom:6px;">';
-      html += '<option value="none"' + (slide.projector === 'none' ? ' selected' : '') + '>none</option>';
-      html += '<option value="bible"' + (slide.projector === 'bible' ? ' selected' : '') + '>bible</option>';
-      html += '<option value="keytext"' + (slide.projector === 'keytext' ? ' selected' : '') + '>keytext</option>';
-      html += '<option value="image"' + (slide.projector === 'image' ? ' selected' : '') + '>image</option>';
-      html += '<option value="image-keytext"' + (slide.projector === 'image-keytext' ? ' selected' : '') + '>image-keytext</option>';
-      html += '</select>';
-
-      // Span input (only if projector is not 'none')
-      if (slide.projector && slide.projector !== 'none') {
-        html += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">';
-        html += '<span class="span-label">Kestus:</span>';
-        html += '<input type="number" class="span-input" data-i="' + globalIndex + '" data-field="projectorSpan" min="1" max="10" value="' + (slide.projectorSpan || 1) + '">';
-        html += '<span class="span-label">slaidi</span>';
-        html += '</div>';
-      }
-
-      // Mini projector preview
-      html += buildProjectorPreview(slide);
-
-      // Projector content fields
-      html += buildProjectorFields(slide, globalIndex);
-    }
-
-    html += '</div>';
-
-    html += '</div>';
-
-    card.innerHTML = html;
-
-    // --- ATTACH EVENTS ---
-    // Direct field inputs
-    card.querySelectorAll('[data-field]').forEach(function(el) {
-      var field = el.getAttribute('data-field');
-      var idx = parseInt(el.getAttribute('data-i'), 10);
-
-      el.addEventListener('input', function() {
-        if (field === 'projectorSpan') return;
-        slides[idx][field] = el.value;
-
-        // Auto-resize textareas
-        if (el.tagName === 'TEXTAREA') autosize(el);
-      });
-
-      el.addEventListener('change', function() {
-        if (field === 'projectorSpan') {
-          var val = parseInt(el.value, 10);
-          slides[idx].projectorSpan = isNaN(val) || val < 1 ? 1 : val;
-          renderAll();
-          return;
-        }
-        slides[idx][field] = el.value;
-        if (field === 'type' || field === 'projector' || field === 'section') {
-          renderAll();
-        }
-      });
+      const card = createSlideCard(item.slide, item.globalIndex);
+      inner.appendChild(card);
     });
 
-    // Projector content fields
-    card.querySelectorAll('[data-pc]').forEach(function(el) {
-      var idx = parseInt(el.getAttribute('data-pci'), 10);
-      var key = el.getAttribute('data-pc');
-
-      el.addEventListener('input', function() {
-        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
-        slides[idx].projectorContent[key] = el.value;
-        if (el.tagName === 'TEXTAREA') autosize(el);
-
-        // Update preview in real-time
-        updatePreviewInCard(card, slides[idx]);
-      });
-    });
-
-    // Overlay slider
-    var overlaySlider = card.querySelector('[data-overlay]');
-    if (overlaySlider) {
-      var idx = parseInt(overlaySlider.getAttribute('data-overlay-i'), 10);
-      overlaySlider.addEventListener('input', function() {
-        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
-        slides[idx].projectorContent.overlay = parseInt(this.value, 10);
-
-        var valDisplay = card.querySelector('.overlay-value');
-        if (valDisplay) valDisplay.textContent = this.value + '%';
-
-        var overlayEl = card.querySelector('.preview-overlay');
-        if (overlayEl) {
-          overlayEl.style.background = 'rgba(0,0,0,' + (parseInt(this.value, 10) / 100) + ')';
-        }
-      });
+    // Insert line after last slide
+    if (sectionSlides.length > 0) {
+      const lastGlobal = sectionSlides[sectionSlides.length - 1].globalIndex;
+      const insertAfterLast = createInsertLine(lastGlobal + 1);
+      inner.appendChild(insertAfterLast);
     }
 
-    // Action buttons
-    card.querySelectorAll('[data-action]').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var idx = parseInt(btn.getAttribute('data-i'), 10);
-        var action = btn.getAttribute('data-action');
+    slidesContainer.appendChild(inner);
+    if (!isCollapsed) {
+      slidesContainer.style.maxHeight = 'none';
+    }
+    group.appendChild(slidesContainer);
+    list.appendChild(group);
+  });
 
-        if (action === 'up' && idx > 0) {
-          var tmp = slides[idx]; slides[idx] = slides[idx - 1]; slides[idx - 1] = tmp;
-          renderAll();
-        } else if (action === 'down' && idx < slides.length - 1) {
-          var tmp = slides[idx]; slides[idx] = slides[idx + 1]; slides[idx + 1] = tmp;
-          renderAll();
-        } else if (action === 'delete') {
-          if (confirm('Kustuta slaid #' + idx + '?')) {
-            slides.splice(idx, 1);
-            renderAll();
-          }
-        } else if (action === 'toggle-hidden') {
-          slides[idx].hidden = !slides[idx].hidden;
-          renderAll();
-        }
-      });
-    });
-
-    return card;
+  // If no slides at all, show an insert line
+  if (slides.length === 0) {
+    const insertLine = createInsertLine(0);
+    insertLine.style.opacity = '1';
+    insertLine.style.height = '40px';
+    list.appendChild(insertLine);
   }
 
-  function updatePreviewInCard(card, slide) {
-    var previewEl = card.querySelector('.projector-preview');
-    if (previewEl) {
-      previewEl.outerHTML = buildProjectorPreview(slide);
+  // Auto-resize all textareas
+  list.querySelectorAll('textarea').forEach(ta => autosize(ta));
+}
+
+function createInsertLine(insertAtIndex) {
+  const line = document.createElement('div');
+  line.className = 'insert-line';
+  line.innerHTML = '<div class="insert-line-btn">+</div>';
+  line.addEventListener('click', e => {
+    e.stopPropagation();
+    let surroundingSection = '';
+    if (insertAtIndex > 0 && insertAtIndex <= slides.length) {
+      surroundingSection = slides[insertAtIndex - 1].section || '';
+    } else if (insertAtIndex < slides.length) {
+      surroundingSection = slides[insertAtIndex].section || '';
     }
-  }
+    const newSlide = {
+      type: 'normal',
+      section: surroundingSection,
+      estonian: '',
+      russian: '',
+      projector: 'none',
+      projectorSpan: false
+    };
+    slides.splice(insertAtIndex, 0, newSlide);
+    collapsedSections[surroundingSection] = false;
+    markDirty();
+    renderSlides();
+  });
+  return line;
+}
 
-  // --- PROJECTOR PREVIEW ---
-  function buildProjectorPreview(slide) {
-    var projector = slide.projector || 'none';
-    var pc = slide.projectorContent || {};
-    var html = '';
+function createSlideCard(slide, globalIndex) {
+  const card = document.createElement('div');
+  card.className = 'slide-card';
+  if (slide.type === 'section-header') card.classList.add('is-section');
+  if (slide.type === 'bible') card.classList.add('is-bible');
+  if (slide.hidden) card.classList.add('is-hidden');
 
-    if (projector === 'none') {
-      html = '<div class="projector-preview type-none"><span class="preview-text">&mdash;</span></div>';
+  let html = '';
 
-    } else if (projector === 'bible') {
-      html = '<div class="projector-preview type-bible">';
-      html += '<div class="preview-ref">' + esc(pc.reference || '') + '</div>';
-      html += '<div class="preview-verse">' + esc(pc.textEst || '') + '</div>';
-      html += '</div>';
+  // Header row
+  html += '<div class="slide-header">';
+  html += '<span class="slide-id">#' + globalIndex + '</span>';
 
-    } else if (projector === 'keytext') {
-      html = '<div class="projector-preview type-keytext">';
-      html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
-      if (pc.subEst) {
-        html += '<div class="preview-sub">' + esc(pc.subEst) + '</div>';
-      }
-      html += '</div>';
+  // Type selector
+  html += '<select class="slide-type-select" data-i="' + globalIndex + '" data-field="type">';
+  ['normal', 'section-header', 'bible'].forEach(t => {
+    html += '<option value="' + t + '"' + (slide.type === t ? ' selected' : '') + '>' + t + '</option>';
+  });
+  html += '</select>';
 
-    } else if (projector === 'image') {
-      var overlay = pc.overlay != null ? pc.overlay : 60;
-      var bgStyle = '';
-      if (pc.imageUrl) {
-        bgStyle = 'background-image:url(' + esc(pc.imageUrl) + ');';
-      } else if (pc.imageFallback) {
-        bgStyle = 'background:' + esc(pc.imageFallback) + ';';
-      } else {
-        bgStyle = 'background:linear-gradient(135deg,#1a2a4a,#0a1525);';
-      }
-      html = '<div class="projector-preview type-image" style="' + bgStyle + '">';
-      html += '<div class="preview-overlay" style="background:rgba(0,0,0,' + (overlay / 100) + ')"></div>';
-      if (pc.captionEst) {
-        html += '<div class="preview-caption">' + esc(pc.captionEst) + '</div>';
-      }
-      html += '</div>';
+  // Section input
+  html += '<input class="slide-section-input" data-i="' + globalIndex + '" data-field="section" value="' + esc(slide.section || '') + '" placeholder="Sektsioon">';
 
-    } else if (projector === 'image-keytext') {
-      var overlay = pc.overlay != null ? pc.overlay : 60;
-      var bgStyle = '';
-      if (pc.imageUrl) {
-        bgStyle = 'background-image:url(' + esc(pc.imageUrl) + ');';
-      } else if (pc.imageFallback) {
-        bgStyle = 'background:' + esc(pc.imageFallback) + ';';
-      } else {
-        bgStyle = 'background:linear-gradient(135deg,#1a2a4a,#0a1525);';
-      }
-      html = '<div class="projector-preview type-image-keytext" style="' + bgStyle + '">';
-      html += '<div class="preview-overlay" style="background:rgba(0,0,0,' + (overlay / 100) + ')"></div>';
-      html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
-      html += '</div>';
-    }
+  // Hint input
+  html += '<input class="slide-hint-input" data-i="' + globalIndex + '" data-field="hint" value="' + esc(slide.hint || '') + '" placeholder="Suunav tekst">';
 
-    return html;
-  }
+  // Actions
+  html += '<div class="slide-actions">';
+  html += '<button class="btn-icon hidden-toggle' + (slide.hidden ? ' is-hidden' : '') + '" data-action="toggle-hidden" data-i="' + globalIndex + '" title="Peida/N\u00E4ita">';
+  html += slide.hidden ? '&#9673;' : '&#9678;';
+  html += '</button>';
+  html += '<button class="btn-icon" data-action="up" data-i="' + globalIndex + '" title="Liiguta \u00FCles">&#9650;</button>';
+  html += '<button class="btn-icon" data-action="down" data-i="' + globalIndex + '" title="Liiguta alla">&#9660;</button>';
+  html += '<button class="btn-icon delete" data-action="delete" data-i="' + globalIndex + '" title="Kustuta">&#10005;</button>';
+  html += '</div>';
+  html += '</div>';
 
-  // --- PROJECTOR CONTENT FIELDS ---
-  function buildProjectorFields(slide, i) {
-    var projector = slide.projector || 'none';
-    if (projector === 'none') return '';
+  // Two-column body
+  html += '<div class="slide-card-body">';
 
-    var pc = slide.projectorContent || {};
-    var html = '<div class="projector-fields">';
-    html += '<div class="projector-fields-title">Projektori sisu (' + esc(projector) + ')</div>';
+  // LEFT COLUMN
+  html += '<div class="slide-left">';
+  html += '<div class="field-row">';
+  html += '<span class="field-label">ET</span>';
+  html += '<textarea class="field-textarea" data-i="' + globalIndex + '" data-field="estonian" rows="1">' + esc(slide.estonian || '') + '</textarea>';
+  html += '</div>';
+  html += '<div class="field-row">';
+  html += '<span class="field-label">RU</span>';
+  html += '<textarea class="field-textarea" data-i="' + globalIndex + '" data-field="russian" rows="1">' + esc(slide.russian || '') + '</textarea>';
+  html += '</div>';
 
-    if (projector === 'bible') {
-      html += pcField(i, 'reference', 'Viide ET', pc.reference);
-      html += pcField(i, 'referenceRus', 'Viide RU', pc.referenceRus);
-      html += pcField(i, 'referenceEng', 'Viide EN', pc.referenceEng);
-      html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
-      html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
-      html += pcField(i, 'textEng', 'Tekst EN', pc.textEng);
+  // Flow indicators
+  html += buildFlowIndicator(globalIndex);
 
-    } else if (projector === 'keytext') {
-      html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
-      html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
-      html += pcField(i, 'subEst', 'Alam ET', pc.subEst);
-      html += pcField(i, 'subRus', 'Alam RU', pc.subRus);
+  html += '<div class="slide-time">~4s</div>';
+  html += '</div>';
 
-    } else if (projector === 'image') {
-      html += pcField(i, 'imageUrl', 'Pildi URL', pc.imageUrl);
-      html += pcField(i, 'imageFallback', 'Fallback', pc.imageFallback);
-      html += pcField(i, 'captionEst', 'Allkiri ET', pc.captionEst);
-      html += pcField(i, 'captionRus', 'Allkiri RU', pc.captionRus);
-      html += overlaySlider(i, pc.overlay);
+  // RIGHT COLUMN
+  html += '<div class="slide-right">';
 
-    } else if (projector === 'image-keytext') {
-      html += pcField(i, 'imageUrl', 'Pildi URL', pc.imageUrl);
-      html += pcField(i, 'imageFallback', 'Fallback', pc.imageFallback);
-      html += overlaySlider(i, pc.overlay);
-      html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
-      html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
-    }
+  // Projector type selector
+  const projVal = slide.projector || 'none';
+  html += '<select class="projector-select" data-i="' + globalIndex + '" data-field="projector" style="margin-bottom:6px;">';
+  ['none', 'inherit', 'section', 'bible', 'keytext', 'image', 'image-keytext'].forEach(t => {
+    html += '<option value="' + t + '"' + (projVal === t ? ' selected' : '') + '>' + t + '</option>';
+  });
+  html += '</select>';
 
+  // projectorSpan checkbox (shown when projector is not 'none' and not 'inherit')
+  if (projVal !== 'none' && projVal !== 'inherit') {
+    const isSpan = slide.projectorSpan === true;
+    html += '<div class="span-checkbox-row">';
+    html += '<input type="checkbox" id="span_' + globalIndex + '" data-i="' + globalIndex + '" data-field="projectorSpan"' + (isSpan ? ' checked' : '') + '>';
+    html += '<label for="span_' + globalIndex + '">projectorSpan (kehtib j\u00E4rgmistele inherit-slaididele)</label>';
     html += '</div>';
-    return html;
   }
 
-  function pcField(i, key, label, value) {
-    return '<div class="pc-field-row">' +
-      '<span class="pc-label">' + esc(label) + '</span>' +
-      '<textarea class="pc-input" data-pci="' + i + '" data-pc="' + key + '" rows="1">' + esc(value || '') + '</textarea>' +
-    '</div>';
-  }
+  // Mini projector preview
+  html += buildProjectorPreview(slide);
 
-  function overlaySlider(i, value) {
-    var val = value != null ? value : 60;
-    return '<div class="overlay-slider-row">' +
-      '<label>Overlay</label>' +
-      '<input type="range" min="0" max="100" value="' + val + '" data-overlay="1" data-overlay-i="' + i + '">' +
-      '<span class="overlay-value">' + val + '%</span>' +
-    '</div>';
-  }
+  // Projector content fields
+  html += buildProjectorFields(slide, globalIndex);
 
-  // --- FLOW INDICATOR ---
-  function buildFlowIndicator(globalIndex) {
-    var html = '';
-    var currentSlide = slides[globalIndex];
-    var nextSlide = globalIndex < slides.length - 1 ? slides[globalIndex + 1] : null;
-    var prevSlide = globalIndex > 0 ? slides[globalIndex - 1] : null;
+  html += '</div>';
+  html += '</div>';
 
-    // Current is "none" but next has keytext
-    if ((currentSlide.projector === 'none') && nextSlide && nextSlide.projector === 'keytext') {
-      html += '<div class="flow-indicator flow-next">&rarr; keytext j&auml;rgmisel slaidil</div>';
+  card.innerHTML = html;
+
+  // --- ATTACH EVENTS ---
+  // Direct field inputs
+  card.querySelectorAll('[data-field]').forEach(el => {
+    const field = el.getAttribute('data-field');
+    const idx = parseInt(el.getAttribute('data-i'), 10);
+
+    if (field === 'projectorSpan') {
+      // Checkbox
+      el.addEventListener('change', () => {
+        slides[idx].projectorSpan = el.checked;
+        markDirty();
+        renderSlides();
+      });
+      return;
     }
 
-    // Current has keytext and the text matches a previous slide's estonian
-    if (currentSlide.projector === 'keytext' && currentSlide.projectorContent) {
-      var ktEst = currentSlide.projectorContent.textEst || '';
-      if (prevSlide && ktEst) {
-        var prevEst = (prevSlide.estonian || '').replace(/[.,!?""\u201e\u201d]/g, '').trim();
-        var ktClean = ktEst.replace(/[.,!?""\u201e\u201d]/g, '').trim();
-        if (prevEst && ktClean && prevEst.indexOf(ktClean) !== -1) {
-          html += '<div class="flow-indicator flow-prev">&larr; keytext eelmisest slaidist</div>';
-        }
+    el.addEventListener('input', () => {
+      slides[idx][field] = el.value;
+      if (el.tagName === 'TEXTAREA') autosize(el);
+      markDirty();
+    });
+
+    el.addEventListener('change', () => {
+      slides[idx][field] = el.value;
+      if (field === 'type' || field === 'projector' || field === 'section') {
+        markDirty();
+        renderSlides();
       }
-    }
+    });
+  });
 
-    // Span source indicator
-    if (currentSlide.projector && currentSlide.projector !== 'none' && (currentSlide.projectorSpan || 1) > 1) {
-      var spanCount = currentSlide.projectorSpan - 1;
-      html += '<div class="span-badge span-source">span &rarr; +' + spanCount + ' slaidi</div>';
-    }
+  // Projector content fields
+  card.querySelectorAll('[data-pc]').forEach(el => {
+    const idx = parseInt(el.getAttribute('data-pci'), 10);
+    const key = el.getAttribute('data-pc');
 
-    // Span inherit indicator
-    if (spanMap[globalIndex]) {
-      html += '<div class="span-badge span-inherit">&larr; projektor slaidist #' + spanMap[globalIndex].sourceIndex + '</div>';
-    }
+    el.addEventListener('input', () => {
+      if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
+      slides[idx].projectorContent[key] = el.value;
+      if (el.tagName === 'TEXTAREA') autosize(el);
+      updatePreviewInCard(card, slides[idx]);
+      markDirty();
+    });
+  });
 
-    return html;
+  // Overlay slider
+  const overlaySlider = card.querySelector('[data-overlay]');
+  if (overlaySlider) {
+    const idx = parseInt(overlaySlider.getAttribute('data-overlay-i'), 10);
+    overlaySlider.addEventListener('input', function() {
+      if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
+      slides[idx].projectorContent.overlay = parseInt(this.value, 10);
+      const valDisplay = card.querySelector('.overlay-value');
+      if (valDisplay) valDisplay.textContent = this.value + '%';
+      const overlayEl = card.querySelector('.preview-overlay');
+      if (overlayEl) {
+        overlayEl.style.background = 'rgba(0,0,0,' + (parseInt(this.value, 10) / 100) + ')';
+      }
+      markDirty();
+    });
   }
 
-  // --- BUILD JSON ---
-  function buildJSON() {
-    readMeta();
-    computeSpanMap();
+  // Image upload buttons
+  card.querySelectorAll('[data-upload-trigger]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.getAttribute('data-upload-i'), 10);
+      const fileInput = card.querySelector('[data-upload-input="' + idx + '"]');
+      if (fileInput) fileInput.click();
+    });
+  });
 
-    var cleanSlides = slides.map(function(s, idx) {
-      var obj = {};
-      if (s.type) obj.type = s.type;
-      if (s.section) obj.section = s.section;
-      if (s.estonian) obj.estonian = s.estonian;
-      if (s.russian) obj.russian = s.russian;
-      if (spanMap[idx]) {
-        obj.projector = 'none';
-      } else {
-        if (s.projector) obj.projector = s.projector;
+  card.querySelectorAll('[data-upload-input]').forEach(input => {
+    input.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const idx = parseInt(input.getAttribute('data-upload-input'), 10);
+
+      if (!storageAvailable) {
+        alert('Firebase Storage pole saadaval.');
+        return;
       }
-      if (s.hint) obj.hint = s.hint;
-      if (s.hidden) obj.hidden = s.hidden;
-      if (!spanMap[idx] && s.projectorSpan && s.projectorSpan > 1) obj.projectorSpan = s.projectorSpan;
 
-      if (!spanMap[idx] && s.projectorContent && Object.keys(s.projectorContent).length > 0) {
-        var pc = {};
-        Object.keys(s.projectorContent).forEach(function(k) {
-          var v = s.projectorContent[k];
-          if (v !== '' && v !== null && v !== undefined) {
-            pc[k] = v;
+      const uploadBtn = card.querySelector('[data-upload-trigger][data-upload-i="' + idx + '"]');
+      const statusEl = card.querySelector('[data-upload-status="' + idx + '"]');
+      const progressBar = card.querySelector('[data-upload-progress="' + idx + '"]');
+      const progressFill = progressBar ? progressBar.querySelector('.upload-progress-bar') : null;
+
+      if (uploadBtn) uploadBtn.disabled = true;
+      if (statusEl) statusEl.textContent = 'Kompressitakse...';
+      if (progressBar) progressBar.classList.add('visible');
+
+      try {
+        const url = await uploadImage(file, currentPresId, (phase, pct) => {
+          if (phase === 'compress') {
+            if (statusEl) statusEl.textContent = 'Kompressitakse...';
+          } else if (phase === 'upload') {
+            if (statusEl) statusEl.textContent = 'Laetakse \u00FCles... ' + pct + '%';
+            if (progressFill) progressFill.style.width = pct + '%';
+          } else if (phase === 'done') {
+            if (statusEl) statusEl.textContent = 'Valmis!';
+            if (progressFill) progressFill.style.width = '100%';
           }
         });
-        if (Object.keys(pc).length > 0) {
-          obj.projectorContent = pc;
-        }
-      }
 
-      return obj;
-    });
+        // Set imageUrl
+        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
+        slides[idx].projectorContent.imageUrl = url;
 
-    var output = { meta: meta, slides: cleanSlides };
-    return JSON.stringify(output, null, 2);
-  }
+        // Update the imageUrl field if visible
+        const urlField = card.querySelector('[data-pc="imageUrl"][data-pci="' + idx + '"]');
+        if (urlField) urlField.value = url;
 
-  // --- DOWNLOAD ---
-  document.getElementById('btnDownload').addEventListener('click', function() {
-    downloadJSON();
-  });
-
-  function downloadJSON() {
-    var json = buildJSON();
-    var blob = new Blob([json], { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'slides.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // --- IMPORT ---
-  document.getElementById('btnImport').addEventListener('click', function() {
-    document.getElementById('importInput').click();
-  });
-
-  document.getElementById('importInput').addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      try {
-        var data = JSON.parse(ev.target.result);
-        meta = data.meta || {};
-        if (meta.timerPreset == null) meta.timerPreset = 420;
-        slides = data.slides || [];
-        collapsedSections = {};
-        renderMeta();
-        renderAll();
+        markDirty();
+        // Re-render to update preview
+        setTimeout(() => renderSlides(), 500);
       } catch (err) {
-        alert('Vigane JSON fail: ' + err.message);
+        alert('\u00DCleslaadimise viga: ' + err.message);
+        if (statusEl) statusEl.textContent = 'Viga!';
+      } finally {
+        if (uploadBtn) uploadBtn.disabled = false;
+        input.value = '';
+        setTimeout(() => {
+          if (progressBar) progressBar.classList.remove('visible');
+        }, 1500);
       }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
+    });
   });
 
-  // --- KEYBOARD SHORTCUTS ---
-  document.addEventListener('keydown', function(e) {
-    // Ctrl+S: Download JSON
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      downloadJSON();
-    }
+  // Action buttons
+  card.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = parseInt(btn.getAttribute('data-i'), 10);
+      const action = btn.getAttribute('data-action');
 
-    // Ctrl+Shift+N: Add new slide at end
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'N') {
-      e.preventDefault();
-      var lastSection = slides.length > 0 ? slides[slides.length - 1].section : '';
-      slides.push({
-        type: 'normal',
-        section: lastSection,
-        estonian: '',
-        russian: '',
-        projector: 'none'
+      if (action === 'up' && idx > 0) {
+        const tmp = slides[idx];
+        slides[idx] = slides[idx - 1];
+        slides[idx - 1] = tmp;
+        markDirty();
+        renderSlides();
+      } else if (action === 'down' && idx < slides.length - 1) {
+        const tmp = slides[idx];
+        slides[idx] = slides[idx + 1];
+        slides[idx + 1] = tmp;
+        markDirty();
+        renderSlides();
+      } else if (action === 'delete') {
+        if (confirm('Kustuta slaid #' + idx + '?')) {
+          slides.splice(idx, 1);
+          markDirty();
+          renderSlides();
+        }
+      } else if (action === 'toggle-hidden') {
+        slides[idx].hidden = !slides[idx].hidden;
+        markDirty();
+        renderSlides();
+      }
+    });
+  });
+
+  return card;
+}
+
+function updatePreviewInCard(card, slide) {
+  const previewEl = card.querySelector('.projector-preview');
+  if (previewEl) {
+    previewEl.outerHTML = buildProjectorPreview(slide);
+  }
+}
+
+// =============================================================
+//  PROJECTOR PREVIEW
+// =============================================================
+function buildProjectorPreview(slide) {
+  const projector = slide.projector || 'none';
+  const pc = slide.projectorContent || {};
+  let html = '';
+
+  if (projector === 'none') {
+    html = '<div class="projector-preview type-none"><span class="preview-text">&mdash;</span></div>';
+
+  } else if (projector === 'inherit') {
+    html = '<div class="projector-preview type-inherit"><span class="preview-text">&larr; P\u00E4rib eelmist projektorit</span></div>';
+
+  } else if (projector === 'section') {
+    html = '<div class="projector-preview type-section">';
+    html += '<div class="preview-section-text">' + esc(pc.sectionEst || '') + '</div>';
+    html += '</div>';
+
+  } else if (projector === 'bible') {
+    html = '<div class="projector-preview type-bible">';
+    html += '<div class="preview-ref">' + esc(pc.reference || '') + '</div>';
+    html += '<div class="preview-verse">' + esc(pc.textEst || '') + '</div>';
+    html += '</div>';
+
+  } else if (projector === 'keytext') {
+    html = '<div class="projector-preview type-keytext">';
+    html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
+    if (pc.subEst) {
+      html += '<div class="preview-sub">' + esc(pc.subEst) + '</div>';
+    }
+    html += '</div>';
+
+  } else if (projector === 'image') {
+    const overlay = pc.overlay != null ? pc.overlay : 60;
+    let bgStyle = '';
+    if (pc.imageUrl) {
+      bgStyle = 'background-image:url(' + esc(pc.imageUrl) + ');';
+    } else if (pc.imageFallback) {
+      bgStyle = 'background:' + esc(pc.imageFallback) + ';';
+    } else {
+      bgStyle = 'background:linear-gradient(135deg,#1a2a4a,#0a1525);';
+    }
+    html = '<div class="projector-preview type-image" style="' + bgStyle + '">';
+    html += '<div class="preview-overlay" style="background:rgba(0,0,0,' + (overlay / 100) + ')"></div>';
+    if (pc.captionEst) {
+      html += '<div class="preview-caption">' + esc(pc.captionEst) + '</div>';
+    }
+    html += '</div>';
+
+  } else if (projector === 'image-keytext') {
+    const overlay = pc.overlay != null ? pc.overlay : 60;
+    let bgStyle = '';
+    if (pc.imageUrl) {
+      bgStyle = 'background-image:url(' + esc(pc.imageUrl) + ');';
+    } else if (pc.imageFallback) {
+      bgStyle = 'background:' + esc(pc.imageFallback) + ';';
+    } else {
+      bgStyle = 'background:linear-gradient(135deg,#1a2a4a,#0a1525);';
+    }
+    html = '<div class="projector-preview type-image-keytext" style="' + bgStyle + '">';
+    html += '<div class="preview-overlay" style="background:rgba(0,0,0,' + (overlay / 100) + ')"></div>';
+    html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
+    html += '</div>';
+  }
+
+  return html;
+}
+
+// =============================================================
+//  PROJECTOR CONTENT FIELDS
+// =============================================================
+function buildProjectorFields(slide, i) {
+  const projector = slide.projector || 'none';
+  if (projector === 'none' || projector === 'inherit') return '';
+
+  const pc = slide.projectorContent || {};
+  let html = '<div class="projector-fields">';
+  html += '<div class="projector-fields-title">Projektori sisu (' + esc(projector) + ')</div>';
+
+  if (projector === 'section') {
+    html += pcField(i, 'sectionEst', 'Sektsioon ET', pc.sectionEst);
+    html += pcField(i, 'sectionRus', 'Sektsioon RU', pc.sectionRus);
+
+  } else if (projector === 'bible') {
+    html += pcField(i, 'reference', 'Viide ET', pc.reference);
+    html += pcField(i, 'referenceRus', 'Viide RU', pc.referenceRus);
+    html += pcField(i, 'referenceEng', 'Viide EN', pc.referenceEng);
+    html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
+    html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
+    html += pcField(i, 'textEng', 'Tekst EN', pc.textEng);
+
+  } else if (projector === 'keytext') {
+    html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
+    html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
+    html += pcField(i, 'subEst', 'Alam ET', pc.subEst);
+    html += pcField(i, 'subRus', 'Alam RU', pc.subRus);
+
+  } else if (projector === 'image') {
+    html += imageUploadRow(i);
+    html += pcField(i, 'imageUrl', 'Pildi URL', pc.imageUrl);
+    html += pcField(i, 'imageFallback', 'Fallback', pc.imageFallback);
+    html += pcField(i, 'captionEst', 'Allkiri ET', pc.captionEst);
+    html += pcField(i, 'captionRus', 'Allkiri RU', pc.captionRus);
+    html += overlaySlider(i, pc.overlay);
+
+  } else if (projector === 'image-keytext') {
+    html += imageUploadRow(i);
+    html += pcField(i, 'imageUrl', 'Pildi URL', pc.imageUrl);
+    html += pcField(i, 'imageFallback', 'Fallback', pc.imageFallback);
+    html += overlaySlider(i, pc.overlay);
+    html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
+    html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function pcField(i, key, label, value) {
+  return '<div class="pc-field-row">' +
+    '<span class="pc-label">' + esc(label) + '</span>' +
+    '<textarea class="pc-input" data-pci="' + i + '" data-pc="' + key + '" rows="1">' + esc(value || '') + '</textarea>' +
+  '</div>';
+}
+
+function overlaySlider(i, value) {
+  const val = value != null ? value : 60;
+  return '<div class="overlay-slider-row">' +
+    '<label>Overlay</label>' +
+    '<input type="range" min="0" max="100" value="' + val + '" data-overlay="1" data-overlay-i="' + i + '">' +
+    '<span class="overlay-value">' + val + '%</span>' +
+  '</div>';
+}
+
+function imageUploadRow(i) {
+  return '<div class="upload-row">' +
+    '<button class="upload-btn" data-upload-trigger data-upload-i="' + i + '">Laadi pilt \u00FCles</button>' +
+    '<span class="upload-status" data-upload-status="' + i + '"></span>' +
+    '<input type="file" accept="image/*" class="hidden" data-upload-input="' + i + '">' +
+  '</div>' +
+  '<div class="upload-progress" data-upload-progress="' + i + '">' +
+    '<div class="upload-progress-bar"></div>' +
+  '</div>';
+}
+
+// =============================================================
+//  FLOW INDICATOR
+// =============================================================
+function buildFlowIndicator(globalIndex) {
+  let html = '';
+  const currentSlide = slides[globalIndex];
+  const nextSlide = globalIndex < slides.length - 1 ? slides[globalIndex + 1] : null;
+  const prevSlide = globalIndex > 0 ? slides[globalIndex - 1] : null;
+
+  // Current is "none" but next has keytext
+  if ((currentSlide.projector === 'none' || currentSlide.projector === 'inherit') && nextSlide && nextSlide.projector === 'keytext') {
+    html += '<div class="flow-indicator flow-next">&rarr; keytext j\u00E4rgmisel slaidil</div>';
+  }
+
+  // Current has keytext and text matches previous slide
+  if (currentSlide.projector === 'keytext' && currentSlide.projectorContent) {
+    const ktEst = currentSlide.projectorContent.textEst || '';
+    if (prevSlide && ktEst) {
+      const prevEst = (prevSlide.estonian || '').replace(/[.,!?"\u201e\u201d]/g, '').trim();
+      const ktClean = ktEst.replace(/[.,!?"\u201e\u201d]/g, '').trim();
+      if (prevEst && ktClean && prevEst.indexOf(ktClean) !== -1) {
+        html += '<div class="flow-indicator flow-prev">&larr; keytext eelmisest slaidist</div>';
+      }
+    }
+  }
+
+  // Span source indicator
+  if (currentSlide.projectorSpan === true && currentSlide.projector && currentSlide.projector !== 'none' && currentSlide.projector !== 'inherit') {
+    html += '<div class="span-badge span-source">projectorSpan &rarr; kehtib j\u00E4rgmistele inherit-slaididele</div>';
+  }
+
+  return html;
+}
+
+// =============================================================
+//  EXPORT / IMPORT
+// =============================================================
+function buildJSON() {
+  readEditorMeta();
+
+  const cleanSlides = slides.map((s, idx) => {
+    const obj = {};
+    obj.id = idx;
+    if (s.type) obj.type = s.type;
+    if (s.section) obj.section = s.section;
+    if (s.estonian) obj.estonian = s.estonian;
+    if (s.russian) obj.russian = s.russian;
+    obj.projector = s.projector || 'none';
+    if (s.hint) obj.hint = s.hint;
+    if (s.hidden) obj.hidden = s.hidden;
+    obj.projectorSpan = s.projectorSpan === true;
+
+    if (s.projectorContent && Object.keys(s.projectorContent).length > 0) {
+      const pc = {};
+      Object.keys(s.projectorContent).forEach(k => {
+        const v = s.projectorContent[k];
+        if (v !== '' && v !== null && v !== undefined) {
+          pc[k] = v;
+        }
       });
-      collapsedSections[lastSection] = false;
-      renderAll();
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      if (Object.keys(pc).length > 0) {
+        obj.projectorContent = pc;
+      }
     }
+
+    return obj;
   });
 
-})();
+  return JSON.stringify({ meta: meta, slides: cleanSlides }, null, 2);
+}
+
+document.getElementById('btnExport').addEventListener('click', () => {
+  const json = buildJSON();
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (currentPresId || 'slides') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('btnImport').addEventListener('click', () => {
+  document.getElementById('importInput').click();
+});
+
+document.getElementById('importInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      meta = data.meta || {};
+      slides = ensureArray(data.slides);
+      collapsedSections = {};
+      renderEditorMeta();
+      renderEditorTitle();
+      renderSlides();
+      markDirty();
+    } catch (err) {
+      alert('Vigane JSON fail: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// =============================================================
+//  KEYBOARD SHORTCUTS
+// =============================================================
+document.addEventListener('keydown', e => {
+  // Ctrl+Shift+N: Add new slide at end (only in editor view)
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'N') {
+    if (!document.getElementById('viewEditor').classList.contains('active')) return;
+    e.preventDefault();
+    const lastSection = slides.length > 0 ? slides[slides.length - 1].section : '';
+    slides.push({
+      type: 'normal',
+      section: lastSection,
+      estonian: '',
+      russian: '',
+      projector: 'none',
+      projectorSpan: false
+    });
+    collapsedSections[lastSection] = false;
+    markDirty();
+    renderSlides();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+});
+
+// =============================================================
+//  INITIAL RENDER
+// =============================================================
+renderPresList();
+
 </script>
 </body>
 </html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armulaud – Migreerimine</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0f1a;
+  color: #f0e8d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.container {
+  max-width: 600px;
+  width: 100%;
+}
+h1 {
+  font-size: 1.4rem;
+  color: #c9a532;
+  margin-bottom: 8px;
+}
+.desc {
+  font-size: 0.82rem;
+  color: rgba(240,232,210,0.6);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.field {
+  margin-bottom: 16px;
+}
+.field label {
+  display: block;
+  font-size: 0.7rem;
+  color: rgba(240,232,210,0.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.field input {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,165,50,0.2);
+  color: #f0e8d2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  outline: none;
+}
+.field input:focus { border-color: #c9a532; }
+.btn {
+  background: rgba(61,214,140,0.15);
+  border: 1px solid rgba(61,214,140,0.35);
+  color: #3dd68c;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: all 0.2s;
+  width: 100%;
+}
+.btn:hover { background: rgba(61,214,140,0.3); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.log {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 12px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+.log .ok { color: #3dd68c; }
+.log .err { color: #e05555; }
+.log .info { color: #4a8fdf; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Migrate slides.json &rarr; Firebase</h1>
+  <p class="desc">
+    Loeb <code>data/slides.json</code> ja kirjutab sisu Firebase Realtime DB-sse.
+    See on &uuml;hekordne migratsioonit&ouml;&ouml;riist.
+  </p>
+
+  <div class="field">
+    <label>Presentatsiooni ID</label>
+    <input type="text" id="presId" value="2026-03-08" placeholder="2026-03-08">
+  </div>
+
+  <div class="field">
+    <label>M&auml;rgi aktiivseks</label>
+    <label style="font-size:0.82rem;text-transform:none;display:flex;align-items:center;gap:8px;cursor:pointer;">
+      <input type="checkbox" id="setActive" checked> Kirjuta ka <code>/activePresentation</code>
+    </label>
+  </div>
+
+  <button class="btn" id="btnMigrate">Alusta migreerimist</button>
+
+  <div class="log" id="log" style="display:none;"></div>
+</div>
+
+<script type="module">
+import { db } from './js/firebase-config.js';
+import { ref, set, get } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+var logEl = document.getElementById('log');
+
+function log(msg, cls) {
+  logEl.style.display = 'block';
+  var span = document.createElement('span');
+  if (cls) span.className = cls;
+  span.textContent = msg + '\n';
+  logEl.appendChild(span);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+document.getElementById('btnMigrate').addEventListener('click', async function() {
+  var btn = this;
+  btn.disabled = true;
+  btn.textContent = 'Migreerin...';
+  logEl.innerHTML = '';
+
+  var presId = document.getElementById('presId').value.trim();
+  var shouldSetActive = document.getElementById('setActive').checked;
+
+  if (!presId) {
+    log('Viga: Presentatsiooni ID on t\u00fchi!', 'err');
+    btn.disabled = false;
+    btn.textContent = 'Alusta migreerimist';
+    return;
+  }
+
+  try {
+    // 1. Load JSON
+    log('Laen data/slides.json...', 'info');
+    var resp = await fetch('data/slides.json');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var data = await resp.json();
+    log('JSON laetud: ' + (data.slides || []).length + ' slaidi', 'ok');
+
+    // 2. Prepare Firebase data
+    var meta = data.meta || {};
+    meta.createdAt = Date.now();
+    meta.updatedAt = Date.now();
+
+    var slides = data.slides || [];
+
+    var firebaseData = {
+      meta: meta,
+      slides: slides,
+      currentSlide: 0,
+      ts: Date.now()
+    };
+
+    // 3. Check if already exists
+    log('Kontrollin Firebase\'i...', 'info');
+    var existing = await get(ref(db, 'presentations/' + presId));
+    if (existing.val()) {
+      log('Hoiatus: /presentations/' + presId + ' on juba olemas, kirjutan \u00fcle!', 'err');
+    }
+
+    // 4. Write to Firebase
+    log('Kirjutan /presentations/' + presId + '/ ...', 'info');
+    await set(ref(db, 'presentations/' + presId), firebaseData);
+    log('Presentatsioon salvestatud!', 'ok');
+
+    // 5. Set active
+    if (shouldSetActive) {
+      log('Kirjutan /activePresentation = "' + presId + '"...', 'info');
+      await set(ref(db, 'activePresentation'), presId);
+      log('Aktiivne presentatsioon m\u00e4\u00e4ratud!', 'ok');
+    }
+
+    // 6. Verify
+    log('Verifitseerin...', 'info');
+    var verify = await get(ref(db, 'presentations/' + presId + '/meta/title'));
+    log('Firebase title: "' + verify.val() + '"', 'ok');
+
+    var slideCount = await get(ref(db, 'presentations/' + presId + '/slides'));
+    var sArr = slideCount.val();
+    var count = Array.isArray(sArr) ? sArr.length : Object.keys(sArr || {}).length;
+    log('Firebase slides: ' + count + ' slaidi', 'ok');
+
+    if (shouldSetActive) {
+      var activeVerify = await get(ref(db, 'activePresentation'));
+      log('activePresentation: "' + activeVerify.val() + '"', 'ok');
+    }
+
+    log('\nMigreerimine l\u00f5petatud!', 'ok');
+    btn.textContent = 'Valmis!';
+
+  } catch(err) {
+    log('VIGA: ' + err.message, 'err');
+    btn.disabled = false;
+    btn.textContent = 'Proovi uuesti';
+  }
+});
+</script>
+</body>
+</html>
