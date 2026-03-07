@@ -34,7 +34,7 @@ html, body {
 
 body {
   display: grid;
-  grid-template-rows: 48px 3px 1fr 56px;
+  grid-template-rows: 48px 3px auto 1fr 56px;
   height: 100vh;
   background:
     radial-gradient(ellipse 80% 60% at 10% 0%, rgba(30,55,100,0.6) 0%, transparent 70%),
@@ -154,23 +154,39 @@ main {
   padding: 20px 48px;
 }
 
-/* Presenter hint */
+/* Presenter hint — prominent bar below header */
 .hint-bar {
-  font-size: 0.75rem;
-  color: rgba(201,165,50,0.7);
-  background: rgba(201,165,50,0.08);
-  border: 1px solid rgba(201,165,50,0.15);
-  border-radius: 6px;
-  padding: 4px 14px;
-  margin-bottom: 12px;
-  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 24px;
+  background: rgba(201,165,50,0.10);
+  border-bottom: 1px solid rgba(201,165,50,0.2);
+  font-size: 1.05rem;
+  color: rgba(201,165,50,0.85);
   font-style: italic;
+  letter-spacing: 0.03em;
   text-align: center;
-  align-self: center;
-  max-width: 600px;
-  transition: opacity 0.3s ease;
+  line-height: 1.4;
+  min-height: 0;
+  transition: all 0.3s ease;
 }
-.hint-bar:empty { display: none; }
+.hint-bar:empty {
+  padding: 0;
+  border: none;
+  min-height: 0;
+}
+.hint-slide-num {
+  font-size: 0.7rem;
+  font-style: normal;
+  color: rgba(240,232,210,0.35);
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 2px 8px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
 
 .slide-current {
   font-family: 'Cormorant Garamond', serif;
@@ -432,9 +448,10 @@ footer {
   <div class="progress-fill" id="progressFill" style="width:0%"></div>
 </div>
 
+<div class="hint-bar" id="hintBar"></div>
+
 <main>
   <div class="slide-wrapper">
-    <div class="hint-bar" id="hintBar"></div>
     <div class="slide-current" id="slideCurrent"></div>
   </div>
 
@@ -635,7 +652,11 @@ function showSlide(n, animate) {
     for (var h = n; h >= 0; h--) {
       if (SLIDES[h].hint) { hint = SLIDES[h].hint; break; }
     }
-    el.hintBar.textContent = hint;
+    if (hint) {
+      el.hintBar.innerHTML = '<span class="hint-slide-num">#' + n + '</span>' + hint;
+    } else {
+      el.hintBar.innerHTML = '<span class="hint-slide-num">#' + n + '</span>';
+    }
     el.btnPrev.disabled = n === 0;
     el.btnNext.disabled = n === SLIDES.length - 1;
   };
