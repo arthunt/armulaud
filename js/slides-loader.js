@@ -43,13 +43,46 @@ function processSlides(allSlides) {
         activeSpan = null;
       }
     } else if (slide.projector === 'none' && activeSpan && activeSpan.remaining > 0) {
-      // Old format: count-based inheritance for "none" slides
-      slide.projector = activeSpan.projector;
-      slide.projectorContent = activeSpan.projectorContent;
+      // Count-based inheritance for "none" slides
+      var ownContent = slide.projectorContent || {};
+      var isImageSource = activeSpan.projector === 'image' || activeSpan.projector === 'image-keytext';
+      var hasOwnText = ownContent.textEst || ownContent.textRus;
+
+      if (isImageSource && hasOwnText) {
+        // Merge: image from source + keytext from current slide → image-keytext
+        var srcContent = activeSpan.projectorContent || {};
+        slide.projector = 'image-keytext';
+        slide.projectorContent = {
+          imageUrl: srcContent.imageUrl,
+          imageFallback: srcContent.imageFallback,
+          overlay: srcContent.overlay,
+          textEst: ownContent.textEst,
+          textRus: ownContent.textRus
+        };
+      } else {
+        slide.projector = activeSpan.projector;
+        slide.projectorContent = activeSpan.projectorContent;
+      }
       activeSpan.remaining--;
       if (activeSpan.remaining === 0) activeSpan = null;
-    }
-    // "inherit" slides are left as-is — projector.html handles them
+    } else if (slide.projector === 'inherit' && activeSpan) {
+      // "inherit" with own text + image source → image-keytext overlay
+      var ownContent = slide.projectorContent || {};
+      var isImageSource = activeSpan.projector === 'image' || activeSpan.projector === 'image-keytext';
+      var hasOwnText = ownContent.textEst || ownContent.textRus;
+
+      if (isImageSource && hasOwnText) {
+        var srcContent = activeSpan.projectorContent || {};
+        slide.projector = 'image-keytext';
+        slide.projectorContent = {
+          imageUrl: srcContent.imageUrl,
+          imageFallback: srcContent.imageFallback,
+          overlay: srcContent.overlay,
+          textEst: ownContent.textEst,
+          textRus: ownContent.textRus
+        };
+      }
+      // Otherwise left as "inherit" — projector.html keeps the screen
   }
 
   return visible;

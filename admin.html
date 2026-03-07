@@ -1776,6 +1776,17 @@ function createSlideCard(slide, globalIndex) {
   // Projector content fields
   html += buildProjectorFields(slide, globalIndex);
 
+  // For 'inherit' slides: optional keytext overlay (merges with inherited image)
+  if (projVal === 'inherit') {
+    const pc = slide.projectorContent || {};
+    html += '<div class="projector-fields" style="margin-top:6px;">';
+    html += '<div class="projector-fields-title">Keytext overlay (pildile)</div>';
+    html += '<div style="font-size:0.6rem;color:var(--dim);margin-bottom:6px;">Kui eelmine slaid on pilt, siis need tekstid kuvatakse pildi peal.</div>';
+    html += pcField(globalIndex, 'textEst', 'Tekst ET', pc.textEst);
+    html += pcField(globalIndex, 'textRus', 'Tekst RU', pc.textRus);
+    html += '</div>';
+  }
+
   html += '</div>';
   html += '</div>';
 
