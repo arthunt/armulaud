@@ -13,7 +13,8 @@
       })
       .then(function (data) {
         window.SLIDES_META = data.meta || {};
-        window.SLIDES = data.slides || [];
+        window.SLIDES_ALL = data.slides || [];
+        window.SLIDES = window.SLIDES_ALL.filter(function (s) { return !s.hidden; });
         resolve(window.SLIDES);
       })
       .catch(function (err) {

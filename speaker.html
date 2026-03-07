@@ -578,6 +578,34 @@ function renderProjectorPreview(slide, box) {
         '</div>';
       break;
     }
+    case 'image-keytext': {
+      var url = c.imageUrl || '';
+      var fallback = c.imageFallback || '#111';
+      var overlayPct = c.overlay !== undefined ? c.overlay : 60;
+      box.innerHTML =
+        '<div class="pp-label" style="color:#fff;">PROJEKTOR</div>' +
+        '<div class="pp-image" style="position:relative;width:100%;height:100%;">' +
+          '<div style="position:absolute;inset:0;background:rgba(4,8,18,' + (overlayPct/100) + ');z-index:1;"></div>' +
+          '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;padding:4px;">' +
+            '<div style="font-family:Cormorant Garamond,serif;font-size:0.5rem;font-weight:600;color:#f5eed8;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,0.5);">' + (c.textEst || '') + '</div>' +
+            '<div style="font-family:Cormorant Garamond,serif;font-size:0.35rem;color:rgba(245,238,216,0.7);font-style:italic;text-align:center;margin-top:1px;">' + (c.textRus || '') + '</div>' +
+          '</div>' +
+        '</div>';
+      var ppImg = box.querySelector('.pp-image');
+      ppImg.style.backgroundImage = fallback;
+      if (url) {
+        var img = new Image();
+        img.onload = function() {
+          if (ppImg) {
+            ppImg.style.backgroundImage = "url('" + url + "')";
+            ppImg.style.backgroundSize = 'cover';
+            ppImg.style.backgroundPosition = 'center';
+          }
+        };
+        img.src = url;
+      }
+      break;
+    }
   }
 }
 
@@ -649,6 +677,7 @@ el.btnPrev.addEventListener('click', function() { showSlide(currentIdx - 1); });
 
 // Timer
 var timerInterval = null, timerSec = 0, timerRunning = false;
+var timerWarning = 420; // default 7 min, overridden by meta.timerPreset
 var btnTimer = document.getElementById('btnTimer');
 var btnReset = document.getElementById('btnReset');
 var timerEl  = document.getElementById('timerDisplay');
@@ -664,7 +693,7 @@ btnTimer.addEventListener('click', function() {
     timerInterval = setInterval(function() {
       timerSec++;
       timerEl.textContent = fmtTime(timerSec);
-      timerEl.className = 'timer-display' + (timerSec >= 420 ? ' warning' : '');
+      timerEl.className = 'timer-display' + (timerSec >= timerWarning ? ' warning' : '');
     }, 1000);
     btnTimer.textContent = '\u23f8 Peata';
   } else {
@@ -689,6 +718,11 @@ function updateTitle() {
 
 SLIDES_READY.then(function() {
   updateTitle();
+  // Load timer preset from meta
+  var m = window.SLIDES_META;
+  if (m && m.timerPreset && m.timerPreset > 0) {
+    timerWarning = m.timerPreset;
+  }
   Sync.init();
   showSlide(0, false);
 });

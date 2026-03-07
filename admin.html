@@ -44,10 +44,10 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px;
-  background: rgba(11,15,26,0.95);
+  padding: 10px 20px;
+  background: rgba(11,15,26,0.97);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   flex-wrap: wrap;
 }
 
@@ -56,20 +56,21 @@ body {
   font-weight: 700;
   color: var(--gold);
   letter-spacing: 0.05em;
-  margin-right: 8px;
+  margin-right: 4px;
 }
 
 .btn {
   background: rgba(201,165,50,0.12);
   border: 1px solid var(--gold-dim);
   color: var(--gold);
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-family: 'Lato', sans-serif;
   letter-spacing: 0.04em;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 .btn:hover { background: rgba(201,165,50,0.25); }
 .btn.primary {
@@ -87,17 +88,54 @@ body {
 
 .toolbar .spacer { flex: 1; }
 
-.slide-count {
-  font-size: 0.72rem;
+.toolbar-badge {
+  font-size: 0.68rem;
   color: var(--dim);
+  background: rgba(255,255,255,0.06);
+  padding: 3px 8px;
+  border-radius: 4px;
 }
+
+.toolbar-timer-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.toolbar-timer-group label {
+  font-size: 0.62rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.toolbar-timer-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.75rem;
+  width: 60px;
+  text-align: center;
+  outline: none;
+}
+.toolbar-timer-input:focus { border-color: var(--gold); }
+
+/* --- BACK LINK --- */
+.back-link {
+  color: var(--dim);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--gold); }
 
 /* --- META SECTION --- */
 .meta-section {
-  padding: 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
   align-items: end;
 }
@@ -105,10 +143,10 @@ body {
 .meta-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 .meta-field label {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: var(--dim);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -117,63 +155,199 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 6px 10px;
+  padding: 5px 10px;
   border-radius: 4px;
   font-family: 'Lato', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   outline: none;
 }
 .meta-field input:focus { border-color: var(--gold); }
 
-/* --- SLIDE LIST --- */
+/* --- SECTION GROUPS --- */
 .slide-list {
   padding: 12px 20px 80px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
 }
 
+.section-group {
+  margin-bottom: 6px;
+}
+
+.section-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(90,159,212,0.08);
+  border: 1px solid rgba(90,159,212,0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  margin-bottom: 2px;
+}
+.section-header-bar:hover {
+  background: rgba(90,159,212,0.14);
+  border-color: rgba(90,159,212,0.35);
+}
+
+.section-toggle {
+  font-size: 0.7rem;
+  color: var(--section);
+  width: 14px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+.section-toggle.expanded { transform: rotate(0deg); }
+.section-toggle.collapsed { transform: rotate(-90deg); }
+
+.section-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--section);
+  letter-spacing: 0.03em;
+}
+
+.section-count {
+  font-size: 0.65rem;
+  color: var(--dim);
+}
+
+.section-slides {
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+.section-slides.collapsed {
+  max-height: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+.section-slides.expanded {
+  opacity: 1;
+}
+
+.section-slides-inner {
+  padding: 4px 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* --- INSERT LINE --- */
+.insert-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  position: relative;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.section-slides-inner:hover .insert-line,
+.insert-line:hover {
+  opacity: 1;
+}
+.insert-line::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: var(--gold-dim);
+}
+.insert-line-btn {
+  position: relative;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(201,165,50,0.15);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+.insert-line-btn:hover {
+  background: rgba(201,165,50,0.35);
+  transform: scale(1.2);
+}
+
+/* --- SLIDE CARD --- */
 .slide-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 14px 16px;
-  transition: border-color 0.2s;
+  padding: 12px 14px;
+  transition: border-color 0.2s, opacity 0.2s;
 }
 .slide-card:hover { border-color: var(--gold-dim); }
 .slide-card.is-section { border-left: 3px solid var(--section); }
 .slide-card.is-bible   { border-left: 3px solid var(--gold); }
-.slide-card.is-image   { border-left: 3px solid var(--green); }
-.slide-card.is-keytext { border-left: 3px solid var(--red); }
+.slide-card.is-hidden  { opacity: 0.45; }
 
+.slide-card-body {
+  display: flex;
+  gap: 14px;
+}
+
+.slide-left {
+  flex: 0 0 60%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.slide-right {
+  flex: 0 0 38%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Header row */
 .slide-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
 }
 
 .slide-id {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: var(--dim);
   background: rgba(255,255,255,0.06);
   border-radius: 4px;
   padding: 2px 6px;
   min-width: 28px;
   text-align: center;
+  flex-shrink: 0;
 }
 
-.slide-type-select {
+.slide-type-select,
+.projector-select {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 3px 8px;
+  padding: 3px 6px;
   border-radius: 4px;
   font-family: 'Lato', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   outline: none;
 }
-.slide-type-select:focus { border-color: var(--gold); }
+.slide-type-select:focus,
+.projector-select:focus { border-color: var(--gold); }
+.projector-select { color: var(--dim); }
 
 .slide-section-input {
   background: var(--surface);
@@ -182,27 +356,33 @@ body {
   padding: 3px 8px;
   border-radius: 4px;
   font-family: 'Lato', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   outline: none;
-  flex: 1;
-  max-width: 200px;
+  max-width: 140px;
+  min-width: 80px;
 }
 
-.projector-select {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--dim);
+.slide-hint-input {
+  background: rgba(201,165,50,0.05);
+  border: 1px solid rgba(201,165,50,0.15);
+  color: var(--gold);
   padding: 3px 8px;
   border-radius: 4px;
   font-family: 'Lato', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
+  font-style: italic;
   outline: none;
+  min-width: 100px;
+  flex: 1;
 }
+.slide-hint-input::placeholder { color: rgba(201,165,50,0.3); }
+.slide-hint-input:focus { border-color: var(--gold); }
 
 .slide-actions {
   margin-left: auto;
   display: flex;
-  gap: 6px;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .btn-icon {
@@ -210,34 +390,30 @@ body {
   border: 1px solid transparent;
   color: var(--dim);
   cursor: pointer;
-  font-size: 0.85rem;
-  padding: 2px 6px;
+  font-size: 0.78rem;
+  padding: 2px 5px;
   border-radius: 4px;
   transition: all 0.2s;
+  line-height: 1;
 }
 .btn-icon:hover { color: var(--text); background: rgba(255,255,255,0.06); }
 .btn-icon.delete:hover { color: var(--red); }
+.btn-icon.hidden-toggle.is-hidden { color: var(--red); opacity: 0.6; }
 
-/* Text areas */
-.slide-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+/* Text fields */
 .field-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: start;
 }
 
 .field-label {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   color: var(--dim);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  min-width: 24px;
-  padding-top: 8px;
+  min-width: 22px;
+  padding-top: 7px;
   flex-shrink: 0;
 }
 
@@ -246,44 +422,249 @@ body {
   background: rgba(0,0,0,0.25);
   border: 1px solid rgba(255,255,255,0.08);
   color: var(--text);
-  padding: 8px 10px;
+  padding: 6px 9px;
   border-radius: 4px;
   font-family: 'Lato', sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  resize: vertical;
-  min-height: 36px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  resize: none;
+  min-height: 32px;
+  overflow: hidden;
   outline: none;
 }
 .field-textarea:focus { border-color: var(--gold-dim); }
 
-/* Projector content fields */
+.slide-time {
+  font-size: 0.55rem;
+  color: var(--dim);
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* --- MINI PROJECTOR PREVIEW --- */
+.projector-preview {
+  width: 160px;
+  height: 90px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lato', sans-serif;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.projector-preview.type-none {
+  background: rgba(0,0,0,0.4);
+}
+.projector-preview.type-none .preview-text {
+  color: rgba(255,255,255,0.15);
+  font-size: 1.5rem;
+}
+
+.projector-preview.type-bible {
+  background: linear-gradient(135deg, rgba(74,143,223,0.15), rgba(74,143,223,0.05));
+  padding: 6px;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.projector-preview.type-bible .preview-ref {
+  font-size: 0.45rem;
+  color: var(--blue);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.projector-preview.type-bible .preview-verse {
+  font-size: 0.4rem;
+  color: rgba(240,232,210,0.6);
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.projector-preview.type-keytext {
+  background: linear-gradient(135deg, rgba(20,35,70,0.9), rgba(10,20,50,0.9));
+  padding: 6px;
+  flex-direction: column;
+  text-align: center;
+}
+.projector-preview.type-keytext .preview-keytext {
+  font-size: 0.48rem;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.projector-preview.type-keytext .preview-sub {
+  font-size: 0.38rem;
+  color: var(--dim);
+  margin-top: 2px;
+}
+
+.projector-preview.type-image {
+  background-size: cover;
+  background-position: center;
+}
+.projector-preview.type-image .preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+.projector-preview.type-image .preview-caption {
+  position: relative;
+  z-index: 1;
+  font-size: 0.42rem;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+}
+
+.projector-preview.type-image-keytext {
+  background-size: cover;
+  background-position: center;
+}
+.projector-preview.type-image-keytext .preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+.projector-preview.type-image-keytext .preview-keytext {
+  position: relative;
+  z-index: 1;
+  font-size: 0.48rem;
+  color: var(--text);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+  padding: 4px;
+}
+
+/* --- PROJECTOR CONTENT FIELDS --- */
 .projector-fields {
-  margin-top: 8px;
-  padding: 10px;
+  padding: 8px;
   background: rgba(74,143,223,0.06);
   border: 1px solid rgba(74,143,223,0.15);
-  border-radius: 6px;
+  border-radius: 5px;
 }
 .projector-fields-title {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   color: var(--section);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-/* Hidden file input */
+.pc-field-row {
+  display: flex;
+  gap: 6px;
+  align-items: start;
+  margin-bottom: 4px;
+}
+.pc-field-row:last-child { margin-bottom: 0; }
+
+.pc-label {
+  font-size: 0.55rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  min-width: 58px;
+  padding-top: 6px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.pc-input {
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text);
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  resize: none;
+  min-height: 28px;
+  overflow: hidden;
+  outline: none;
+}
+.pc-input:focus { border-color: rgba(74,143,223,0.4); }
+
+/* Overlay slider */
+.overlay-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.overlay-slider-row label {
+  font-size: 0.55rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-width: 58px;
+  flex-shrink: 0;
+}
+.overlay-slider-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--blue);
+  height: 4px;
+}
+.overlay-slider-row .overlay-value {
+  font-size: 0.65rem;
+  color: var(--dim);
+  min-width: 30px;
+  text-align: right;
+}
+
+/* --- FLOW INDICATOR --- */
+.flow-indicator {
+  font-size: 0.55rem;
+  padding: 2px 7px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-top: 4px;
+}
+.flow-indicator.flow-next {
+  color: var(--blue);
+  background: rgba(74,143,223,0.1);
+  border: 1px solid rgba(74,143,223,0.2);
+}
+.flow-indicator.flow-prev {
+  color: var(--gold);
+  background: rgba(201,165,50,0.08);
+  border: 1px solid rgba(201,165,50,0.15);
+}
+
+/* --- HIDDEN FILE INPUT --- */
 .hidden { display: none; }
 
-/* Back link */
-.back-link {
-  color: var(--dim);
-  text-decoration: none;
-  font-size: 0.75rem;
-  transition: color 0.2s;
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .slide-card-body {
+    flex-direction: column;
+  }
+  .slide-left, .slide-right {
+    flex: 1 1 100%;
+  }
+  .slide-right {
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
 }
-.back-link:hover { color: var(--gold); }
 </style>
 </head>
 <body>
@@ -291,12 +672,16 @@ body {
 <div class="toolbar">
   <a href="index.html" class="back-link">&larr; Tagasi</a>
   <span class="toolbar-title">Slaidide haldus</span>
-  <span class="slide-count" id="slideCount">0 slaidi</span>
+  <span class="toolbar-badge" id="slideCount">0 slaidi</span>
+  <span class="toolbar-badge" id="totalTime">~0 min 0 sek</span>
+  <div class="toolbar-timer-group">
+    <label>Taimeri hoiatus</label>
+    <input type="text" class="toolbar-timer-input" id="timerPresetInput" value="07:00" placeholder="mm:ss">
+  </div>
   <span class="spacer"></span>
   <input type="file" id="importInput" accept=".json" class="hidden">
   <button class="btn" id="btnImport">Import JSON</button>
   <button class="btn primary" id="btnDownload">&#8681; Download JSON</button>
-  <button class="btn" id="btnAddSlide">+ Lisa slaid</button>
 </div>
 
 <div class="meta-section" id="metaSection">
@@ -318,14 +703,18 @@ body {
 
 <script>
 (function() {
-  var slides = [];
-  var meta = { title: '', date: '', description: '' };
+  'use strict';
 
-  // Load current data
+  var slides = [];
+  var meta = { title: '', date: '', description: '', timerPreset: 420 };
+  var collapsedSections = {};
+
+  // --- LOAD DATA ---
   fetch('data/slides.json')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       meta = data.meta || {};
+      if (meta.timerPreset == null) meta.timerPreset = 420;
       slides = data.slides || [];
       renderMeta();
       renderAll();
@@ -334,165 +723,52 @@ body {
       renderAll();
     });
 
+  // --- META ---
   function renderMeta() {
     document.getElementById('metaTitle').value = meta.title || '';
     document.getElementById('metaDate').value = meta.date || '';
     document.getElementById('metaDesc').value = meta.description || '';
+    renderTimerPreset();
   }
 
   function readMeta() {
     meta.title = document.getElementById('metaTitle').value;
     meta.date = document.getElementById('metaDate').value;
     meta.description = document.getElementById('metaDesc').value;
+    var tp = parseTimerInput(document.getElementById('timerPresetInput').value);
+    if (tp !== null) meta.timerPreset = tp;
   }
 
-  function renderAll() {
-    var list = document.getElementById('slideList');
-    list.innerHTML = '';
-    document.getElementById('slideCount').textContent = slides.length + ' slaidi';
-
-    slides.forEach(function(slide, i) {
-      var card = document.createElement('div');
-      card.className = 'slide-card';
-      if (slide.type === 'section-header') card.classList.add('is-section');
-      if (slide.type === 'bible') card.classList.add('is-bible');
-      if (slide.projector === 'image') card.classList.add('is-image');
-      if (slide.projector === 'keytext') card.classList.add('is-keytext');
-
-      card.innerHTML =
-        '<div class="slide-header">' +
-          '<span class="slide-id">#' + i + '</span>' +
-          '<select class="slide-type-select" data-i="' + i + '" data-field="type">' +
-            '<option value="text"' + (slide.type === 'text' ? ' selected' : '') + '>text</option>' +
-            '<option value="section-header"' + (slide.type === 'section-header' ? ' selected' : '') + '>section-header</option>' +
-            '<option value="bible"' + (slide.type === 'bible' ? ' selected' : '') + '>bible</option>' +
-          '</select>' +
-          '<input class="slide-section-input" data-i="' + i + '" data-field="section" value="' + esc(slide.section || '') + '" placeholder="Sektsioon">' +
-          '<select class="projector-select" data-i="' + i + '" data-field="projector">' +
-            '<option value="none"' + (slide.projector === 'none' ? ' selected' : '') + '>none</option>' +
-            '<option value="section"' + (slide.projector === 'section' ? ' selected' : '') + '>section</option>' +
-            '<option value="bible"' + (slide.projector === 'bible' ? ' selected' : '') + '>bible</option>' +
-            '<option value="image"' + (slide.projector === 'image' ? ' selected' : '') + '>image</option>' +
-            '<option value="keytext"' + (slide.projector === 'keytext' ? ' selected' : '') + '>keytext</option>' +
-          '</select>' +
-          '<div class="slide-actions">' +
-            '<button class="btn-icon" data-action="up" data-i="' + i + '" title="Move up">&#9650;</button>' +
-            '<button class="btn-icon" data-action="down" data-i="' + i + '" title="Move down">&#9660;</button>' +
-            '<button class="btn-icon delete" data-action="delete" data-i="' + i + '" title="Delete">&#10005;</button>' +
-          '</div>' +
-        '</div>' +
-        '<div class="slide-fields">' +
-          '<div class="field-row">' +
-            '<span class="field-label">ET</span>' +
-            '<textarea class="field-textarea" data-i="' + i + '" data-field="estonian" rows="1">' + esc(slide.estonian || '') + '</textarea>' +
-          '</div>' +
-          '<div class="field-row">' +
-            '<span class="field-label">RU</span>' +
-            '<textarea class="field-textarea" data-i="' + i + '" data-field="russian" rows="1">' + esc(slide.russian || '') + '</textarea>' +
-          '</div>' +
-        '</div>' +
-        renderProjectorFields(slide, i);
-
-      list.appendChild(card);
-    });
-
-    // Attach events
-    list.querySelectorAll('[data-field]').forEach(function(el) {
-      el.addEventListener('input', function() {
-        var idx = parseInt(el.getAttribute('data-i'));
-        var field = el.getAttribute('data-field');
-        slides[idx][field] = el.value;
-      });
-      el.addEventListener('change', function() {
-        var idx = parseInt(el.getAttribute('data-i'));
-        var field = el.getAttribute('data-field');
-        slides[idx][field] = el.value;
-        if (field === 'type' || field === 'projector') renderAll();
-      });
-    });
-
-    list.querySelectorAll('[data-action]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var idx = parseInt(btn.getAttribute('data-i'));
-        var action = btn.getAttribute('data-action');
-        if (action === 'up' && idx > 0) {
-          var tmp = slides[idx]; slides[idx] = slides[idx-1]; slides[idx-1] = tmp;
-          renderAll();
-        } else if (action === 'down' && idx < slides.length - 1) {
-          var tmp = slides[idx]; slides[idx] = slides[idx+1]; slides[idx+1] = tmp;
-          renderAll();
-        } else if (action === 'delete') {
-          if (confirm('Kustuta slaid #' + idx + '?')) {
-            slides.splice(idx, 1);
-            renderAll();
-          }
-        }
-      });
-    });
-
-    // Projector content fields
-    list.querySelectorAll('[data-pc]').forEach(function(el) {
-      el.addEventListener('input', function() {
-        var idx = parseInt(el.getAttribute('data-pci'));
-        var key = el.getAttribute('data-pc');
-        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
-        slides[idx].projectorContent[key] = el.value;
-      });
-    });
-
-    // Auto-resize textareas
-    list.querySelectorAll('textarea').forEach(function(ta) {
-      autosize(ta);
-      ta.addEventListener('input', function() { autosize(ta); });
-    });
+  function renderTimerPreset() {
+    var secs = meta.timerPreset || 420;
+    var m = Math.floor(secs / 60);
+    var s = secs % 60;
+    document.getElementById('timerPresetInput').value =
+      String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
   }
 
-  function renderProjectorFields(slide, i) {
-    if (!slide.projector || slide.projector === 'none') return '';
-    var c = slide.projectorContent || {};
-    var fields = '';
-
-    if (slide.projector === 'section') {
-      fields =
-        pcField(i, 'sectionEst', 'Sektsioon ET', c.sectionEst) +
-        pcField(i, 'sectionRus', 'Sektsioon RU', c.sectionRus);
-    } else if (slide.projector === 'bible') {
-      fields =
-        pcField(i, 'reference', 'Viide ET', c.reference) +
-        pcField(i, 'referenceRus', 'Viide RU', c.referenceRus) +
-        pcField(i, 'referenceEng', 'Viide EN', c.referenceEng) +
-        pcField(i, 'textEst', 'Tekst ET', c.textEst) +
-        pcField(i, 'textRus', 'Tekst RU', c.textRus) +
-        pcField(i, 'textEng', 'Tekst EN', c.textEng);
-    } else if (slide.projector === 'image') {
-      fields =
-        pcField(i, 'imageUrl', 'Pildi URL', c.imageUrl) +
-        pcField(i, 'imageFallback', 'Fallback CSS', c.imageFallback) +
-        pcField(i, 'captionEst', 'Allkiri ET', c.captionEst) +
-        pcField(i, 'captionRus', 'Allkiri RU', c.captionRus);
-    } else if (slide.projector === 'keytext') {
-      fields =
-        pcField(i, 'textEst', 'Tekst ET', c.textEst) +
-        pcField(i, 'textRus', 'Tekst RU', c.textRus) +
-        pcField(i, 'subEst', 'Alamtekst ET', c.subEst) +
-        pcField(i, 'subRus', 'Alamtekst RU', c.subRus);
+  function parseTimerInput(val) {
+    var parts = val.split(':');
+    if (parts.length === 2) {
+      var m = parseInt(parts[0], 10);
+      var s = parseInt(parts[1], 10);
+      if (!isNaN(m) && !isNaN(s)) return m * 60 + s;
     }
-
-    return '<div class="projector-fields">' +
-      '<div class="projector-fields-title">Projektori sisu (' + slide.projector + ')</div>' +
-      fields +
-    '</div>';
+    return null;
   }
 
-  function pcField(i, key, label, value) {
-    return '<div class="field-row">' +
-      '<span class="field-label" style="min-width:64px;">' + label + '</span>' +
-      '<textarea class="field-textarea" data-pci="' + i + '" data-pc="' + key + '" rows="1">' + esc(value || '') + '</textarea>' +
-    '</div>';
-  }
+  document.getElementById('timerPresetInput').addEventListener('change', function() {
+    var tp = parseTimerInput(this.value);
+    if (tp !== null) {
+      meta.timerPreset = tp;
+      renderTimerPreset();
+    }
+  });
 
+  // --- UTILITIES ---
   function esc(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    if (!s) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   function autosize(ta) {
@@ -500,15 +776,494 @@ body {
     ta.style.height = ta.scrollHeight + 'px';
   }
 
-  function buildJSON() {
-    readMeta();
-    // Reassign IDs sequentially
-    slides.forEach(function(s, i) { s.id = i; });
-    return JSON.stringify({ meta: meta, slides: slides }, null, 2);
+  function calcTotalTime() {
+    var totalSec = slides.length * 4;
+    var m = Math.floor(totalSec / 60);
+    var s = totalSec % 60;
+    return '~' + m + ' min ' + s + ' sek';
   }
 
-  // Download
+  function getSections() {
+    var sections = [];
+    var seen = {};
+    for (var i = 0; i < slides.length; i++) {
+      var sec = slides[i].section || '(ilma sektsioonita)';
+      if (!seen[sec]) {
+        seen[sec] = true;
+        sections.push(sec);
+      }
+    }
+    return sections;
+  }
+
+  function getSlidesForSection(sectionName) {
+    var result = [];
+    for (var i = 0; i < slides.length; i++) {
+      var sec = slides[i].section || '(ilma sektsioonita)';
+      if (sec === sectionName) {
+        result.push({ slide: slides[i], globalIndex: i });
+      }
+    }
+    return result;
+  }
+
+  // --- RENDER ---
+  function renderAll() {
+    readMeta();
+    var list = document.getElementById('slideList');
+    list.innerHTML = '';
+
+    document.getElementById('slideCount').textContent = slides.length + ' slaidi';
+    document.getElementById('totalTime').textContent = calcTotalTime();
+
+    var sections = getSections();
+
+    sections.forEach(function(sectionName) {
+      var sectionSlides = getSlidesForSection(sectionName);
+      if (sectionSlides.length === 0) return;
+
+      var isCollapsed = collapsedSections[sectionName] !== false; // default collapsed
+
+      var group = document.createElement('div');
+      group.className = 'section-group';
+
+      // Section header bar
+      var header = document.createElement('div');
+      header.className = 'section-header-bar';
+      header.innerHTML =
+        '<span class="section-toggle ' + (isCollapsed ? 'collapsed' : 'expanded') + '">' +
+          (isCollapsed ? '&#9654;' : '&#9660;') +
+        '</span>' +
+        '<span class="section-name">' + esc(sectionName) + '</span>' +
+        '<span class="section-count">(' + sectionSlides.length + ' slaidi)</span>';
+
+      header.addEventListener('click', function() {
+        collapsedSections[sectionName] = !isCollapsed;
+        renderAll();
+      });
+
+      group.appendChild(header);
+
+      // Slides container
+      var slidesContainer = document.createElement('div');
+      slidesContainer.className = 'section-slides ' + (isCollapsed ? 'collapsed' : 'expanded');
+
+      var inner = document.createElement('div');
+      inner.className = 'section-slides-inner';
+
+      sectionSlides.forEach(function(item, localIdx) {
+        // Insert line before each slide (including first)
+        var insertLine = createInsertLine(item.globalIndex);
+        inner.appendChild(insertLine);
+
+        var card = createSlideCard(item.slide, item.globalIndex);
+        inner.appendChild(card);
+      });
+
+      // Insert line after last slide in section
+      if (sectionSlides.length > 0) {
+        var lastGlobal = sectionSlides[sectionSlides.length - 1].globalIndex;
+        var insertAfterLast = createInsertLine(lastGlobal + 1);
+        inner.appendChild(insertAfterLast);
+      }
+
+      slidesContainer.appendChild(inner);
+
+      if (!isCollapsed) {
+        slidesContainer.style.maxHeight = 'none';
+      }
+
+      group.appendChild(slidesContainer);
+      list.appendChild(group);
+    });
+
+    // Auto-resize all textareas
+    list.querySelectorAll('textarea').forEach(function(ta) {
+      autosize(ta);
+    });
+  }
+
+  function createInsertLine(insertAtIndex) {
+    var line = document.createElement('div');
+    line.className = 'insert-line';
+    line.innerHTML = '<div class="insert-line-btn">+</div>';
+    line.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var surroundingSection = '';
+      if (insertAtIndex > 0 && insertAtIndex <= slides.length) {
+        surroundingSection = slides[insertAtIndex - 1].section || '';
+      } else if (insertAtIndex < slides.length) {
+        surroundingSection = slides[insertAtIndex].section || '';
+      }
+      var newSlide = {
+        type: 'normal',
+        section: surroundingSection,
+        estonian: '',
+        russian: '',
+        projector: 'none'
+      };
+      slides.splice(insertAtIndex, 0, newSlide);
+      collapsedSections[surroundingSection] = false;
+      renderAll();
+    });
+    return line;
+  }
+
+  function createSlideCard(slide, globalIndex) {
+    var card = document.createElement('div');
+    card.className = 'slide-card';
+    if (slide.type === 'section-header') card.classList.add('is-section');
+    if (slide.type === 'bible') card.classList.add('is-bible');
+    if (slide.hidden) card.classList.add('is-hidden');
+
+    // --- BUILD HTML ---
+    var html = '';
+
+    // Header row
+    html += '<div class="slide-header">';
+    html += '<span class="slide-id">#' + globalIndex + '</span>';
+
+    // Type selector
+    html += '<select class="slide-type-select" data-i="' + globalIndex + '" data-field="type">';
+    html += '<option value="normal"' + (slide.type === 'normal' ? ' selected' : '') + '>normal</option>';
+    html += '<option value="section-header"' + (slide.type === 'section-header' ? ' selected' : '') + '>section-header</option>';
+    html += '<option value="bible"' + (slide.type === 'bible' ? ' selected' : '') + '>bible</option>';
+    html += '</select>';
+
+    // Section input
+    html += '<input class="slide-section-input" data-i="' + globalIndex + '" data-field="section" value="' + esc(slide.section || '') + '" placeholder="Sektsioon">';
+
+    // Hint input
+    html += '<input class="slide-hint-input" data-i="' + globalIndex + '" data-field="hint" value="' + esc(slide.hint || '') + '" placeholder="Suunav tekst">';
+
+    // Actions
+    html += '<div class="slide-actions">';
+    html += '<button class="btn-icon hidden-toggle' + (slide.hidden ? ' is-hidden' : '') + '" data-action="toggle-hidden" data-i="' + globalIndex + '" title="Peida/N&auml;ita">';
+    html += slide.hidden ? '&#9673;' : '&#9678;';
+    html += '</button>';
+    html += '<button class="btn-icon" data-action="up" data-i="' + globalIndex + '" title="Liiguta &uuml;les">&#9650;</button>';
+    html += '<button class="btn-icon" data-action="down" data-i="' + globalIndex + '" title="Liiguta alla">&#9660;</button>';
+    html += '<button class="btn-icon delete" data-action="delete" data-i="' + globalIndex + '" title="Kustuta">&#10005;</button>';
+    html += '</div>';
+    html += '</div>';
+
+    // Two-column body
+    html += '<div class="slide-card-body">';
+
+    // LEFT COLUMN
+    html += '<div class="slide-left">';
+    html += '<div class="field-row">';
+    html += '<span class="field-label">ET</span>';
+    html += '<textarea class="field-textarea" data-i="' + globalIndex + '" data-field="estonian" rows="1">' + esc(slide.estonian || '') + '</textarea>';
+    html += '</div>';
+    html += '<div class="field-row">';
+    html += '<span class="field-label">RU</span>';
+    html += '<textarea class="field-textarea" data-i="' + globalIndex + '" data-field="russian" rows="1">' + esc(slide.russian || '') + '</textarea>';
+    html += '</div>';
+
+    // Flow indicators
+    html += buildFlowIndicator(globalIndex);
+
+    html += '<div class="slide-time">~4s</div>';
+    html += '</div>';
+
+    // RIGHT COLUMN
+    html += '<div class="slide-right">';
+
+    // Projector type selector
+    html += '<select class="projector-select" data-i="' + globalIndex + '" data-field="projector" style="margin-bottom:6px;">';
+    html += '<option value="none"' + (slide.projector === 'none' ? ' selected' : '') + '>none</option>';
+    html += '<option value="bible"' + (slide.projector === 'bible' ? ' selected' : '') + '>bible</option>';
+    html += '<option value="keytext"' + (slide.projector === 'keytext' ? ' selected' : '') + '>keytext</option>';
+    html += '<option value="image"' + (slide.projector === 'image' ? ' selected' : '') + '>image</option>';
+    html += '<option value="image-keytext"' + (slide.projector === 'image-keytext' ? ' selected' : '') + '>image-keytext</option>';
+    html += '</select>';
+
+    // Mini projector preview
+    html += buildProjectorPreview(slide);
+
+    // Projector content fields
+    html += buildProjectorFields(slide, globalIndex);
+
+    html += '</div>';
+
+    html += '</div>';
+
+    card.innerHTML = html;
+
+    // --- ATTACH EVENTS ---
+    // Direct field inputs
+    card.querySelectorAll('[data-field]').forEach(function(el) {
+      var field = el.getAttribute('data-field');
+      var idx = parseInt(el.getAttribute('data-i'), 10);
+
+      el.addEventListener('input', function() {
+        slides[idx][field] = el.value;
+
+        // Auto-resize textareas
+        if (el.tagName === 'TEXTAREA') autosize(el);
+      });
+
+      el.addEventListener('change', function() {
+        slides[idx][field] = el.value;
+        if (field === 'type' || field === 'projector' || field === 'section') {
+          renderAll();
+        }
+      });
+    });
+
+    // Projector content fields
+    card.querySelectorAll('[data-pc]').forEach(function(el) {
+      var idx = parseInt(el.getAttribute('data-pci'), 10);
+      var key = el.getAttribute('data-pc');
+
+      el.addEventListener('input', function() {
+        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
+        slides[idx].projectorContent[key] = el.value;
+        if (el.tagName === 'TEXTAREA') autosize(el);
+
+        // Update preview in real-time
+        updatePreviewInCard(card, slides[idx]);
+      });
+    });
+
+    // Overlay slider
+    var overlaySlider = card.querySelector('[data-overlay]');
+    if (overlaySlider) {
+      var idx = parseInt(overlaySlider.getAttribute('data-overlay-i'), 10);
+      overlaySlider.addEventListener('input', function() {
+        if (!slides[idx].projectorContent) slides[idx].projectorContent = {};
+        slides[idx].projectorContent.overlay = parseInt(this.value, 10);
+
+        var valDisplay = card.querySelector('.overlay-value');
+        if (valDisplay) valDisplay.textContent = this.value + '%';
+
+        var overlayEl = card.querySelector('.preview-overlay');
+        if (overlayEl) {
+          overlayEl.style.background = 'rgba(0,0,0,' + (parseInt(this.value, 10) / 100) + ')';
+        }
+      });
+    }
+
+    // Action buttons
+    card.querySelectorAll('[data-action]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.getAttribute('data-i'), 10);
+        var action = btn.getAttribute('data-action');
+
+        if (action === 'up' && idx > 0) {
+          var tmp = slides[idx]; slides[idx] = slides[idx - 1]; slides[idx - 1] = tmp;
+          renderAll();
+        } else if (action === 'down' && idx < slides.length - 1) {
+          var tmp = slides[idx]; slides[idx] = slides[idx + 1]; slides[idx + 1] = tmp;
+          renderAll();
+        } else if (action === 'delete') {
+          if (confirm('Kustuta slaid #' + idx + '?')) {
+            slides.splice(idx, 1);
+            renderAll();
+          }
+        } else if (action === 'toggle-hidden') {
+          slides[idx].hidden = !slides[idx].hidden;
+          renderAll();
+        }
+      });
+    });
+
+    return card;
+  }
+
+  function updatePreviewInCard(card, slide) {
+    var previewEl = card.querySelector('.projector-preview');
+    if (previewEl) {
+      previewEl.outerHTML = buildProjectorPreview(slide);
+    }
+  }
+
+  // --- PROJECTOR PREVIEW ---
+  function buildProjectorPreview(slide) {
+    var projector = slide.projector || 'none';
+    var pc = slide.projectorContent || {};
+    var html = '';
+
+    if (projector === 'none') {
+      html = '<div class="projector-preview type-none"><span class="preview-text">&mdash;</span></div>';
+
+    } else if (projector === 'bible') {
+      html = '<div class="projector-preview type-bible">';
+      html += '<div class="preview-ref">' + esc(pc.reference || '') + '</div>';
+      html += '<div class="preview-verse">' + esc(pc.textEst || '') + '</div>';
+      html += '</div>';
+
+    } else if (projector === 'keytext') {
+      html = '<div class="projector-preview type-keytext">';
+      html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
+      if (pc.subEst) {
+        html += '<div class="preview-sub">' + esc(pc.subEst) + '</div>';
+      }
+      html += '</div>';
+
+    } else if (projector === 'image') {
+      var overlay = pc.overlay != null ? pc.overlay : 60;
+      var bgStyle = '';
+      if (pc.imageUrl) {
+        bgStyle = 'background-image:url(' + esc(pc.imageUrl) + ');';
+      } else if (pc.imageFallback) {
+        bgStyle = 'background:' + esc(pc.imageFallback) + ';';
+      } else {
+        bgStyle = 'background:linear-gradient(135deg,#1a2a4a,#0a1525);';
+      }
+      html = '<div class="projector-preview type-image" style="' + bgStyle + '">';
+      html += '<div class="preview-overlay" style="background:rgba(0,0,0,' + (overlay / 100) + ')"></div>';
+      if (pc.captionEst) {
+        html += '<div class="preview-caption">' + esc(pc.captionEst) + '</div>';
+      }
+      html += '</div>';
+
+    } else if (projector === 'image-keytext') {
+      var overlay = pc.overlay != null ? pc.overlay : 60;
+      var bgStyle = '';
+      if (pc.imageUrl) {
+        bgStyle = 'background-image:url(' + esc(pc.imageUrl) + ');';
+      } else if (pc.imageFallback) {
+        bgStyle = 'background:' + esc(pc.imageFallback) + ';';
+      } else {
+        bgStyle = 'background:linear-gradient(135deg,#1a2a4a,#0a1525);';
+      }
+      html = '<div class="projector-preview type-image-keytext" style="' + bgStyle + '">';
+      html += '<div class="preview-overlay" style="background:rgba(0,0,0,' + (overlay / 100) + ')"></div>';
+      html += '<div class="preview-keytext">' + esc(pc.textEst || '') + '</div>';
+      html += '</div>';
+    }
+
+    return html;
+  }
+
+  // --- PROJECTOR CONTENT FIELDS ---
+  function buildProjectorFields(slide, i) {
+    var projector = slide.projector || 'none';
+    if (projector === 'none') return '';
+
+    var pc = slide.projectorContent || {};
+    var html = '<div class="projector-fields">';
+    html += '<div class="projector-fields-title">Projektori sisu (' + esc(projector) + ')</div>';
+
+    if (projector === 'bible') {
+      html += pcField(i, 'reference', 'Viide ET', pc.reference);
+      html += pcField(i, 'referenceRus', 'Viide RU', pc.referenceRus);
+      html += pcField(i, 'referenceEng', 'Viide EN', pc.referenceEng);
+      html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
+      html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
+      html += pcField(i, 'textEng', 'Tekst EN', pc.textEng);
+
+    } else if (projector === 'keytext') {
+      html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
+      html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
+      html += pcField(i, 'subEst', 'Alam ET', pc.subEst);
+      html += pcField(i, 'subRus', 'Alam RU', pc.subRus);
+
+    } else if (projector === 'image') {
+      html += pcField(i, 'imageUrl', 'Pildi URL', pc.imageUrl);
+      html += pcField(i, 'imageFallback', 'Fallback', pc.imageFallback);
+      html += pcField(i, 'captionEst', 'Allkiri ET', pc.captionEst);
+      html += pcField(i, 'captionRus', 'Allkiri RU', pc.captionRus);
+      html += overlaySlider(i, pc.overlay);
+
+    } else if (projector === 'image-keytext') {
+      html += pcField(i, 'imageUrl', 'Pildi URL', pc.imageUrl);
+      html += pcField(i, 'imageFallback', 'Fallback', pc.imageFallback);
+      html += overlaySlider(i, pc.overlay);
+      html += pcField(i, 'textEst', 'Tekst ET', pc.textEst);
+      html += pcField(i, 'textRus', 'Tekst RU', pc.textRus);
+    }
+
+    html += '</div>';
+    return html;
+  }
+
+  function pcField(i, key, label, value) {
+    return '<div class="pc-field-row">' +
+      '<span class="pc-label">' + esc(label) + '</span>' +
+      '<textarea class="pc-input" data-pci="' + i + '" data-pc="' + key + '" rows="1">' + esc(value || '') + '</textarea>' +
+    '</div>';
+  }
+
+  function overlaySlider(i, value) {
+    var val = value != null ? value : 60;
+    return '<div class="overlay-slider-row">' +
+      '<label>Overlay</label>' +
+      '<input type="range" min="0" max="100" value="' + val + '" data-overlay="1" data-overlay-i="' + i + '">' +
+      '<span class="overlay-value">' + val + '%</span>' +
+    '</div>';
+  }
+
+  // --- FLOW INDICATOR ---
+  function buildFlowIndicator(globalIndex) {
+    var html = '';
+    var currentSlide = slides[globalIndex];
+    var nextSlide = globalIndex < slides.length - 1 ? slides[globalIndex + 1] : null;
+    var prevSlide = globalIndex > 0 ? slides[globalIndex - 1] : null;
+
+    // Current is "none" but next has keytext
+    if ((currentSlide.projector === 'none') && nextSlide && nextSlide.projector === 'keytext') {
+      html += '<div class="flow-indicator flow-next">&rarr; keytext j&auml;rgmisel slaidil</div>';
+    }
+
+    // Current has keytext and the text matches a previous slide's estonian
+    if (currentSlide.projector === 'keytext' && currentSlide.projectorContent) {
+      var ktEst = currentSlide.projectorContent.textEst || '';
+      if (prevSlide && ktEst) {
+        var prevEst = (prevSlide.estonian || '').replace(/[.,!?""\u201e\u201d]/g, '').trim();
+        var ktClean = ktEst.replace(/[.,!?""\u201e\u201d]/g, '').trim();
+        if (prevEst && ktClean && prevEst.indexOf(ktClean) !== -1) {
+          html += '<div class="flow-indicator flow-prev">&larr; keytext eelmisest slaidist</div>';
+        }
+      }
+    }
+
+    return html;
+  }
+
+  // --- BUILD JSON ---
+  function buildJSON() {
+    readMeta();
+
+    var cleanSlides = slides.map(function(s) {
+      var obj = {};
+      if (s.type) obj.type = s.type;
+      if (s.section) obj.section = s.section;
+      if (s.estonian) obj.estonian = s.estonian;
+      if (s.russian) obj.russian = s.russian;
+      if (s.projector) obj.projector = s.projector;
+      if (s.hint) obj.hint = s.hint;
+      if (s.hidden) obj.hidden = s.hidden;
+
+      if (s.projectorContent && Object.keys(s.projectorContent).length > 0) {
+        var pc = {};
+        Object.keys(s.projectorContent).forEach(function(k) {
+          var v = s.projectorContent[k];
+          if (v !== '' && v !== null && v !== undefined) {
+            pc[k] = v;
+          }
+        });
+        if (Object.keys(pc).length > 0) {
+          obj.projectorContent = pc;
+        }
+      }
+
+      return obj;
+    });
+
+    var output = { meta: meta, slides: cleanSlides };
+    return JSON.stringify(output, null, 2);
+  }
+
+  // --- DOWNLOAD ---
   document.getElementById('btnDownload').addEventListener('click', function() {
+    downloadJSON();
+  });
+
+  function downloadJSON() {
     var json = buildJSON();
     var blob = new Blob([json], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
@@ -517,12 +1272,13 @@ body {
     a.download = 'slides.json';
     a.click();
     URL.revokeObjectURL(url);
-  });
+  }
 
-  // Import
+  // --- IMPORT ---
   document.getElementById('btnImport').addEventListener('click', function() {
     document.getElementById('importInput').click();
   });
+
   document.getElementById('importInput').addEventListener('change', function(e) {
     var file = e.target.files[0];
     if (!file) return;
@@ -531,10 +1287,12 @@ body {
       try {
         var data = JSON.parse(ev.target.result);
         meta = data.meta || {};
+        if (meta.timerPreset == null) meta.timerPreset = 420;
         slides = data.slides || [];
+        collapsedSections = {};
         renderMeta();
         renderAll();
-      } catch(err) {
+      } catch (err) {
         alert('Vigane JSON fail: ' + err.message);
       }
     };
@@ -542,20 +1300,29 @@ body {
     e.target.value = '';
   });
 
-  // Add slide
-  document.getElementById('btnAddSlide').addEventListener('click', function() {
-    var lastSection = slides.length > 0 ? slides[slides.length - 1].section : '';
-    slides.push({
-      id: slides.length,
-      type: 'text',
-      section: lastSection,
-      estonian: '',
-      russian: '',
-      projector: 'none'
-    });
-    renderAll();
-    // Scroll to bottom
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  // --- KEYBOARD SHORTCUTS ---
+  document.addEventListener('keydown', function(e) {
+    // Ctrl+S: Download JSON
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      downloadJSON();
+    }
+
+    // Ctrl+Shift+N: Add new slide at end
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'N') {
+      e.preventDefault();
+      var lastSection = slides.length > 0 ? slides[slides.length - 1].section : '';
+      slides.push({
+        type: 'normal',
+        section: lastSection,
+        estonian: '',
+        russian: '',
+        projector: 'none'
+      });
+      collapsedSections[lastSection] = false;
+      renderAll();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
   });
 
 })();

@@ -262,6 +262,7 @@ html, body {
     rgba(4,8,18,0.1) 65%,
     transparent 100%
   );
+  transition: background 0.3s;
 }
 
 .image-caption {
@@ -352,6 +353,55 @@ html, body {
   width: 80px; height: 1px;
   background: var(--gold-dim);
   margin: 20px auto 0;
+}
+
+/* IMAGE-KEYTEXT: image background with overlay and keytext */
+#screen-image-keytext {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.ik-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.ik-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4,8,18,0.6); /* default 60% overlay */
+}
+.ik-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px;
+  max-width: 1100px;
+}
+.ik-text-est {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.1;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  animation: subtleGlow 4s ease-in-out infinite;
+}
+.ik-text-rus {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5.5vw, 5.5rem);
+  font-weight: 400;
+  color: var(--text-rus);
+  line-height: 1.15;
+  margin-top: 12px;
+  font-style: italic;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+  animation: subtleGlow 4s ease-in-out infinite;
 }
 
 /* Status indicator */
@@ -465,6 +515,16 @@ html, body {
   <div class="keytext-sub-rus"  id="keytextSubRus"></div>
 </div>
 
+<!-- IMAGE-KEYTEXT: image background with keytext overlay -->
+<div id="screen-image-keytext">
+  <div class="ik-bg" id="ikBg"></div>
+  <div class="ik-overlay" id="ikOverlay"></div>
+  <div class="ik-content">
+    <div class="ik-text-est" id="ikTextEst"></div>
+    <div class="ik-text-rus" id="ikTextRus"></div>
+  </div>
+</div>
+
 <!-- Fullscreen button -->
 <button class="fullscreen-btn" id="fullscreenBtn">T&auml;isekraan</button>
 
@@ -513,7 +573,7 @@ for (let i = 0; i < 120; i++) {
 }
 
 // Screen management
-const SCREENS = ['default', 'section', 'bible', 'image', 'keytext'];
+const SCREENS = ['default', 'section', 'bible', 'image', 'keytext', 'image-keytext'];
 
 function showScreen(name, updateFn) {
   SCREENS.forEach(s => {
@@ -532,6 +592,15 @@ function showScreen(name, updateFn) {
 function displaySlide(idx) {
   if (idx < 0 || idx >= SLIDES.length) return;
   const slide = SLIDES[idx];
+
+  if (slide.hidden) {
+    // Show default screen for hidden slides
+    SCREENS.forEach(s => {
+      document.getElementById('screen-' + s).style.display = 'none';
+    });
+    document.getElementById('screen-default').style.display = 'flex';
+    return;
+  }
 
   switch (slide.projector) {
 
@@ -575,6 +644,9 @@ function displaySlide(idx) {
         }
         document.getElementById('imageCaptionEst').textContent = c.captionEst;
         document.getElementById('imageCaptionRus').textContent = c.captionRus;
+        const overlayPct = c.overlay !== undefined ? c.overlay : 70;
+        document.querySelector('#screen-image .image-overlay').style.background =
+          'linear-gradient(to top, rgba(4,8,18,' + (overlayPct/100*0.88).toFixed(2) + ') 0%, rgba(4,8,18,' + (overlayPct/100*0.5).toFixed(2) + ') 35%, rgba(4,8,18,' + (overlayPct/100*0.1).toFixed(2) + ') 65%, transparent 100%)';
       });
       break;
     }
@@ -586,6 +658,30 @@ function displaySlide(idx) {
         document.getElementById('keytextMainRus').textContent = c.textRus || '';
         document.getElementById('keytextSubEst').textContent  = c.subEst || '';
         document.getElementById('keytextSubRus').textContent  = c.subRus || '';
+      });
+      break;
+    }
+
+    case 'image-keytext': {
+      const c = slide.projectorContent;
+      showScreen('image-keytext', () => {
+        const bg = document.getElementById('ikBg');
+        bg.style.cssText = 'position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;';
+        bg.style.backgroundImage = c.imageFallback ? c.imageFallback : 'none';
+        if (c.imageUrl) {
+          const img = new Image();
+          img.onload = () => {
+            bg.style.backgroundImage = "url('" + c.imageUrl + "')";
+            bg.style.backgroundSize = 'cover';
+            bg.style.backgroundPosition = 'center';
+          };
+          img.src = c.imageUrl;
+        }
+        // Apply overlay opacity from data (0-100, default 60)
+        const overlayPct = c.overlay !== undefined ? c.overlay : 60;
+        document.getElementById('ikOverlay').style.background = 'rgba(4,8,18,' + (overlayPct / 100) + ')';
+        document.getElementById('ikTextEst').textContent = c.textEst || '';
+        document.getElementById('ikTextRus').textContent = c.textRus || '';
       });
       break;
     }
