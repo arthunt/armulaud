@@ -1884,11 +1884,16 @@ function computeSpanMap(slides) {
     var offset = s.projectorOffset === true;
     var startVi = offset ? (vi + 1) : vi;
 
+    var isImageSource = (proj === 'image' || proj === 'image-keytext');
+
     for (var j = 0; j < spanCount && (startVi + j) < visibleIndices.length; j++) {
       var targetGlobal = visibleIndices[startVi + j];
       if (targetGlobal === i) continue; // skip self
       var targetProj = slides[targetGlobal].projector || 'none';
-      if (targetProj !== 'none' && targetProj !== 'inherit') break; // has own content
+      // Allow image to compose with keytext; otherwise stop at own content
+      if (targetProj !== 'none' && targetProj !== 'inherit') {
+        if (!(isImageSource && targetProj === 'keytext')) break;
+      }
 
       if (!map[targetGlobal]) map[targetGlobal] = [];
       map[targetGlobal].push({
@@ -1896,6 +1901,25 @@ function computeSpanMap(slides) {
         projector: proj,
         projectorContent: s.projectorContent || {},
         offset: offset
+      });
+    }
+  }
+
+  // Auto-compose: when image is followed by keytext (no span needed),
+  // add image as a layer so admin preview shows the composite
+  for (var vi = 1; vi < visibleIndices.length; vi++) {
+    var curIdx = visibleIndices[vi];
+    var prevIdx = visibleIndices[vi - 1];
+    var curProj = slides[curIdx].projector || 'none';
+    var prevProj = slides[prevIdx].projector || 'none';
+    if (curProj === 'keytext' && (!map[curIdx] || map[curIdx].length === 0) &&
+        (prevProj === 'image' || prevProj === 'image-keytext')) {
+      if (!map[curIdx]) map[curIdx] = [];
+      map[curIdx].push({
+        sourceIndex: prevIdx,
+        projector: prevProj,
+        projectorContent: slides[prevIdx].projectorContent || {},
+        offset: false
       });
     }
   }

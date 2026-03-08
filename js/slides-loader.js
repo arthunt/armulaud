@@ -36,12 +36,17 @@ function processSlides(allSlides) {
     var offset = slide.projectorOffset === true;
     var startIdx = offset ? (i + 1) : i;
 
+    var isImageSource = (slide.projector === 'image' || slide.projector === 'image-keytext');
+
     for (var j = 0; j < spanCount && (startIdx + j) < visible.length; j++) {
       var targetIdx = startIdx + j;
       // Source slide's own position: skip, slide already has its own content
       if (targetIdx === i) continue;
       var targetProj = visible[targetIdx].projector || 'none';
-      if (targetProj !== 'none' && targetProj !== 'inherit') break; // has own content, stop span
+      // Allow image to compose with keytext; otherwise stop at own content
+      if (targetProj !== 'none' && targetProj !== 'inherit') {
+        if (!(isImageSource && targetProj === 'keytext')) break;
+      }
       layers[targetIdx].push({
         projector: slide.projector,
         projectorContent: slide.projectorContent || {},
@@ -63,6 +68,27 @@ function processSlides(allSlides) {
     }
   }
 
+  // Pass 4: auto-compose adjacent image + keytext
+  // When an image slide is immediately followed by a keytext slide (no span needed),
+  // composite them into image-keytext automatically.
+  for (var i = 1; i < visible.length; i++) {
+    var cur = visible[i];
+    var prev = visible[i - 1];
+    if (cur.projector === 'keytext' && layers[i].length === 0 &&
+        (prev.projector === 'image' || prev.projector === 'image-keytext')) {
+      var imgC = prev.projectorContent || {};
+      var txtC = cur.projectorContent || {};
+      cur.projector = 'image-keytext';
+      cur.projectorContent = {
+        imageUrl: imgC.imageUrl,
+        imageFallback: imgC.imageFallback,
+        overlay: imgC.overlay,
+        textEst: txtC.textEst || '',
+        textRus: txtC.textRus || ''
+      };
+    }
+  }
+
   return visible;
 }
 
@@ -80,6 +106,8 @@ function composeLayers(layersList, targetSlide) {
 
   var ownContent = targetSlide.projectorContent || {};
   var hasOwnText = ownContent.textEst || ownContent.textRus;
+  // If target is a keytext slide, treat its own content as text source
+  if (targetSlide.projector === 'keytext') hasOwnText = true;
 
   if (imageLayer && (textLayer || hasOwnText)) {
     var textSrc = textLayer ? textLayer.projectorContent : ownContent;
