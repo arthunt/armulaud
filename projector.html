@@ -702,7 +702,7 @@ function updateDate() {
   }
 }
 
-// Preload images from slides into cache map
+// Preload images from slides — store Image objects for reuse
 const preloadedImages = {};
 
 function preloadImages() {
@@ -711,9 +711,8 @@ function preloadImages() {
       const url = slide.projectorContent.imageUrl;
       if (url && !preloadedImages[url]) {
         const img = new Image();
-        img.onload = () => { preloadedImages[url] = true; };
         img.src = url;
-        preloadedImages[url] = false; // loading
+        preloadedImages[url] = img;
       }
     }
   });
@@ -725,18 +724,28 @@ function setImageBg(el, url, fallback) {
     el.style.backgroundImage = fallback || 'none';
     return;
   }
-  if (preloadedImages[url]) {
-    // Already cached — set immediately, no flash
+  var cached = preloadedImages[url];
+  if (cached && cached.complete && cached.naturalWidth > 0) {
+    // Fully loaded — set immediately, no flash
+    el.style.backgroundImage = "url('" + url + "')";
+    return;
+  }
+  // Show fallback while waiting
+  el.style.backgroundImage = fallback || 'none';
+  // Reuse in-progress preload or start new one
+  if (!cached) {
+    cached = new Image();
+    cached.src = url;
+    preloadedImages[url] = cached;
+  }
+  // Piggyback on existing load (or catch already-complete race)
+  if (cached.complete && cached.naturalWidth > 0) {
     el.style.backgroundImage = "url('" + url + "')";
   } else {
-    // Not yet cached — show fallback, swap on load
-    el.style.backgroundImage = fallback || 'none';
-    const img = new Image();
-    img.onload = () => {
-      preloadedImages[url] = true;
+    cached.addEventListener('load', function onLoad() {
+      cached.removeEventListener('load', onLoad);
       el.style.backgroundImage = "url('" + url + "')";
-    };
-    img.src = url;
+    });
   }
 }
 
