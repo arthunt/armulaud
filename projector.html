@@ -769,7 +769,28 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ── Image preloading ──────────────────────────────────
+// Preloads all image-type slides into browser cache as soon
+// as slides.json is ready, so images appear instantly on stage.
+function preloadImages(slides) {
+  const imageSlides = slides.filter(s =>
+    s.projector === 'image' && s.projectorContent?.imageUrl
+  );
+  console.log(`Preloading ${imageSlides.length} image(s)...`);
+  imageSlides.forEach(slide => {
+    const img = new Image();
+    img.onload  = () => console.log('\u2713 Preloaded:', slide.projectorContent.imageUrl);
+    img.onerror = () => console.warn('\u2717 Failed:',   slide.projectorContent.imageUrl);
+    img.src = slide.projectorContent.imageUrl;
+  });
+}
+
+// Startup – wait for slides JSON, then preload all images
 document.getElementById('screen-default').style.display = 'flex';
+SLIDES_READY.then(slides => {
+  preloadImages(slides);
+  if (typeof updateDate === 'function') updateDate();
+});
 
 // Fullscreen button
 const fsBtn = document.getElementById('fullscreenBtn');

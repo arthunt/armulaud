@@ -20,73 +20,87 @@ var changeListeners = [];
 window.SLIDES_ONCHANGE = function(fn) { changeListeners.push(fn); };
 
 function processSlides(allSlides) {
-  // Filter hidden
   var visible = allSlides.filter(function(s) { return !s.hidden; });
 
-  // Resolve projectorSpan (old JSON format: count-based)
-  var activeSpan = null;
+  // Pass 1: build layers map
+  var layers = [];
+  for (var i = 0; i < visible.length; i++) layers.push([]);
+
   for (var i = 0; i < visible.length; i++) {
     var slide = visible[i];
     var hasOwn = slide.projector && slide.projector !== 'none' && slide.projector !== 'inherit';
-    if (hasOwn) {
-      var span = slide.projectorSpan;
-      // Support both boolean (new) and number (old) formats
-      if (span === true || (typeof span === 'number' && span > 1)) {
-        activeSpan = {
-          projector: slide.projector,
-          projectorContent: slide.projectorContent
-        };
-        if (typeof span === 'number') {
-          activeSpan.remaining = span - 1;
-        }
-      } else {
-        activeSpan = null;
-      }
-    } else if (slide.projector === 'none' && activeSpan && activeSpan.remaining > 0) {
-      // Count-based inheritance for "none" slides
-      var ownContent = slide.projectorContent || {};
-      var isImageSource = activeSpan.projector === 'image' || activeSpan.projector === 'image-keytext';
-      var hasOwnText = ownContent.textEst || ownContent.textRus;
+    if (!hasOwn) continue;
 
-      if (isImageSource && hasOwnText) {
-        // Merge: image from source + keytext from current slide → image-keytext
-        var srcContent = activeSpan.projectorContent || {};
-        slide.projector = 'image-keytext';
-        slide.projectorContent = {
-          imageUrl: srcContent.imageUrl,
-          imageFallback: srcContent.imageFallback,
-          overlay: srcContent.overlay,
-          textEst: ownContent.textEst,
-          textRus: ownContent.textRus
-        };
-      } else {
-        slide.projector = activeSpan.projector;
-        slide.projectorContent = activeSpan.projectorContent;
-      }
-      activeSpan.remaining--;
-      if (activeSpan.remaining === 0) activeSpan = null;
-    } else if (slide.projector === 'inherit' && activeSpan) {
-      // "inherit" with own text + image source → image-keytext overlay
-      var ownContent = slide.projectorContent || {};
-      var isImageSource = activeSpan.projector === 'image' || activeSpan.projector === 'image-keytext';
-      var hasOwnText = ownContent.textEst || ownContent.textRus;
+    var spanCount = (slide.projectorSpan === true) ? 2
+      : (typeof slide.projectorSpan === 'number' && slide.projectorSpan > 1) ? slide.projectorSpan : 1;
+    var offset = slide.projectorOffset === true;
+    var startIdx = offset ? (i + 1) : i;
 
-      if (isImageSource && hasOwnText) {
-        var srcContent = activeSpan.projectorContent || {};
-        slide.projector = 'image-keytext';
-        slide.projectorContent = {
-          imageUrl: srcContent.imageUrl,
-          imageFallback: srcContent.imageFallback,
-          overlay: srcContent.overlay,
-          textEst: ownContent.textEst,
-          textRus: ownContent.textRus
-        };
-      }
-      // Otherwise left as "inherit" — projector.html keeps the screen
+    for (var j = 0; j < spanCount && (startIdx + j) < visible.length; j++) {
+      var targetIdx = startIdx + j;
+      // Source slide's own position: skip, slide already has its own content
+      if (targetIdx === i) continue;
+      var targetProj = visible[targetIdx].projector || 'none';
+      if (targetProj !== 'none' && targetProj !== 'inherit') break; // has own content, stop span
+      layers[targetIdx].push({
+        projector: slide.projector,
+        projectorContent: slide.projectorContent || {},
+        sourceIndex: i
+      });
+    }
+  }
+
+  // Pass 2: compose layers for each target slide
+  for (var i = 0; i < visible.length; i++) {
+    if (layers[i].length === 0) continue;
+    composeLayers(layers[i], visible[i]);
+  }
+
+  // Pass 3: clear projector on offset sources (content moved to next slides)
+  for (var i = 0; i < visible.length; i++) {
+    if (visible[i].projectorOffset === true) {
+      visible[i].projector = 'none';
     }
   }
 
   return visible;
+}
+
+function composeLayers(layersList, targetSlide) {
+  var imageLayer = null;
+  var textLayer = null;
+  var otherLayer = null;
+
+  for (var k = 0; k < layersList.length; k++) {
+    var l = layersList[k];
+    if (l.projector === 'image' || l.projector === 'image-keytext') imageLayer = l;
+    else if (l.projector === 'keytext') textLayer = l;
+    else otherLayer = l;
+  }
+
+  var ownContent = targetSlide.projectorContent || {};
+  var hasOwnText = ownContent.textEst || ownContent.textRus;
+
+  if (imageLayer && (textLayer || hasOwnText)) {
+    var textSrc = textLayer ? textLayer.projectorContent : ownContent;
+    targetSlide.projector = 'image-keytext';
+    targetSlide.projectorContent = {
+      imageUrl: imageLayer.projectorContent.imageUrl,
+      imageFallback: imageLayer.projectorContent.imageFallback,
+      overlay: imageLayer.projectorContent.overlay,
+      textEst: textSrc.textEst || '',
+      textRus: textSrc.textRus || ''
+    };
+  } else if (imageLayer) {
+    targetSlide.projector = imageLayer.projector;
+    targetSlide.projectorContent = imageLayer.projectorContent;
+  } else if (textLayer) {
+    targetSlide.projector = textLayer.projector;
+    targetSlide.projectorContent = textLayer.projectorContent;
+  } else if (otherLayer) {
+    targetSlide.projector = otherLayer.projector;
+    targetSlide.projectorContent = otherLayer.projectorContent;
+  }
 }
 
 function showOfflineBanner() {
