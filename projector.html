@@ -575,18 +575,32 @@ function showScreen(name, updateFn) {
   target.classList.add('screen-enter');
 }
 
+// Track current projector state to avoid re-rendering identical content
+let currentProjectorKey = null;
+
+function projectorKey(slide) {
+  if (!slide || !slide.projector || slide.projector === 'none') return 'default';
+  if (slide.projector === 'inherit') return null; // inherit = keep current
+  return slide.projector + ':' + JSON.stringify(slide.projectorContent || {});
+}
+
 function displaySlide(idx) {
   if (idx < 0 || idx >= SLIDES.length) return;
   const slide = SLIDES[idx];
 
   if (slide.hidden) {
-    // Show default screen for hidden slides
+    currentProjectorKey = 'default';
     SCREENS.forEach(s => {
       document.getElementById('screen-' + s).style.display = 'none';
     });
     document.getElementById('screen-default').style.display = 'flex';
     return;
   }
+
+  // If projector content is identical to what's showing, skip re-render
+  const newKey = projectorKey(slide);
+  if (newKey !== null && newKey === currentProjectorKey) return;
+  if (newKey !== null) currentProjectorKey = newKey;
 
   switch (slide.projector) {
 
