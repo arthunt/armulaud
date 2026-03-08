@@ -576,12 +576,29 @@ function showScreen(name, updateFn) {
 }
 
 // Track current projector state to avoid re-rendering identical content
-let currentProjectorKey = null;
+let currentContentKey = null;  // full content fingerprint
+let currentScreenKey = null;   // screen identity (type + image)
 
-function projectorKey(slide) {
+// Full content key — if identical, skip entirely
+function contentKey(slide) {
   if (!slide || !slide.projector || slide.projector === 'none') return 'default';
-  if (slide.projector === 'inherit') return null; // inherit = keep current
+  if (slide.projector === 'inherit') return null;
   return slide.projector + ':' + JSON.stringify(slide.projectorContent || {});
+}
+
+// Screen key — if same, update text in-place without animation
+function screenKey(slide) {
+  if (!slide || !slide.projector || slide.projector === 'none') return 'default';
+  if (slide.projector === 'inherit') return null;
+  var c = slide.projectorContent || {};
+  if (slide.projector === 'image' || slide.projector === 'image-keytext') {
+    return slide.projector + ':' + (c.imageUrl || '') + ':' + (c.overlay !== undefined ? c.overlay : '');
+  }
+  if (slide.projector === 'image') {
+    return 'image:' + (c.imageUrl || '');
+  }
+  // For non-image types, screen key = content key (always re-render)
+  return slide.projector + ':' + JSON.stringify(c);
 }
 
 function displaySlide(idx) {
@@ -589,7 +606,8 @@ function displaySlide(idx) {
   const slide = SLIDES[idx];
 
   if (slide.hidden) {
-    currentProjectorKey = 'default';
+    currentContentKey = 'default';
+    currentScreenKey = 'default';
     SCREENS.forEach(s => {
       document.getElementById('screen-' + s).style.display = 'none';
     });
@@ -597,10 +615,14 @@ function displaySlide(idx) {
     return;
   }
 
-  // If projector content is identical to what's showing, skip re-render
-  const newKey = projectorKey(slide);
-  if (newKey !== null && newKey === currentProjectorKey) return;
-  if (newKey !== null) currentProjectorKey = newKey;
+  // If full content is identical, skip entirely
+  const newContentKey = contentKey(slide);
+  if (newContentKey !== null && newContentKey === currentContentKey) return;
+  if (newContentKey !== null) currentContentKey = newContentKey;
+
+  const newScreenKey = screenKey(slide);
+  const sameScreen = newScreenKey !== null && newScreenKey === currentScreenKey;
+  if (newScreenKey !== null) currentScreenKey = newScreenKey;
 
   switch (slide.projector) {
 
@@ -629,14 +651,20 @@ function displaySlide(idx) {
 
     case 'image': {
       const c = slide.projectorContent;
-      showScreen('image', () => {
-        setImageBg(document.getElementById('imageBg'), c.imageUrl, c.imageFallback);
+      if (sameScreen) {
+        // Same image — just update captions, no animation
         document.getElementById('imageCaptionEst').textContent = c.captionEst;
         document.getElementById('imageCaptionRus').textContent = c.captionRus;
-        const overlayPct = c.overlay !== undefined ? c.overlay : 70;
-        document.querySelector('#screen-image .image-overlay').style.background =
-          'linear-gradient(to top, rgba(4,8,18,' + (overlayPct/100*0.88).toFixed(2) + ') 0%, rgba(4,8,18,' + (overlayPct/100*0.5).toFixed(2) + ') 35%, rgba(4,8,18,' + (overlayPct/100*0.1).toFixed(2) + ') 65%, transparent 100%)';
-      });
+      } else {
+        showScreen('image', () => {
+          setImageBg(document.getElementById('imageBg'), c.imageUrl, c.imageFallback);
+          document.getElementById('imageCaptionEst').textContent = c.captionEst;
+          document.getElementById('imageCaptionRus').textContent = c.captionRus;
+          const overlayPct = c.overlay !== undefined ? c.overlay : 70;
+          document.querySelector('#screen-image .image-overlay').style.background =
+            'linear-gradient(to top, rgba(4,8,18,' + (overlayPct/100*0.88).toFixed(2) + ') 0%, rgba(4,8,18,' + (overlayPct/100*0.5).toFixed(2) + ') 35%, rgba(4,8,18,' + (overlayPct/100*0.1).toFixed(2) + ') 65%, transparent 100%)';
+        });
+      }
       break;
     }
 
@@ -653,14 +681,19 @@ function displaySlide(idx) {
 
     case 'image-keytext': {
       const c = slide.projectorContent;
-      showScreen('image-keytext', () => {
-        setImageBg(document.getElementById('ikBg'), c.imageUrl, c.imageFallback);
-        // Apply overlay opacity from data (0-100, default 60)
-        const overlayPct = c.overlay !== undefined ? c.overlay : 60;
-        document.getElementById('ikOverlay').style.background = 'rgba(4,8,18,' + (overlayPct / 100) + ')';
+      if (sameScreen) {
+        // Same image + overlay — just update text, no animation
         document.getElementById('ikTextEst').textContent = c.textEst || '';
         document.getElementById('ikTextRus').textContent = c.textRus || '';
-      });
+      } else {
+        showScreen('image-keytext', () => {
+          setImageBg(document.getElementById('ikBg'), c.imageUrl, c.imageFallback);
+          const overlayPct = c.overlay !== undefined ? c.overlay : 60;
+          document.getElementById('ikOverlay').style.background = 'rgba(4,8,18,' + (overlayPct / 100) + ')';
+          document.getElementById('ikTextEst').textContent = c.textEst || '';
+          document.getElementById('ikTextRus').textContent = c.textRus || '';
+        });
+      }
       break;
     }
 
@@ -670,6 +703,7 @@ function displaySlide(idx) {
     }
 
     default: {
+      currentScreenKey = 'default';
       SCREENS.forEach(s => {
         document.getElementById('screen-' + s).style.display = 'none';
       });
@@ -702,20 +736,34 @@ function updateDate() {
   }
 }
 
-// Preload images from slides — store Image objects for reuse
+// Preload images — fetch as blobs for instant display via Object URLs
 const preloadedImages = {};
 
 function preloadImages() {
-  SLIDES.forEach(slide => {
-    if (slide.projectorContent) {
-      const url = slide.projectorContent.imageUrl;
-      if (url && !preloadedImages[url]) {
-        const img = new Image();
-        img.src = url;
-        preloadedImages[url] = img;
+  var count = 0;
+  SLIDES.forEach(function(slide) {
+    if (slide.projectorContent && slide.projectorContent.imageUrl) {
+      var url = slide.projectorContent.imageUrl;
+      if (!preloadedImages[url]) {
+        preloadedImages[url] = { ready: false, blobUrl: null };
+        count++;
+        fetch(url, { mode: 'cors' })
+          .then(function(r) { return r.blob(); })
+          .then(function(blob) {
+            preloadedImages[url] = { ready: true, blobUrl: URL.createObjectURL(blob) };
+            console.log('[Preload] Cached:', url.slice(-40));
+          })
+          .catch(function() {
+            // CORS fallback: use Image element
+            var img = new Image();
+            img.src = url;
+            preloadedImages[url] = { ready: false, blobUrl: null, img: img };
+            console.warn('[Preload] Blob failed, using Image fallback:', url.slice(-40));
+          });
       }
     }
   });
+  if (count) console.log('[Preload] Starting', count, 'images');
 }
 
 function setImageBg(el, url, fallback) {
@@ -725,29 +773,55 @@ function setImageBg(el, url, fallback) {
     return;
   }
   var cached = preloadedImages[url];
-  if (cached && cached.complete && cached.naturalWidth > 0) {
-    // Fully loaded — set immediately, no flash
+  // Blob preloaded — instant, no network
+  if (cached && cached.ready && cached.blobUrl) {
+    el.style.backgroundImage = "url('" + cached.blobUrl + "')";
+    return;
+  }
+  // Image fallback already loaded
+  if (cached && cached.img && cached.img.complete && cached.img.naturalWidth > 0) {
     el.style.backgroundImage = "url('" + url + "')";
     return;
   }
-  // Show fallback while waiting
+  // Not ready yet — show fallback, wait for preload
   el.style.backgroundImage = fallback || 'none';
-  // Reuse in-progress preload or start new one
   if (!cached) {
-    cached = new Image();
-    cached.src = url;
-    preloadedImages[url] = cached;
-  }
-  // Piggyback on existing load (or catch already-complete race)
-  if (cached.complete && cached.naturalWidth > 0) {
-    el.style.backgroundImage = "url('" + url + "')";
-  } else {
-    cached.addEventListener('load', function onLoad() {
-      cached.removeEventListener('load', onLoad);
+    // Not preloaded at all — start now
+    preloadedImages[url] = { ready: false, blobUrl: null };
+    fetch(url, { mode: 'cors' })
+      .then(function(r) { return r.blob(); })
+      .then(function(blob) {
+        var blobUrl = URL.createObjectURL(blob);
+        preloadedImages[url] = { ready: true, blobUrl: blobUrl };
+        el.style.backgroundImage = "url('" + blobUrl + "')";
+      })
+      .catch(function() {
+        var img = new Image();
+        img.onload = function() { el.style.backgroundImage = "url('" + url + "')"; };
+        img.src = url;
+        preloadedImages[url] = { ready: false, blobUrl: null, img: img };
+      });
+  } else if (cached.blobUrl === null && !cached.img) {
+    // Fetch in progress — poll until ready
+    var poll = setInterval(function() {
+      var c = preloadedImages[url];
+      if (c && c.ready && c.blobUrl) {
+        clearInterval(poll);
+        el.style.backgroundImage = "url('" + c.blobUrl + "')";
+      }
+    }, 50);
+    setTimeout(function() { clearInterval(poll); }, 15000);
+  } else if (cached.img) {
+    // Image fallback in progress
+    cached.img.addEventListener('load', function onLoad() {
+      cached.img.removeEventListener('load', onLoad);
       el.style.backgroundImage = "url('" + url + "')";
     });
   }
 }
+
+// Re-preload when slides data changes (Firebase real-time updates)
+SLIDES_ONCHANGE(function() { preloadImages(); });
 
 // Wait for slides then set up listeners
 SLIDES_READY.then(() => {

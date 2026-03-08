@@ -531,6 +531,34 @@ const el = {
   btnNext:  document.getElementById('btnNext'),
 };
 
+// Preload images — fetch as blobs for instant display
+const preloadedImages = {};
+
+function preloadImages() {
+  SLIDES.forEach(function(slide) {
+    if (slide.projectorContent && slide.projectorContent.imageUrl) {
+      var url = slide.projectorContent.imageUrl;
+      if (!preloadedImages[url]) {
+        preloadedImages[url] = { ready: false, blobUrl: null };
+        fetch(url, { mode: 'cors' })
+          .then(function(r) { return r.blob(); })
+          .then(function(blob) {
+            preloadedImages[url] = { ready: true, blobUrl: URL.createObjectURL(blob) };
+          })
+          .catch(function() {
+            preloadedImages[url] = { ready: false, blobUrl: null };
+          });
+      }
+    }
+  });
+}
+
+function preloadedBg(url, fallback) {
+  var cached = preloadedImages[url];
+  if (cached && cached.ready && cached.blobUrl) return "url('" + cached.blobUrl + "')";
+  return fallback || '#111';
+}
+
 function renderProjectorPreview(slide, box) {
   if (!box) box = el.ppBox;
   if (!slide || !slide.projector || slide.projector === 'none') {
@@ -568,18 +596,9 @@ function renderProjectorPreview(slide, box) {
         '<div class="pp-label" style="color:#fff;">PROJEKTOR</div>' +
         '<div class="pp-image"></div>';
       var ppImg = box.querySelector('.pp-image');
-      ppImg.style.backgroundImage = fallback;
-      if (url) {
-        var img = new Image();
-        img.onload = function() {
-          if (ppImg) {
-            ppImg.style.backgroundImage = "url('" + url + "')";
-            ppImg.style.backgroundSize = 'cover';
-            ppImg.style.backgroundPosition = 'center';
-          }
-        };
-        img.src = url;
-      }
+      ppImg.style.backgroundImage = url ? preloadedBg(url, fallback) : fallback;
+      ppImg.style.backgroundSize = 'cover';
+      ppImg.style.backgroundPosition = 'center';
       break;
     }
     case 'keytext': {
@@ -605,18 +624,9 @@ function renderProjectorPreview(slide, box) {
           '</div>' +
         '</div>';
       var ppImg = box.querySelector('.pp-image');
-      ppImg.style.backgroundImage = fallback;
-      if (url) {
-        var img = new Image();
-        img.onload = function() {
-          if (ppImg) {
-            ppImg.style.backgroundImage = "url('" + url + "')";
-            ppImg.style.backgroundSize = 'cover';
-            ppImg.style.backgroundPosition = 'center';
-          }
-        };
-        img.src = url;
-      }
+      ppImg.style.backgroundImage = url ? preloadedBg(url, fallback) : fallback;
+      ppImg.style.backgroundSize = 'cover';
+      ppImg.style.backgroundPosition = 'center';
       break;
     }
   }
@@ -736,8 +746,12 @@ function updateTitle() {
   if (m && m.date) document.title = 'Armulaud ' + m.date + ' \u2013 K\u00f5neleja';
 }
 
+// Re-preload when slides data changes
+SLIDES_ONCHANGE(function() { preloadImages(); });
+
 SLIDES_READY.then(function() {
   updateTitle();
+  preloadImages();
   // Load timer preset from meta
   var m = window.SLIDES_META;
   if (m && m.timerPreset && m.timerPreset > 0) {
