@@ -137,6 +137,8 @@ body {
 .slide-current.is-bible {
   font-style: italic;
   color: #ddd0a8;
+  font-size: clamp(1.6rem, 5.5vw, 2.8rem);
+  line-height: 1.35;
 }
 
 /* Divider */
@@ -187,7 +189,10 @@ body {
 .slide-preview.is-section {
   color: rgba(201,165,50,0.25);
 }
-.slide-preview.is-bible { font-style: italic; }
+.slide-preview.is-bible {
+  font-style: italic;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+}
 
 /* Progress bar */
 .progress-bar {

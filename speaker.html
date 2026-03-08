@@ -212,6 +212,8 @@ main {
 .slide-current.is-bible {
   font-style: italic;
   color: #ddd0a8;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.4;
 }
 
 /* Divider with projector preview */
@@ -374,7 +376,10 @@ main {
 .slide-preview.is-section {
   color: rgba(201,165,50,0.38);
 }
-.slide-preview.is-bible { font-style: italic; }
+.slide-preview.is-bible {
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.8vw, 2.8rem);
+}
 
 /* --- FOOTER --- */
 footer {
