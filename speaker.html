@@ -534,28 +534,34 @@ const el = {
 // Preload images — fetch as blobs for instant display
 const preloadedImages = {};
 
+function startPreload(url) {
+  if (preloadedImages[url]) return;
+  var entry = { loading: true };
+  preloadedImages[url] = entry;
+  fetch(url, { mode: 'cors' })
+    .then(function(r) { return r.blob(); })
+    .then(function(blob) {
+      entry.blobUrl = URL.createObjectURL(blob);
+      entry.loading = false;
+    })
+    .catch(function() {
+      entry.loading = false;
+      entry.fallback = true;
+    });
+}
+
 function preloadImages() {
   SLIDES.forEach(function(slide) {
     if (slide.projectorContent && slide.projectorContent.imageUrl) {
-      var url = slide.projectorContent.imageUrl;
-      if (!preloadedImages[url]) {
-        preloadedImages[url] = { ready: false, blobUrl: null };
-        fetch(url, { mode: 'cors' })
-          .then(function(r) { return r.blob(); })
-          .then(function(blob) {
-            preloadedImages[url] = { ready: true, blobUrl: URL.createObjectURL(blob) };
-          })
-          .catch(function() {
-            preloadedImages[url] = { ready: false, blobUrl: null };
-          });
-      }
+      startPreload(slide.projectorContent.imageUrl);
     }
   });
 }
 
 function preloadedBg(url, fallback) {
-  var cached = preloadedImages[url];
-  if (cached && cached.ready && cached.blobUrl) return "url('" + cached.blobUrl + "')";
+  var entry = preloadedImages[url];
+  if (entry && entry.blobUrl) return "url('" + entry.blobUrl + "')";
+  if (entry && entry.fallback) return "url('" + url + "')";
   return fallback || '#111';
 }
 

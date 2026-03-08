@@ -737,33 +737,36 @@ function updateDate() {
 }
 
 // Preload images — fetch as blobs for instant display via Object URLs
+// Entry states: { loading: true } → { blobUrl: '...' } or { fallback: true }
 const preloadedImages = {};
 
+function startPreload(url) {
+  if (preloadedImages[url]) return;
+  var entry = { loading: true };
+  preloadedImages[url] = entry;
+  fetch(url, { mode: 'cors' })
+    .then(function(r) { return r.blob(); })
+    .then(function(blob) {
+      entry.blobUrl = URL.createObjectURL(blob);
+      entry.loading = false;
+      console.log('[Preload] OK:', url.slice(-40));
+    })
+    .catch(function() {
+      // CORS blocked — pre-warm browser cache via Image
+      var img = new Image();
+      img.src = url;
+      entry.loading = false;
+      entry.fallback = true;
+      console.warn('[Preload] CORS fallback:', url.slice(-40));
+    });
+}
+
 function preloadImages() {
-  var count = 0;
   SLIDES.forEach(function(slide) {
     if (slide.projectorContent && slide.projectorContent.imageUrl) {
-      var url = slide.projectorContent.imageUrl;
-      if (!preloadedImages[url]) {
-        preloadedImages[url] = { ready: false, blobUrl: null };
-        count++;
-        fetch(url, { mode: 'cors' })
-          .then(function(r) { return r.blob(); })
-          .then(function(blob) {
-            preloadedImages[url] = { ready: true, blobUrl: URL.createObjectURL(blob) };
-            console.log('[Preload] Cached:', url.slice(-40));
-          })
-          .catch(function() {
-            // CORS fallback: use Image element
-            var img = new Image();
-            img.src = url;
-            preloadedImages[url] = { ready: false, blobUrl: null, img: img };
-            console.warn('[Preload] Blob failed, using Image fallback:', url.slice(-40));
-          });
-      }
+      startPreload(slide.projectorContent.imageUrl);
     }
   });
-  if (count) console.log('[Preload] Starting', count, 'images');
 }
 
 function setImageBg(el, url, fallback) {
@@ -772,52 +775,37 @@ function setImageBg(el, url, fallback) {
     el.style.backgroundImage = fallback || 'none';
     return;
   }
-  var cached = preloadedImages[url];
-  // Blob preloaded — instant, no network
-  if (cached && cached.ready && cached.blobUrl) {
-    el.style.backgroundImage = "url('" + cached.blobUrl + "')";
+  var entry = preloadedImages[url];
+
+  // Blob ready — instant from memory
+  if (entry && entry.blobUrl) {
+    el.style.backgroundImage = "url('" + entry.blobUrl + "')";
     return;
   }
-  // Image fallback already loaded
-  if (cached && cached.img && cached.img.complete && cached.img.naturalWidth > 0) {
+  // CORS fallback done — browser has it cached via Image
+  if (entry && entry.fallback && !entry.loading) {
     el.style.backgroundImage = "url('" + url + "')";
     return;
   }
-  // Not ready yet — show fallback, wait for preload
+
+  // Not ready — show fallback, poll until done
   el.style.backgroundImage = fallback || 'none';
-  if (!cached) {
-    // Not preloaded at all — start now
-    preloadedImages[url] = { ready: false, blobUrl: null };
-    fetch(url, { mode: 'cors' })
-      .then(function(r) { return r.blob(); })
-      .then(function(blob) {
-        var blobUrl = URL.createObjectURL(blob);
-        preloadedImages[url] = { ready: true, blobUrl: blobUrl };
-        el.style.backgroundImage = "url('" + blobUrl + "')";
-      })
-      .catch(function() {
-        var img = new Image();
-        img.onload = function() { el.style.backgroundImage = "url('" + url + "')"; };
-        img.src = url;
-        preloadedImages[url] = { ready: false, blobUrl: null, img: img };
-      });
-  } else if (cached.blobUrl === null && !cached.img) {
-    // Fetch in progress — poll until ready
-    var poll = setInterval(function() {
-      var c = preloadedImages[url];
-      if (c && c.ready && c.blobUrl) {
-        clearInterval(poll);
-        el.style.backgroundImage = "url('" + c.blobUrl + "')";
-      }
-    }, 50);
-    setTimeout(function() { clearInterval(poll); }, 15000);
-  } else if (cached.img) {
-    // Image fallback in progress
-    cached.img.addEventListener('load', function onLoad() {
-      cached.img.removeEventListener('load', onLoad);
+  if (!entry) startPreload(url);
+
+  var attempts = 0;
+  var poll = setInterval(function() {
+    var e = preloadedImages[url];
+    if (e && e.blobUrl) {
+      clearInterval(poll);
+      el.style.backgroundImage = "url('" + e.blobUrl + "')";
+    } else if (e && !e.loading) {
+      clearInterval(poll);
       el.style.backgroundImage = "url('" + url + "')";
-    });
-  }
+    } else if (++attempts > 300) {
+      clearInterval(poll);
+      el.style.backgroundImage = "url('" + url + "')";
+    }
+  }, 50);
 }
 
 // Re-preload when slides data changes (Firebase real-time updates)
