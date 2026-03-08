@@ -83,6 +83,7 @@ function processSlides(allSlides) {
         };
       }
       // Otherwise left as "inherit" — projector.html keeps the screen
+    }
   }
 
   return visible;

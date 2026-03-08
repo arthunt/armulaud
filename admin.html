@@ -901,6 +901,26 @@ body {
   border: 1px solid rgba(74,143,223,0.2);
 }
 
+/* --- SPAN INHERITED NOTICE --- */
+.span-inherited-notice {
+  background: rgba(74,143,223,0.06);
+  border: 1px dashed rgba(74,143,223,0.25);
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+}
+.span-inherited-label {
+  font-size: 0.6rem;
+  color: var(--blue);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.span-inherited-preview {
+  transform: scale(0.85);
+  transform-origin: top left;
+  margin-bottom: 4px;
+}
+
 /* --- IMAGE UPLOAD --- */
 .upload-row {
   display: flex;
@@ -1587,8 +1607,31 @@ function getSlidesForSection(sectionName) {
   return result;
 }
 
+function computeSpanMap(slides) {
+  var map = {};
+  var activeSpan = null;
+  for (var i = 0; i < slides.length; i++) {
+    var s = slides[i];
+    if (s.hidden) continue;
+    var proj = s.projector || 'none';
+    var hasOwn = proj !== 'none' && proj !== 'inherit';
+    if (hasOwn) {
+      var span = typeof s.projectorSpan === 'number' ? s.projectorSpan : 1;
+      activeSpan = span > 1 ? { sourceIndex: i, projector: proj, projectorContent: s.projectorContent || {}, remaining: span - 1 } : null;
+    } else if (activeSpan && activeSpan.remaining > 0 && (proj === 'none' || proj === 'inherit')) {
+      map[i] = { sourceIndex: activeSpan.sourceIndex, projector: activeSpan.projector, projectorContent: activeSpan.projectorContent };
+      activeSpan.remaining--;
+      if (activeSpan.remaining === 0) activeSpan = null;
+    } else {
+      activeSpan = null;
+    }
+  }
+  return map;
+}
+
 function renderSlides() {
   readEditorMeta();
+  const spanMap = computeSpanMap(slides);
   const list = document.getElementById('slideList');
   list.innerHTML = '';
 
@@ -1633,7 +1676,7 @@ function renderSlides() {
       const insertLine = createInsertLine(item.globalIndex);
       inner.appendChild(insertLine);
 
-      const card = createSlideCard(item.slide, item.globalIndex);
+      const card = createSlideCard(item.slide, item.globalIndex, spanMap);
       inner.appendChild(card);
     });
 
@@ -1692,7 +1735,7 @@ function createInsertLine(insertAtIndex) {
   return line;
 }
 
-function createSlideCard(slide, globalIndex) {
+function createSlideCard(slide, globalIndex, spanMap) {
   const card = document.createElement('div');
   card.className = 'slide-card';
   if (slide.type === 'section-header') card.classList.add('is-section');
@@ -1744,13 +1787,19 @@ function createSlideCard(slide, globalIndex) {
   html += '</div>';
 
   // Flow indicators
-  html += buildFlowIndicator(globalIndex);
+  html += buildFlowIndicator(globalIndex, spanMap);
 
   html += '<div class="slide-time">~4s</div>';
   html += '</div>';
 
   // RIGHT COLUMN
   html += '<div class="slide-right">';
+
+  // Span-inherited block
+  const spanInfo = spanMap ? spanMap[globalIndex] : null;
+  if (spanInfo) {
+    html += buildSpanInheritedBlock(spanInfo, globalIndex);
+  }
 
   // Projector type selector
   const projVal = slide.projector || 'none';
@@ -1770,21 +1819,23 @@ function createSlideCard(slide, globalIndex) {
     html += '</div>';
   }
 
-  // Mini projector preview
-  html += buildProjectorPreview(slide);
+  if (!spanInfo) {
+    // Mini projector preview
+    html += buildProjectorPreview(slide);
 
-  // Projector content fields
-  html += buildProjectorFields(slide, globalIndex);
+    // Projector content fields
+    html += buildProjectorFields(slide, globalIndex);
 
-  // For 'inherit' slides: optional keytext overlay (merges with inherited image)
-  if (projVal === 'inherit') {
-    const pc = slide.projectorContent || {};
-    html += '<div class="projector-fields" style="margin-top:6px;">';
-    html += '<div class="projector-fields-title">Keytext overlay (pildile)</div>';
-    html += '<div style="font-size:0.6rem;color:var(--dim);margin-bottom:6px;">Kui eelmine slaid on pilt, siis need tekstid kuvatakse pildi peal.</div>';
-    html += pcField(globalIndex, 'textEst', 'Tekst ET', pc.textEst);
-    html += pcField(globalIndex, 'textRus', 'Tekst RU', pc.textRus);
-    html += '</div>';
+    // For 'inherit' slides: optional keytext overlay (merges with inherited image)
+    if (projVal === 'inherit') {
+      const pc = slide.projectorContent || {};
+      html += '<div class="projector-fields" style="margin-top:6px;">';
+      html += '<div class="projector-fields-title">Keytext overlay (pildile)</div>';
+      html += '<div style="font-size:0.6rem;color:var(--dim);margin-bottom:6px;">Kui eelmine slaid on pilt, siis need tekstid kuvatakse pildi peal.</div>';
+      html += pcField(globalIndex, 'textEst', 'Tekst ET', pc.textEst);
+      html += pcField(globalIndex, 'textRus', 'Tekst RU', pc.textRus);
+      html += '</div>';
+    }
   }
 
   html += '</div>';
@@ -2096,6 +2147,28 @@ function buildProjectorPreview(slide) {
 }
 
 // =============================================================
+//  SPAN INHERITED BLOCK
+// =============================================================
+function buildSpanInheritedBlock(spanInfo, globalIndex) {
+  var html = '<div class="span-inherited-notice">';
+  html += '<div class="span-inherited-label">&larr; Projektor slaidist #' + spanInfo.sourceIndex + ' (' + esc(spanInfo.projector) + ')</div>';
+  html += '<div class="span-inherited-preview">';
+  html += buildProjectorPreview({
+    projector: spanInfo.projector,
+    projectorContent: spanInfo.projectorContent
+  });
+  html += '</div>';
+  if (spanInfo.projector === 'image' || spanInfo.projector === 'image-keytext') {
+    var pc = slides[globalIndex].projectorContent || {};
+    html += '<div class="projector-fields-title">Keytext overlay (pildile)</div>';
+    html += pcField(globalIndex, 'textEst', 'Tekst ET', pc.textEst);
+    html += pcField(globalIndex, 'textRus', 'Tekst RU', pc.textRus);
+  }
+  html += '</div>';
+  return html;
+}
+
+// =============================================================
 //  PROJECTOR CONTENT FIELDS
 // =============================================================
 function buildProjectorFields(slide, i) {
@@ -2177,7 +2250,7 @@ function imageUploadRow(i) {
 // =============================================================
 //  FLOW INDICATOR
 // =============================================================
-function buildFlowIndicator(globalIndex) {
+function buildFlowIndicator(globalIndex, spanMap) {
   let html = '';
   const currentSlide = slides[globalIndex];
   const nextSlide = globalIndex < slides.length - 1 ? slides[globalIndex + 1] : null;
@@ -2204,6 +2277,11 @@ function buildFlowIndicator(globalIndex) {
   const spanVal = typeof currentSlide.projectorSpan === 'number' ? currentSlide.projectorSpan : (currentSlide.projectorSpan === true ? 2 : 1);
   if (spanVal > 1 && currentSlide.projector && currentSlide.projector !== 'none' && currentSlide.projector !== 'inherit') {
     html += '<div class="span-badge span-source">span &rarr; +' + (spanVal - 1) + ' slaidi</div>';
+  }
+
+  // Span inherit indicator
+  if (spanMap && spanMap[globalIndex]) {
+    html += '<div class="span-badge span-inherit">&larr; projektor slaidist #' + spanMap[globalIndex].sourceIndex + '</div>';
   }
 
   return html;
