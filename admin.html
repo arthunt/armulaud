@@ -1003,6 +1003,39 @@ body {
 /* --- HIDDEN FILE INPUT --- */
 .hidden { display: none; }
 
+/* --- BACKUP PANEL --- */
+.backup-panel {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(74,143,223,0.04);
+}
+.backup-panel.hidden { display: none; }
+
+.backup-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.backup-panel-title {
+  font-size: 0.85rem; font-weight: 700; color: var(--blue);
+}
+
+.backup-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 6px; margin-bottom: 4px;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.backup-row:hover { border-color: var(--gold-dim); }
+
+.backup-time { font-size: 0.78rem; color: var(--text); min-width: 120px; }
+.backup-reason {
+  font-size: 0.6rem; padding: 2px 6px; border-radius: 3px;
+}
+.backup-reason.r-import { background: rgba(74,143,223,0.12); color: var(--blue); }
+.backup-reason.r-manual { background: rgba(201,165,50,0.12); color: var(--gold); }
+.backup-reason.r-enne-taastamist { background: rgba(255,255,255,0.06); color: var(--dim); }
+.backup-slides { font-size: 0.7rem; color: var(--dim); flex: 1; }
+.backup-actions { display: flex; gap: 4px; }
+
 /* --- SCROLLBAR --- */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -1077,6 +1110,8 @@ body {
     <input type="file" id="importInput" accept=".json" class="hidden">
     <button class="btn" id="btnImport">Import JSON</button>
     <button class="btn" id="btnExport">&#8681; Ekspordi JSON</button>
+    <button class="btn" id="btnBackup">Varukoopia</button>
+    <button class="btn" id="btnHistory">Ajalugu</button>
     <button class="btn primary" id="btnSave">Salvesta</button>
   </div>
 
@@ -1093,6 +1128,15 @@ body {
       <label>Kirjeldus</label>
       <input type="text" id="metaDesc" placeholder="Teenistuse kirjeldus" style="min-width: 260px;">
     </div>
+  </div>
+
+  <div class="backup-panel hidden" id="backupPanel">
+    <div class="backup-panel-header">
+      <span class="backup-panel-title">Versioonide ajalugu</span>
+      <button class="btn" id="btnCloseHistory">Sulge</button>
+    </div>
+    <div id="backupList"></div>
+    <div class="backup-empty hidden" id="backupEmpty">Varukoopiad puuduvad.</div>
   </div>
 
   <div class="slide-list" id="slideList"></div>
@@ -1530,6 +1574,158 @@ document.addEventListener('keydown', e => {
       saveToFirebase();
     }
   }
+});
+
+// =============================================================
+//  BACKUP & VERSION HISTORY
+// =============================================================
+async function createBackup(presId, reason) {
+  const snap = await get(ref(db, 'presentations/' + presId));
+  const data = snap.val() || { meta: {}, slides: [] };
+  const timestamp = Date.now();
+  const backup = {
+    meta: data.meta || {},
+    slides: ensureArray(data.slides),
+    reason: reason,
+    createdAt: timestamp
+  };
+  await set(ref(db, 'backups/' + presId + '/' + timestamp), backup);
+  await cleanupOldBackups(presId, 10);
+}
+
+async function listBackups(presId) {
+  const snap = await get(ref(db, 'backups/' + presId));
+  const data = snap.val();
+  if (!data) return [];
+  return Object.keys(data)
+    .map(ts => {
+      const b = data[ts];
+      return {
+        timestamp: parseInt(ts, 10),
+        meta: b.meta || {},
+        reason: b.reason || 'manual',
+        slideCount: ensureArray(b.slides).length
+      };
+    })
+    .sort((a, b) => b.timestamp - a.timestamp);
+}
+
+async function restoreBackup(presId, timestamp) {
+  await createBackup(presId, 'enne-taastamist');
+  const snap = await get(ref(db, 'backups/' + presId + '/' + timestamp));
+  const data = snap.val();
+  if (!data) { alert('Varukoopiat ei leitud.'); return; }
+  meta = data.meta || {};
+  slides = ensureArray(data.slides);
+  collapsedSections = {};
+  renderEditorMeta();
+  renderEditorTitle();
+  renderSlides();
+  markDirty();
+}
+
+async function deleteBackup(presId, timestamp) {
+  await remove(ref(db, 'backups/' + presId + '/' + timestamp));
+}
+
+async function cleanupOldBackups(presId, maxCount) {
+  const backups = await listBackups(presId);
+  if (backups.length <= maxCount) return;
+  const toDelete = backups.slice(maxCount);
+  for (const b of toDelete) {
+    await remove(ref(db, 'backups/' + presId + '/' + b.timestamp));
+  }
+}
+
+function formatBackupTime(ts) {
+  const d = new Date(ts);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  return dd + '.' + mm + '.' + yyyy + ' ' + hh + ':' + mi;
+}
+
+async function renderBackupList() {
+  const list = document.getElementById('backupList');
+  const empty = document.getElementById('backupEmpty');
+  const backups = await listBackups(currentPresId);
+
+  if (backups.length === 0) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  let html = '';
+  backups.forEach(b => {
+    html += '<div class="backup-row">';
+    html += '<span class="backup-time">' + formatBackupTime(b.timestamp) + '</span>';
+    html += '<span class="backup-reason r-' + esc(b.reason) + '">' + esc(b.reason) + '</span>';
+    html += '<span class="backup-slides">' + b.slideCount + ' slaidi</span>';
+    html += '<span class="backup-actions">';
+    html += '<button class="btn" data-backup-restore="' + b.timestamp + '">Taasta</button>';
+    html += '<button class="btn danger" data-backup-delete="' + b.timestamp + '">Kustuta</button>';
+    html += '</span>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+
+  list.querySelectorAll('[data-backup-restore]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ts = btn.getAttribute('data-backup-restore');
+      if (!confirm('Taasta see versioon?')) return;
+      await restoreBackup(currentPresId, ts);
+      await renderBackupList();
+    });
+  });
+
+  list.querySelectorAll('[data-backup-delete]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ts = btn.getAttribute('data-backup-delete');
+      if (!confirm('Kustuta see varukoopia?')) return;
+      await deleteBackup(currentPresId, ts);
+      await renderBackupList();
+    });
+  });
+}
+
+// Backup toolbar buttons
+document.getElementById('btnBackup').addEventListener('click', async () => {
+  if (!currentPresId) return;
+  try {
+    await createBackup(currentPresId, 'manual');
+    const el = document.getElementById('saveStatus');
+    el.className = 'save-status saved';
+    el.textContent = 'Varukoopia loodud';
+    setTimeout(() => {
+      if (!dirty) {
+        el.innerHTML = 'Salvestatud &#10003;';
+      } else {
+        el.textContent = 'Salvestamata muudatused';
+        el.className = 'save-status unsaved';
+      }
+    }, 2000);
+  } catch (err) {
+    alert('Varukoopia loomine eba\u00F5nnestus: ' + err.message);
+  }
+});
+
+document.getElementById('btnHistory').addEventListener('click', () => {
+  const panel = document.getElementById('backupPanel');
+  const isHidden = panel.classList.contains('hidden');
+  if (isHidden) {
+    panel.classList.remove('hidden');
+    renderBackupList();
+  } else {
+    panel.classList.add('hidden');
+  }
+});
+
+document.getElementById('btnCloseHistory').addEventListener('click', () => {
+  document.getElementById('backupPanel').classList.add('hidden');
 });
 
 // =============================================================
@@ -2459,8 +2655,11 @@ document.getElementById('importInput').addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = ev => {
+  reader.onload = async ev => {
     try {
+      if (currentPresId) {
+        await createBackup(currentPresId, 'import');
+      }
       const data = JSON.parse(ev.target.result);
       meta = data.meta || {};
       slides = ensureArray(data.slides);
