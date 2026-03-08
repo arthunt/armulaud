@@ -153,7 +153,7 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 2;
-  padding: 40px clamp(20px, 5vw, 80px);
+  padding: 40px clamp(30px, 6vw, 100px);
   background:
     radial-gradient(ellipse 100% 80% at 50% 50%, rgba(30,60,120,0.5) 0%, transparent 70%),
     radial-gradient(ellipse 130% 80% at 10% 10%, rgba(20,50,100,0.6) 0%, transparent 55%),
@@ -162,17 +162,17 @@ html, body {
 }
 
 .bible-container {
-  max-width: 1100px;
+  max-width: 1400px;
   width: 100%;
   text-align: center;
 }
 
 .bible-reference {
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -182,19 +182,19 @@ html, body {
 .bible-reference::before, .bible-reference::after {
   content: '';
   flex: 1;
-  max-width: 80px;
+  max-width: 100px;
   height: 1px;
   background: var(--gold-dim);
 }
 
 .bible-text-est {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 4.5vw, 4.2rem);
+  font-size: clamp(2.8rem, 6vw, 5.8rem);
   font-weight: 400;
   font-style: italic;
-  line-height: 1.45;
+  line-height: 1.35;
   color: var(--text);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .bible-separator {
@@ -202,7 +202,7 @@ html, body {
   align-items: center;
   gap: 16px;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .bible-separator-line {
   width: 60px; height: 1px;
@@ -216,20 +216,20 @@ html, body {
 
 .bible-text-rus {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.3rem, 2.8vw, 2.6rem);
+  font-size: clamp(2rem, 4.2vw, 4rem);
   font-weight: 300;
   font-style: italic;
-  line-height: 1.5;
+  line-height: 1.4;
   color: var(--text-rus);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .bible-text-eng {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2vw, 1.9rem);
+  font-size: clamp(1.4rem, 3vw, 2.8rem);
   font-weight: 300;
   font-style: italic;
-  line-height: 1.5;
+  line-height: 1.4;
   color: var(--text-eng);
 }
 
