@@ -616,19 +616,7 @@ function displaySlide(idx) {
     case 'image': {
       const c = slide.projectorContent;
       showScreen('image', () => {
-        const bg = document.getElementById('imageBg');
-        // Reset to fallback gradient first
-        bg.style.cssText = 'position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;';
-        bg.style.backgroundImage = c.imageFallback ? c.imageFallback : 'none';
-        if (c.imageUrl) {
-          const img = new Image();
-          img.onload = () => {
-            bg.style.backgroundImage = "url('" + c.imageUrl + "')";
-            bg.style.backgroundSize = 'cover';
-            bg.style.backgroundPosition = 'center';
-          };
-          img.src = c.imageUrl;
-        }
+        setImageBg(document.getElementById('imageBg'), c.imageUrl, c.imageFallback);
         document.getElementById('imageCaptionEst').textContent = c.captionEst;
         document.getElementById('imageCaptionRus').textContent = c.captionRus;
         const overlayPct = c.overlay !== undefined ? c.overlay : 70;
@@ -652,18 +640,7 @@ function displaySlide(idx) {
     case 'image-keytext': {
       const c = slide.projectorContent;
       showScreen('image-keytext', () => {
-        const bg = document.getElementById('ikBg');
-        bg.style.cssText = 'position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;';
-        bg.style.backgroundImage = c.imageFallback ? c.imageFallback : 'none';
-        if (c.imageUrl) {
-          const img = new Image();
-          img.onload = () => {
-            bg.style.backgroundImage = "url('" + c.imageUrl + "')";
-            bg.style.backgroundSize = 'cover';
-            bg.style.backgroundPosition = 'center';
-          };
-          img.src = c.imageUrl;
-        }
+        setImageBg(document.getElementById('ikBg'), c.imageUrl, c.imageFallback);
         // Apply overlay opacity from data (0-100, default 60)
         const overlayPct = c.overlay !== undefined ? c.overlay : 60;
         document.getElementById('ikOverlay').style.background = 'rgba(4,8,18,' + (overlayPct / 100) + ')';
@@ -711,17 +688,42 @@ function updateDate() {
   }
 }
 
-// Preload images from slides
+// Preload images from slides into cache map
+const preloadedImages = {};
+
 function preloadImages() {
   SLIDES.forEach(slide => {
     if (slide.projectorContent) {
       const url = slide.projectorContent.imageUrl;
-      if (url) {
+      if (url && !preloadedImages[url]) {
         const img = new Image();
+        img.onload = () => { preloadedImages[url] = true; };
         img.src = url;
+        preloadedImages[url] = false; // loading
       }
     }
   });
+}
+
+function setImageBg(el, url, fallback) {
+  el.style.cssText = 'position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;';
+  if (!url) {
+    el.style.backgroundImage = fallback || 'none';
+    return;
+  }
+  if (preloadedImages[url]) {
+    // Already cached — set immediately, no flash
+    el.style.backgroundImage = "url('" + url + "')";
+  } else {
+    // Not yet cached — show fallback, swap on load
+    el.style.backgroundImage = fallback || 'none';
+    const img = new Image();
+    img.onload = () => {
+      preloadedImages[url] = true;
+      el.style.backgroundImage = "url('" + url + "')";
+    };
+    img.src = url;
+  }
 }
 
 // Wait for slides then set up listeners
