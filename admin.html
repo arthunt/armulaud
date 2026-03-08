@@ -1068,6 +1068,8 @@ body {
     <a href="index.html" class="back-link">&larr; Avaleht</a>
     <span class="toolbar-title">Teenistuste haldus</span>
     <span class="spacer"></span>
+    <input type="file" id="importNewInput" accept=".json" class="hidden">
+    <button class="btn" id="btnImportNew">&#8681; Import JSON</button>
     <button class="btn primary" id="btnNewPres">+ Uus teenistus</button>
   </div>
 
@@ -1397,6 +1399,45 @@ async function deletePresentation(id) {
     alert('Viga kustutamisel: ' + err.message);
   }
 }
+
+// Import JSON as new presentation
+document.getElementById('btnImportNew').addEventListener('click', () => {
+  document.getElementById('importNewInput').click();
+});
+
+document.getElementById('importNewInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      const importedMeta = data.meta || {};
+      const importedSlides = ensureArray(data.slides);
+
+      const id = generatePresId();
+      const now = Date.now();
+
+      const presData = {
+        meta: {
+          title: importedMeta.title || file.name.replace(/\.json$/i, ''),
+          date: importedMeta.date || '',
+          description: importedMeta.description || '',
+          createdAt: now,
+          updatedAt: now
+        },
+        slides: importedSlides
+      };
+
+      await set(ref(db, 'presentations/' + id), presData);
+      openEditor(id);
+    } catch (err) {
+      alert('Vigane JSON fail: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
 
 // =============================================================
 //  VIEW B: SLIDE EDITOR
