@@ -1205,6 +1205,16 @@ function generatePresId() {
   return base;
 }
 
+function formatTimestamp(ts) {
+  const d = new Date(ts);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  return dd + '.' + mm + '.' + yyyy + ' ' + hh + ':' + mi;
+}
+
 function ensureArray(data) {
   if (!data) return [];
   if (Array.isArray(data)) return data;
@@ -1276,6 +1286,12 @@ function renderPresList() {
     }
     html += '<div class="pres-card-meta">';
     html += '<span class="pres-card-badge">' + slideCountNum + ' slaidi</span>';
+    if (m.createdAt) {
+      html += '<span class="pres-card-badge">Loodud: ' + formatTimestamp(m.createdAt) + '</span>';
+    }
+    if (m.updatedAt) {
+      html += '<span class="pres-card-badge">Muudetud: ' + formatTimestamp(m.updatedAt) + '</span>';
+    }
     if (isActive) {
       html += '<span class="pres-card-badge active-badge">Aktiivne</span>';
     }
@@ -1678,16 +1694,6 @@ async function cleanupOldBackups(presId, maxCount) {
   }
 }
 
-function formatBackupTime(ts) {
-  const d = new Date(ts);
-  const dd = String(d.getDate()).padStart(2, '0');
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const yyyy = d.getFullYear();
-  const hh = String(d.getHours()).padStart(2, '0');
-  const mi = String(d.getMinutes()).padStart(2, '0');
-  return dd + '.' + mm + '.' + yyyy + ' ' + hh + ':' + mi;
-}
-
 async function renderBackupList() {
   const list = document.getElementById('backupList');
   const empty = document.getElementById('backupEmpty');
@@ -1703,7 +1709,7 @@ async function renderBackupList() {
   let html = '';
   backups.forEach(b => {
     html += '<div class="backup-row">';
-    html += '<span class="backup-time">' + formatBackupTime(b.timestamp) + '</span>';
+    html += '<span class="backup-time">' + formatTimestamp(b.timestamp) + '</span>';
     html += '<span class="backup-reason r-' + esc(b.reason) + '">' + esc(b.reason) + '</span>';
     html += '<span class="backup-slides">' + b.slideCount + ' slaidi</span>';
     html += '<span class="backup-actions">';
