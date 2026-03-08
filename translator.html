@@ -256,39 +256,62 @@ const el = {
   text:     document.getElementById('statusText'),
 };
 
-function renderSlide(idx) {
-  if (idx === lastIndex) return;
-  lastIndex = idx;
-  if (idx < 0 || idx >= SLIDES.length) return;
+// Find nearest non-section slide at or before idx
+function findTranslatable(idx) {
+  for (var i = idx; i >= 0; i--) {
+    if (SLIDES[i].type !== 'section-header') return i;
+  }
+  return -1;
+}
 
-  const slide     = SLIDES[idx];
-  const nextSlide = SLIDES[idx + 1] || null;
+// Find nearest non-section slide after idx
+function findNextTranslatable(idx) {
+  for (var i = idx + 1; i < SLIDES.length; i++) {
+    if (SLIDES[i].type !== 'section-header') return i;
+  }
+  return -1;
+}
+
+function renderSlide(speakerIdx) {
+  if (speakerIdx === lastIndex) return;
+  lastIndex = speakerIdx;
+  if (speakerIdx < 0 || speakerIdx >= SLIDES.length) return;
+
+  // Translator sees one slide behind the speaker (skipping sections)
+  var curIdx = findTranslatable(speakerIdx - 1);
+  var nextIdx = curIdx >= 0 ? findNextTranslatable(curIdx) : findTranslatable(speakerIdx);
+
+  var slide = curIdx >= 0 ? SLIDES[curIdx] : null;
+  var nextSlide = nextIdx >= 0 ? SLIDES[nextIdx] : null;
 
   el.current.classList.add('fade');
   el.preview.classList.add('fade');
 
   setTimeout(() => {
-    // Current slide in RUSSIAN
-    el.current.textContent = slide.russian;
-    el.current.className = 'slide-current';
-    if (slide.type === 'section-header') el.current.classList.add('is-section');
-    if (slide.type === 'bible')          el.current.classList.add('is-bible');
+    // Current slide in RUSSIAN (one behind speaker)
+    if (slide) {
+      el.current.textContent = slide.russian;
+      el.current.className = 'slide-current';
+      if (slide.type === 'bible') el.current.classList.add('is-bible');
+    } else {
+      el.current.textContent = '\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435\u2026';
+      el.current.className = 'slide-current';
+    }
 
     // Next slide preview
     if (nextSlide) {
       el.preview.textContent = nextSlide.russian;
       el.preview.className = 'slide-preview';
-      if (nextSlide.type === 'section-header') el.preview.classList.add('is-section');
-      if (nextSlide.type === 'bible')          el.preview.classList.add('is-bible');
+      if (nextSlide.type === 'bible') el.preview.classList.add('is-bible');
     } else {
       el.preview.textContent = '\u2014 \u041a\u043e\u043d\u0435\u0446 \u2014';
       el.preview.className = 'slide-preview';
     }
 
     // Metadata
-    el.counter.textContent  = (idx + 1) + ' / ' + SLIDES.length;
-    el.progress.style.width = ((idx + 1) / SLIDES.length * 100) + '%';
-    el.section.textContent  = slide.section;
+    el.counter.textContent  = (speakerIdx + 1) + ' / ' + SLIDES.length;
+    el.progress.style.width = ((speakerIdx + 1) / SLIDES.length * 100) + '%';
+    el.section.textContent  = SLIDES[speakerIdx].section;
 
     el.current.classList.remove('fade');
     el.preview.classList.remove('fade');
